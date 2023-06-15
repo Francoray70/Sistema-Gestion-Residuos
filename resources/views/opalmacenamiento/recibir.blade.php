@@ -9,7 +9,7 @@
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">GENERADORES</h2>
+    <h2 class="mb-3">RECIBIR MANIFIESTO</h2>
     <form>
         @csrf
         <div class="mb-3">
