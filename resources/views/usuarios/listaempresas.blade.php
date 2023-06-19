@@ -1,6 +1,7 @@
 <?php
 
 use app\Http\Controllers\EmpresasController;
+
 ?>
 
 @extends('nav')
@@ -12,6 +13,7 @@ use app\Http\Controllers\EmpresasController;
 </style>
 
 @section('navbar')
+
 
 <h2 class="mt-3">LISTA DE EMPRESAS</h2>
 <table class="table table-light mt-4 w-85">
@@ -28,14 +30,14 @@ use app\Http\Controllers\EmpresasController;
     </thead>
 
     <tbody>
-        @foreach ($empresas as $empresa)
+        @foreach ($registros as $datosEmpresa)
 
         <tr>
-            <td>{{$empresa->nombre}}</td>
-            <td>{{$empresa->cuit}}</td>
-            <td>{{$empresa->fecha_alta}}</td>
-            <td>{{$empresa->fecha_modificacion}}</td>
-            <td>{{$empresa->rol_id}}</td>
+            <td>{{$datosEmpresa->nombre}}</td>
+            <td>{{$datosEmpresa->cuit}}</td>
+            <td>{{$datosEmpresa->fecha_alta}}</td>
+            <td>{{$datosEmpresa->fecha_modificacion}}</td>
+            <td>{{$datosEmpresa->rol_id}}</td>
             <td>Editar</td>
         </tr>
 

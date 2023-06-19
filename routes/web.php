@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\usuariosController;
+use App\Http\Controllers\EmpresasController;
+use App\Http\Controllers\nombresUsuarios;
 
 /*
 |--------------------------------------------------------------------------
@@ -183,10 +184,6 @@ Route::get('/empresas', function () {
     return view('usuarios.empresas');
 });
 
-Route::get('/listaempresas', function () {
-    return view('usuarios.listaempresas');
-});
+Route::get('/listaempresas', [EmpresasController::class, 'index']);
 
-Route::get('/listausuarios', function () {
-    return view('usuarios.listausuarios');
-});
+Route::get('/listausuarios', [nombresUsuarios::class, 'index']);
