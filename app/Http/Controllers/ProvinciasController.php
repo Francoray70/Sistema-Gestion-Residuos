@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\empresas;
+use App\Models\provincia;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
-class EmpresasController extends Controller
+class ProvinciasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class EmpresasController extends Controller
     public function index()
     {
         //
-        $registros = Empresas::all();
-        return view('usuarios.listaempresas', ['registros' => $registros]);
+        $provincias = provincia::orderBy('provincia')->get();
+        return view('usuarios.empresas', ['provincias' => $provincias]);
     }
 
     /**
@@ -33,16 +34,12 @@ class EmpresasController extends Controller
     public function store(Request $request)
     {
         //
-        $datosEmpresa = request()->except('_token');
-        Empresas::insert($datosEmpresa);
-
-        return view('usuarios.empresas')->with('success', 'Empresa cargada con exito');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(empresas $empresas)
+    public function show(ProvinciasController $rc)
     {
         //
     }
@@ -50,7 +47,7 @@ class EmpresasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(empresas $empresas)
+    public function edit(ProvinciasController $rc)
     {
         //
     }
@@ -58,7 +55,7 @@ class EmpresasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, empresas $empresas)
+    public function update(Request $request, ProvinciasController $rc)
     {
         //
     }
@@ -66,7 +63,7 @@ class EmpresasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(empresas $empresas)
+    public function destroy(ProvinciasController $rc)
     {
         //
     }

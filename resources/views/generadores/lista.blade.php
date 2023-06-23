@@ -1,3 +1,9 @@
+<?php
+
+use app\Http\Controllers\generador;
+
+?>
+
 @extends('nav')
 
 <style>
@@ -8,59 +14,49 @@
 
 @section('navbar')
 
-<div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">LISTADO DE GENERADORES</h2>
-    <form>
-        @csrf
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Generador</label>
-            <select class="form-select w-75" aria-label="Default select example">
-                <option selected>Seleccione una opción</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Corriente de residuo</label>
-            <input type="password" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Descripcion</label>
-            <select class="form-select w-75" aria-label="Default select example">
-                <option selected>Seleccione una opción</option>
-                <option value="1">Responsable inscripto</option>
-                <option value="2">Monotributo</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Unidad de medida</label>
-            <input type="text" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Estado</label>
-            <select class="form-select w-75" aria-label="Default select example">
-                <option selected>Seleccione una opción</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Peligrosidad</label>
-            <select class="form-select w-75" aria-label="Default select example">
-                <option selected>Seleccione una opción</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Cantidad estimada anual</label>
-            <select class="form-select w-75" aria-label="Default select example">
-                <option selected>Seleccione una opción</option>
-            </select>
-        </div>
+<h2 class="mt-3">LISTA DE GENERADORES</h2>
+<table class="table table-light mt-4 w-85">
 
-        <button type="submit" class="btn btn-primary">Cargar</button>
-    </form>
-</div>
+    <thead>
+        <tr>
+            <th>RAZON SOCIAL</th>
+            <th>CUIT</th>
+            <th>IVA</th>
+            <th>DIRECCION</th>
+            <th>LOCALIDAD</th>
+            <th>CP</th>
+            <th>IMG. HAB. PROVINCIA</th>
+            <th>VTO. HAB. PROVINCIA</th>
+            <th>IMG. HAB. COMERCIAL</th>
+            <th>VTO. HAB. COMERCIAL</th>
+            <th>HAB. NACIONAL</th>
+            <th>ACTUALIZAR IMAGENES</th>
+            <th>EDITAR</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach ($registros as $datosEmpresa)
+
+        <tr>
+            <td>{{$datosEmpresa->nom_comp}}</td>
+            <td>{{$datosEmpresa->cuit}}</td>
+            <td>{{$datosEmpresa->cod_iva}}</td>
+            <td>{{$datosEmpresa->direccion}}</td>
+            <td>{{$datosEmpresa->ciudad}}</td>
+            <td>{{$datosEmpresa->cod_postal}}</td>
+            <td>{{$datosEmpresa->cli_ima_hab_pro}}</td>
+            <td>{{$datosEmpresa->cli_vto_hab_pro}}</td>
+            <td>{{$datosEmpresa->cli_ima_hab_com}}</td>
+            <td>{{$datosEmpresa->cli_vto_hab_com}}</td>
+            <td>{{$datosEmpresa->rol_id}}</td>
+            <td>Editar</td>
+            <td>Editar</td>
+        </tr>
+
+        @endforeach
+    </tbody>
+
+</table>
 
 @endsection

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\empresas;
+use App\Models\generador;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class EmpresasController extends Controller
+class generadores extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class EmpresasController extends Controller
     public function index()
     {
         //
-        $registros = Empresas::all();
-        return view('usuarios.listaempresas', ['registros' => $registros]);
+        $registros = generador::all();
+        return view('generadores.lista', ['registros' => $registros]);
     }
 
     /**
@@ -33,16 +33,12 @@ class EmpresasController extends Controller
     public function store(Request $request)
     {
         //
-        $datosEmpresa = request()->except('_token');
-        Empresas::insert($datosEmpresa);
-
-        return view('usuarios.empresas')->with('success', 'Empresa cargada con exito');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(empresas $empresas)
+    public function show(generador $empresas)
     {
         //
     }
@@ -50,7 +46,7 @@ class EmpresasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(empresas $empresas)
+    public function edit(generador $empresas)
     {
         //
     }
@@ -58,7 +54,7 @@ class EmpresasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, empresas $empresas)
+    public function update(Request $request, generador $empresas)
     {
         //
     }
@@ -66,7 +62,7 @@ class EmpresasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(empresas $empresas)
+    public function destroy(generador $empresas)
     {
         //
     }

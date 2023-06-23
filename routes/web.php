@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\nombresUsuarios;
+use App\Http\Controllers\generador;
+use App\Http\Controllers\LocalidadesController;
+use App\Http\Controllers\ProvinciasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,9 +44,7 @@ Route::get('/manifiestosgenerador', function () {
     return view('generadores.manifiestos');
 });
 
-Route::get('/listagenerador', function () {
-    return view('generadores.lista');
-});
+Route::get('/listagenerador', [generador::class, 'index']);
 
 
 /*
@@ -170,6 +171,8 @@ Route::get('/localidades', function () {
     return view('varios.localidades');
 });
 
+Route::get('/listalocalidades', [LocalidadesController::class, 'index']);
+
 Route::get('/corrientesderesiduos', function () {
     return view('varios.corrientes');
 });
@@ -183,6 +186,9 @@ Route::get('/corrientesderesiduos', function () {
 Route::get('/empresas', function () {
     return view('usuarios.empresas');
 });
+
+Route::post('/empresas', [EmpresasController::class, 'store']);
+Route::get('/empresas', [ProvinciasController::class, 'index']);
 
 Route::get('/listaempresas', [EmpresasController::class, 'index']);
 

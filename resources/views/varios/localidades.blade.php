@@ -30,6 +30,9 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Cargar</button>
+        <a href="{{url('/listalocalidades')}}">
+            <button type="button" class="btn btn-primary">Listado</button>
+        </a>
     </form>
 </div>
 
