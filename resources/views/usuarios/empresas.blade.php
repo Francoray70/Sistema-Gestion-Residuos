@@ -1,8 +1,12 @@
 <?php
 
-$fecha_actual = date("Y-m-d");
 
 use App\Http\Controllers\ProvinciasController;
+use Carbon\Carbon;
+
+$fechaHoraActual = Carbon::now();
+
+$fecha = date("Y-m-d");
 
 ?>
 
@@ -20,7 +24,7 @@ use App\Http\Controllers\ProvinciasController;
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">ALTA DE EMPRESA</h2>
-    <form action="{{ url('/empresas') }}" method="post">
+    <form action="{{ url('/empresas') }}" id="miFormulario" method="post">
         @csrf
 
         <div class="mb-3">
@@ -29,7 +33,7 @@ use App\Http\Controllers\ProvinciasController;
         </div>
         <div class="mb-3">
             <label for="cuitEmpresa" class="form-label">CUIT</label>
-            <input type="text" name="cuit" data-mask="00-00000000-0" required class="form-control w-75" id="cuitEmpresa" placeholder="Nª de CUIT">
+            <input type="text" name="cuit" data-mask="00-00000000-0" required class="form-control w-75" id="cuit" placeholder="Nª de CUIT">
         </div>
         <div class="mb-3">
             <label for="categoriaEmpresa" class="form-label">Categoria</label>
@@ -47,26 +51,29 @@ use App\Http\Controllers\ProvinciasController;
             <label for="provinciaEmpresa" class="form-label">Provincia</label>
             <select name="provincia" required class="form-select w-75" aria-label="provinciaEmpresa">
                 <option selected>Seleccione su provincia</option>
+                @if (!empty($provincias))
 
                 @foreach ($provincias as $datosProvincias)
-                <option value="{{ $datosProvincias->provincia }}">{{ $datosProvincias->provincia }}</option>
+                <option name="provincia" value="{{ $datosProvincias->provincia }}">{{ $datosProvincias->provincia }}</option>
                 @endforeach
 
+                @endif
             </select>
         </div>
 
-        <input type="date" style="display: none" name="fecha_alta" value="{{$fecha_actual}}">
-        <input type="date" style="display: none" name="fecha_modificacion" value="{{$fecha_actual}}">
+        <input type="date" style="display: none" name="fecha_alta" value="{{$fecha}}">
+        <input type="date" style="display: none" name="fecha_modificacion" value="{{$fecha}}">
         <input type="text" style="display: none" name="baneado" value="NO">
         <input type="text" style="display: none" name="pago" value="NO">
         <input type="text" style="display: none" name="altauser" value="NOMBRE DE USUARIO">
         <input type="text" style="display: none" name="modifuser" value="NOMBRE DE USUARIO">
+        <input type="text" style="display: none" name="updated_at" value="{{$fechaHoraActual}}">
 
-        <button type="submit" value="enviar" class="btn btn-primary">Cargar</button>
+        <button type="submit" value="enviar" id="submit" class="btn btn-primary">Cargar</button>
     </form>
 </div>
 
+
 <script type="text/javascript" src="{{asset('jquery.mask.js')}}"></script>
-<script type="text/javascript" src="{{asset('validarcuit.js')}}"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @endsection

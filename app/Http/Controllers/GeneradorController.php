@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class generadores extends Controller
+class GeneradorController extends Controller
 {
     /**
      * Display a listing of the resource.

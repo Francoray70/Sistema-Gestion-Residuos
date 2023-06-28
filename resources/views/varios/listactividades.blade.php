@@ -1,6 +1,6 @@
 <?php
 
-use app\Http\Controllers\Localidad;
+use app\Http\Controllers\ActividadesController;
 
 ?>
 
@@ -15,25 +15,21 @@ use app\Http\Controllers\Localidad;
 @section('navbar')
 
 
-<h2 class="mt-3">LISTA DE LOCALIDADES</h2>
+<h2 class="mt-3">LISTA DE ACTIVIDADES</h2>
 <table class="table table-light mt-4 w-85">
 
     <thead>
         <tr>
-            <th>CIUDAD</th>
-            <th>CODIGO POSTAL</th>
-            <th>PROVINCIA</th>
+            <th>ACTIVIDADES</th>
             <th>EDITAR</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($ciudades as $datosLocalidades)
+        @foreach ($actividades as $datosActividades)
 
         <tr>
-            <td>{{$datosLocalidades->ciudades}}</td>
-            <td>{{$datosLocalidades->cp}}</td>
-            <td>{{$datosLocalidades->provincia}}</td>
+            <td>{{$datosActividades->actividades}}</td>
             <td>Editar</td>
         </tr>
 

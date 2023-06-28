@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 @extends('nav')
 
 <style>
@@ -10,7 +14,7 @@
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">ALTA DE OPERADOR DE DISPOSICIÓN FINAL</h2>
-    <form>
+    <form action="{{url('/')}}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Operador de disposición final</label>
@@ -109,7 +113,12 @@
             <label for="formFile" class="form-label">Habilitación nacional</label>
             <input class="form-control w-75" type="file" id="formFile">
         </div>
+
+
         <button type="submit" class="btn btn-primary">Cargar</button>
+        <a href="{{url('/listacorrientes')}}">
+            <button type="button" class="btn btn-primary">Listado</button>
+        </a>
     </form>
 </div>
 

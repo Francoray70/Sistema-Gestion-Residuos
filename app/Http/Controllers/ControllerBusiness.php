@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
-class EmpresasController extends Controller
+class ControllerBusiness extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class EmpresasController extends Controller
     {
         //
         $registros = Empresas::all();
-        return view('usuarios.listaempresas', ['registros' => $registros]);
+        return view('transportistas.index', ['registros' => $registros]);
     }
 
     /**
@@ -33,11 +33,6 @@ class EmpresasController extends Controller
     public function store(Request $request)
     {
         //
-
-        $datosEmpresa = request()->except('_token');
-        Empresas::insert($datosEmpresa);
-
-        return view('usuarios.empresas')->with('success', 'Empresa cargada con exito');
     }
 
     /**
@@ -46,8 +41,6 @@ class EmpresasController extends Controller
     public function show($id)
     {
         //
-        $id = Empresas::find($id);
-        return view('usuarios.editarempresa', ['id' => $id]);
     }
 
     /**
@@ -64,11 +57,6 @@ class EmpresasController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $datosEmpresa = request()->except(['_token', '_method', 'fecha_alta', 'pago', 'altauser']);
-        Empresas::where('id', '=', $id)->update($datosEmpresa);
-
-        $registros = Empresas::all();
-        return view('usuarios.listaempresas', ['registros' => $registros]);
     }
 
     /**

@@ -1,3 +1,9 @@
+<?php
+
+use App\http\Controllers\CorrientesController;
+
+?>
+
 @extends('nav')
 
 <style>
@@ -43,6 +49,9 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Cargar</button>
+        <a href="{{url('/listacorrientes')}}">
+            <button type="button" class="btn btn-primary">Listado</button>
+        </a>
     </form>
 </div>
 

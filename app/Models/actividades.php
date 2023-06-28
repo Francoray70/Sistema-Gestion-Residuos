@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class generador extends Model
+class actividades extends Model
 {
-    protected $table = 'generador';
+    protected $table = 'actividad';
 }

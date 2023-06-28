@@ -1,3 +1,9 @@
+<?php
+
+use App\http\Controllers\ActividadesController;
+
+?>
+
 @extends('nav')
 
 <style>
@@ -19,6 +25,9 @@
 
 
         <button type="submit" class="btn btn-primary">Cargar</button>
+        <a href="{{url('/listaactividades')}}">
+            <button type="button" class="btn btn-primary">Listado</button>
+        </a>
     </form>
 </div>
 

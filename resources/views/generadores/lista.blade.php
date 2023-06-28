@@ -1,6 +1,6 @@
 <?php
 
-use app\Http\Controllers\generador;
+use app\Http\Controllers\GeneradorController;
 
 ?>
 

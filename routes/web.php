@@ -1,11 +1,16 @@
 <?php
 
+use App\Http\Controllers\ActividadesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\nombresUsuarios;
 use App\Http\Controllers\generador;
 use App\Http\Controllers\LocalidadesController;
 use App\Http\Controllers\ProvinciasController;
+use App\Http\Controllers\TransportistaController;
+use App\Http\Controllers\ControllerBusiness;
+use App\Http\Controllers\CorrientesController;
+use App\Http\Controllers\GeneradorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +49,7 @@ Route::get('/manifiestosgenerador', function () {
     return view('generadores.manifiestos');
 });
 
-Route::get('/listagenerador', [generador::class, 'index']);
+Route::get('/listagenerador', [GeneradorController::class, 'index']);
 
 
 /*
@@ -56,6 +61,10 @@ Route::get('/listagenerador', [generador::class, 'index']);
 Route::get('/transportistas', function () {
     return view('transportistas.index');
 });
+
+Route::get('/transportistas', [ControllerBusiness::class, 'index']);
+Route::post('/transportistas', [TransportistaController::class, 'store']);
+Route::get('/listatransportes', [TransportistaController::class, 'index']);
 
 Route::get('/corrientestransporte', function () {
     return view('transportistas.corrientes');
@@ -166,6 +175,7 @@ Route::get('/libromanifiestosopdispfinal', function () {
 Route::get('/actividades', function () {
     return view('varios.actividades');
 });
+Route::get('/listaactividades', [ActividadesController::class, 'index']);
 
 Route::get('/localidades', function () {
     return view('varios.localidades');
@@ -177,6 +187,7 @@ Route::get('/corrientesderesiduos', function () {
     return view('varios.corrientes');
 });
 
+Route::get('/listacorrientes', [CorrientesController::class, 'index']);
 /*
 
 ---------------------------Rutas de usuarios------------------------------
@@ -188,8 +199,12 @@ Route::get('/empresas', function () {
 });
 
 Route::post('/empresas', [EmpresasController::class, 'store']);
+
 Route::get('/empresas', [ProvinciasController::class, 'index']);
 
 Route::get('/listaempresas', [EmpresasController::class, 'index']);
 
 Route::get('/listausuarios', [nombresUsuarios::class, 'index']);
+
+Route::get('/empresas/{id}', [EmpresasController::class, 'show'])->name('editarempresa');
+Route::patch('/empresas/{id}', [EmpresasController::class, 'update']);

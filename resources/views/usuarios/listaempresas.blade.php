@@ -38,7 +38,7 @@ use app\Http\Controllers\EmpresasController;
             <td>{{$datosEmpresa->fecha_alta}}</td>
             <td>{{$datosEmpresa->fecha_modificacion}}</td>
             <td>{{$datosEmpresa->rol_id}}</td>
-            <td>Editar</td>
+            <td><a href="{{ route('editarempresa', ['id' => $datosEmpresa->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach
