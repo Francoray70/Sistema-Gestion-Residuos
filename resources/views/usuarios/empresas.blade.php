@@ -1,12 +1,8 @@
 <?php
 
-
-use App\Http\Controllers\ProvinciasController;
 use Carbon\Carbon;
 
-$fechaHoraActual = Carbon::now();
-
-$fecha = date("Y-m-d");
+$fecha = Carbon::now();
 
 ?>
 
@@ -28,16 +24,16 @@ $fecha = date("Y-m-d");
         @csrf
 
         <div class="mb-3">
-            <label for="nombreEmpresa" class="form-label">Nombre de la empresa</label>
-            <input type="text" name="nombre" required class="form-control w-75" id="nombreEmpresa">
+            <label class="form-label">Nombre de la empresa</label>
+            <input type="text" name="nombre" required class="form-control w-75">
         </div>
         <div class="mb-3">
-            <label for="cuitEmpresa" class="form-label">CUIT</label>
-            <input type="text" name="cuit" data-mask="00-00000000-0" required class="form-control w-75" id="cuit" placeholder="Nª de CUIT">
+            <label class="form-label">CUIT</label>
+            <input type="text" name="cuit" data-mask="00-00000000-0" required class="form-control w-75" id="cuit">
         </div>
         <div class="mb-3">
-            <label for="categoriaEmpresa" class="form-label">Categoria</label>
-            <select name="rol_id" required class="form-select w-75" aria-label="categoriaEmpresa">
+            <label class="form-label">Categoria</label>
+            <select name="rol_id" required class="form-select w-75">
                 <option selected>Seleccione</option>
                 <option value="1">Generador</option>
                 <option value="2">Transportista</option>
@@ -48,8 +44,8 @@ $fecha = date("Y-m-d");
             </select>
         </div>
         <div class="mb-3">
-            <label for="provinciaEmpresa" class="form-label">Provincia</label>
-            <select name="provincia" required class="form-select w-75" aria-label="provinciaEmpresa">
+            <label class="form-label">Provincia</label>
+            <select name="provincia" required class="form-select w-75">
                 <option selected>Seleccione su provincia</option>
                 @if (!empty($provincias))
 
@@ -58,16 +54,17 @@ $fecha = date("Y-m-d");
                 @endforeach
 
                 @endif
+
             </select>
         </div>
 
-        <input type="date" style="display: none" name="fecha_alta" value="{{$fecha}}">
-        <input type="date" style="display: none" name="fecha_modificacion" value="{{$fecha}}">
+        <input type="text" style="display: none" name="fecha_alta" value="{{$fecha}}">
+        <input type="text" style="display: none" name="fecha_modificacion" value="{{$fecha}}">
         <input type="text" style="display: none" name="baneado" value="NO">
         <input type="text" style="display: none" name="pago" value="NO">
         <input type="text" style="display: none" name="altauser" value="NOMBRE DE USUARIO">
         <input type="text" style="display: none" name="modifuser" value="NOMBRE DE USUARIO">
-        <input type="text" style="display: none" name="updated_at" value="{{$fechaHoraActual}}">
+        <input type="text" style="display: none" name="updated_at" value="{{$fecha}}">
 
         <button type="submit" value="enviar" id="submit" class="btn btn-primary">Cargar</button>
     </form>

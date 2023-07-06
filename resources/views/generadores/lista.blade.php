@@ -15,7 +15,7 @@ use app\Http\Controllers\GeneradorController;
 @section('navbar')
 
 <h2 class="mt-3">LISTA DE GENERADORES</h2>
-<table class="table table-light mt-4 w-85">
+<table class="table table-striped table-light mt-4 w-85">
 
     <thead>
         <tr>
@@ -45,13 +45,13 @@ use app\Http\Controllers\GeneradorController;
             <td>{{$datosEmpresa->direccion}}</td>
             <td>{{$datosEmpresa->ciudad}}</td>
             <td>{{$datosEmpresa->cod_postal}}</td>
-            <td>{{$datosEmpresa->cli_ima_hab_pro}}</td>
+            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
             <td>{{$datosEmpresa->cli_vto_hab_pro}}</td>
-            <td>{{$datosEmpresa->cli_ima_hab_com}}</td>
+            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
             <td>{{$datosEmpresa->cli_vto_hab_com}}</td>
-            <td>{{$datosEmpresa->rol_id}}</td>
-            <td>Editar</td>
-            <td>Editar</td>
+            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
+            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('editargenerador', ['id' => $datosEmpresa->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

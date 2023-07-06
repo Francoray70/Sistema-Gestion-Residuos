@@ -1,7 +1,8 @@
 <?php
 
-use App\http\Controllers\CorrientesController;
+use Carbon\Carbon;
 
+$fecha = Carbon::now();
 ?>
 
 @extends('nav')
@@ -16,37 +17,39 @@ use App\http\Controllers\CorrientesController;
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">ALTA DE CORRIENTES DE RESIDUOS</h2>
-    <form>
+    <form action="{{url('/corrientesderesiduos')}}" method="post">
         @csrf
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Corriente</label>
-            <input type="password" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Corriente</label>
+            <input type="text" class="form-control w-75" name="id_corrientes" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Descripcion</label>
-            <input type="text" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Descripcion</label>
+            <input type="text" class="form-control w-75" name="desc_corrientes" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Unidad de medida</label>
-            <select class="form-select w-75" aria-label="Default select example">
+            <label class="form-label">Unidad de medida</label>
+            <select class="form-select w-75" name="um" required>
                 <option selected>Seleccione la unidad</option>
-                <option value="1">Kilogramos</option>
-                <option value="2">Litros</option>
+                <option value="KGs">Kilogramos</option>
+                <option value="Lts">Litros</option>
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Estado</label>
-            <select class="form-select w-75" aria-label="Default select example">
+            <label class="form-label">Estado</label>
+            <select class="form-select w-75" name="estado_cte" required>
                 <option selected>Seleccione el estado</option>
-                <option value="1">Solido</option>
-                <option value="2">Liquido</option>
-                <option value="3">Semi solido</option>
+                <option value="Solido">Solido</option>
+                <option value="Liquido">Liquido</option>
+                <option value="Semi solido">Semi solido</option>
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Peligrosidad</label>
-            <input type="text" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Peligrosidad</label>
+            <input type="text" class="form-control w-75" name="peligrosidad" required>
         </div>
+
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listacorrientes')}}">

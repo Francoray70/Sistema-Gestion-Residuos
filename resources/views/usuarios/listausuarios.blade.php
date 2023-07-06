@@ -44,7 +44,7 @@ use app\Http\Controllers\nombresUsuarios;
             <td>{{$datosUsuario->fecha_usu_modi}}</td>
             <td>{{$datosUsuario->rol_id}}</td>
             <td>{{$datosUsuario->baneado}}</td>
-            <td>Editar</td>
+            <td><a href="">Editar</a></td>
         </tr>
 
         @endforeach

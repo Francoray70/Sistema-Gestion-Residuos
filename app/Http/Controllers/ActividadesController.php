@@ -32,14 +32,21 @@ class ActividadesController extends Controller
     public function store(Request $request)
     {
         //
+        $actividades = request()->except('_token');
+
+        actividades::insert($actividades);
+
+        return redirect('/listaactividades')->with('success', 'Actividad cargada con exito!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(actividades $actividades)
+    public function show($id)
     {
         //
+        $id = actividades::find($id);
+        return view('varios.editaractividad', ['id' => $id]);
     }
 
     /**
@@ -53,9 +60,13 @@ class ActividadesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, actividades $actividades)
+    public function update(Request $request, $id)
     {
         //
+        $datosActividades = request()->except(['_token', '_method']);
+        actividades::where('id', '=', $id)->update($datosActividades);
+
+        return redirect('/listaactividades')->with('success', 'Actividad cargada con exito!');
     }
 
     /**

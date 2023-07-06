@@ -1,9 +1,3 @@
-<?php
-
-use app\Http\Controllers\CorrientesController;
-
-?>
-
 @extends('nav')
 
 <style>
@@ -38,7 +32,7 @@ use app\Http\Controllers\CorrientesController;
             <td>{{$datosCorrientes->um}}</td>
             <td>{{$datosCorrientes->estado_cte}}</td>
             <td>{{$datosCorrientes->peligrosidad}}</td>
-            <td>Editar</td>
+            <td><a href="{{ route('editarcorrienteprincipal', ['id' => $datosCorrientes->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

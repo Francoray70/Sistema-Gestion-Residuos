@@ -45,14 +45,14 @@ use app\Http\Controllers\TransportistaController;
             <td>{{$datosUsuario->direc_transp}}</td>
             <td>{{$datosUsuario->local_transp}}</td>
             <td>{{$datosUsuario->transp_act}}</td>
-            <td>{{$datosUsuario->hab_pcia_transp}}</td>
+            <td><a href="{{$datosUsuario->hab_pcia_transp}}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_pro}}</td>
-            <td>{{$datosUsuario->hab_nac_transp}}</td>
+            <td><a href="{{$datosUsuario->hab_nac_transp}}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_nac}}</td>
-            <td>{{$datosUsuario->hab_mun_transp}}</td>
+            <td><a href="{{$datosUsuario->hab_mun_transp}}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_mun}}</td>
-            <td>Editar</td>
-            <td>Editar</td>
+            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('editartransporte', ['id' => $datosUsuario->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

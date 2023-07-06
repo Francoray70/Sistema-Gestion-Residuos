@@ -34,7 +34,7 @@ use app\Http\Controllers\Localidad;
             <td>{{$datosLocalidades->ciudades}}</td>
             <td>{{$datosLocalidades->cp}}</td>
             <td>{{$datosLocalidades->provincia}}</td>
-            <td>Editar</td>
+            <td><a href="{{ route('editarlocalidad', ['id' => $datosLocalidades->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

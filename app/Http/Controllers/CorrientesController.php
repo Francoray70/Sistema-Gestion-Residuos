@@ -14,8 +14,8 @@ class CorrientesController extends Controller
     public function index()
     {
         //
-        $Corrientes = corrientes::all();
-        return view('varios.listacorrientes', ['corrientes' => $Corrientes]);
+        $corrientes = corrientes::all();
+        return view('varios.listacorrientes', ['corrientes' => $corrientes]);
     }
 
     /**
@@ -32,14 +32,21 @@ class CorrientesController extends Controller
     public function store(Request $request)
     {
         //
+        $corrientes = request()->except('_token');
+
+        corrientes::insert($corrientes);
+
+        return redirect('/listacorrientes')->with('success', 'Actividad cargada con exito!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(corrientes $corrientes)
+    public function show($id)
     {
         //
+        $id = corrientes::find($id);
+        return view('varios.editarcorriente', ['id' => $id]);
     }
 
     /**
@@ -53,9 +60,13 @@ class CorrientesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, corrientes $corrientes)
+    public function update(Request $request, $id)
     {
         //
+        $datosCorriente = request()->except(['_token', '_method']);
+        corrientes::where('id', '=', $id)->update($datosCorriente);
+
+        return redirect('/listacorrientes')->with('success', 'Actividad cargada con exito!');
     }
 
     /**

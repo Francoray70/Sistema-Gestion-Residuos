@@ -1,9 +1,3 @@
-<?php
-
-use app\Http\Controllers\ActividadesController;
-
-?>
-
 @extends('nav')
 
 <style>
@@ -30,7 +24,7 @@ use app\Http\Controllers\ActividadesController;
 
         <tr>
             <td>{{$datosActividades->actividades}}</td>
-            <td>Editar</td>
+            <td><a href="{{ route('editaractividad', ['id' => $datosActividades->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

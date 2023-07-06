@@ -1,6 +1,8 @@
 <?php
 
-use App\http\Controllers\ActividadesController;
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
 
 ?>
 
@@ -16,13 +18,14 @@ use App\http\Controllers\ActividadesController;
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">ALTA DE ACTIVIDADES</h2>
-    <form>
+    <form action="{{url('/actividades')}}" method="post">
         @csrf
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Tipo de actividad</label>
-            <input type="password" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Tipo de actividad</label>
+            <input type="text" name="actividades" class="form-control w-75" required>
         </div>
 
+        <input type="text" name="updated_at" value="{{$fecha}}" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listaactividades')}}">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\provincia;
 use App\Models\empresas;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,6 +13,14 @@ class EmpresasController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function traerDatos()
+    {
+        //
+        $provincias = provincia::orderBy('provincia')->get();
+        return view('usuarios.empresas', ['provincias' => $provincias]);
+    }
+
     public function index()
     {
         //
@@ -35,9 +44,10 @@ class EmpresasController extends Controller
         //
 
         $datosEmpresa = request()->except('_token');
+
         Empresas::insert($datosEmpresa);
 
-        return view('usuarios.empresas')->with('success', 'Empresa cargada con exito');
+        return redirect('/listaempresas')->with('success', 'Empresa cargada con exito');
     }
 
     /**
@@ -67,8 +77,7 @@ class EmpresasController extends Controller
         $datosEmpresa = request()->except(['_token', '_method', 'fecha_alta', 'pago', 'altauser']);
         Empresas::where('id', '=', $id)->update($datosEmpresa);
 
-        $registros = Empresas::all();
-        return view('usuarios.listaempresas', ['registros' => $registros]);
+        return redirect('/listaempresas')->with('success', 'Empresa cargada con exito');
     }
 
     /**

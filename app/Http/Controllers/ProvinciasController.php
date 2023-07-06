@@ -17,9 +17,17 @@ class ProvinciasController extends Controller
     {
         //
         $provincias = provincia::orderBy('provincia')->get();
-        return view('usuarios.empresas', ['provincias' => $provincias]);
+
+        return view('generadores.index', ['provincias' => $provincias]);
     }
 
+    public function index2()
+    {
+        //
+        $provincias = provincia::orderBy('provincia')->get();
+
+        return view('usuarios.empresas', ['provincias' => $provincias]);
+    }
     /**
      * Show the form for creating a new resource.
      */
