@@ -48,7 +48,7 @@ use app\Http\Controllers\ChoferController;
             <td><a href="{{$datosChoferes->sep_img}}">Ver</a></td>
             <td>{{$datosChoferes->sep_vto}}</td>
             <td><a href="">Actualizar</a></td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{ route('editarchofer', ['id' => $datosChoferes->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

@@ -15,7 +15,7 @@ use app\Http\Controllers\GeneradorController;
 @section('navbar')
 
 <h2 class="mt-3">LISTA DE GENERADORES</h2>
-<table class="table table-striped table-light mt-4 w-85">
+<table class="table table-light mt-4 w-85">
 
     <thead>
         <tr>

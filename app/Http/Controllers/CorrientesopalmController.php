@@ -22,6 +22,29 @@ class CorrientesopalmController extends Controller
         return view('opalmacenamiento.corrientes', compact('generador', 'corrientes'));
     }
 
+    public function traerDatosCantidades()
+    {
+        $generador = operadoralm::all();
+
+        return view('opalmacenamiento.corientescantidad', ['generador' => $generador]);
+    }
+
+    public function resultadosCantidades(Request $request)
+    {
+        $generador = $request->input('gener_nom');
+
+        $resultados = corrientesopalm::where('id_generador', $generador)
+            ->get();
+
+        $comprobar = $resultados->count();
+
+        if ($comprobar) {
+            return view('opalmacenamiento.listacantidadesanuales')->with('resultados', $resultados);
+        } else {
+            return view('sincontenido');
+        }
+    }
+
     public function index()
     {
         //
@@ -84,8 +107,9 @@ class CorrientesopalmController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(corrientesopalm $corrientesopalm)
+    public function destroy($id)
     {
-        //
+        corrientesopalm::destroy($id);
+        return redirect('/listacorrientesopalm')->with('success_message', 'Corriente eliminada con exito');
     }
 }

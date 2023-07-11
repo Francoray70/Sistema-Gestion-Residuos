@@ -64,9 +64,11 @@ class ChoferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(chofer $chofer)
+    public function show($id)
     {
         //
+        $id = chofer::find($id);
+        return view('transportistas.editarchofer', ['id' => $id]);
     }
 
     /**
@@ -80,9 +82,13 @@ class ChoferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, chofer $chofer)
+    public function update(Request $request, $id)
     {
         //
+        $datosCorrientes = request()->except(['_token', '_method']);
+        chofer::where('id', '=', $id)->update($datosCorrientes);
+
+        return redirect('/listachoferes')->with('success_message', 'Empresa cargada con exito');
     }
 
     /**

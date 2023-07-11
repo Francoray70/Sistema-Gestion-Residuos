@@ -1,14 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActividadesController;
 use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\nombresUsuarios;
 use App\Http\Controllers\LocalidadesController;
-use App\Http\Controllers\ProvinciasController;
 use App\Http\Controllers\TransportistaController;
-use App\Http\Controllers\ControllerBusiness;
 use App\Http\Controllers\CorrientesController;
 use App\Http\Controllers\CorrientesgeneradorController;
 use App\Http\Controllers\CorrientesodfController;
@@ -19,6 +18,9 @@ use App\Http\Controllers\GeneradorController;
 use App\Http\Controllers\OperadoralmController;
 use App\Http\Controllers\OperadordfController;
 use App\Http\Controllers\VehiculosController;
+use App\Http\Controllers\ManifiestoController;
+use App\Http\Controllers\ManifiestodetController;
+use App\Http\Controllers\LibromanifiestoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +79,15 @@ Route::get('/listacorrientesgeneradores', [CorrientesgeneradorController::class,
 
 Route::get('/listacantidades', [CorrientesgeneradorController::class, 'index']);
 
+Route::get('/listacantidadesanuales', [CorrientesgeneradorController::class, 'traerDatosCantidades']);
+
+Route::get('/cantidadesanuales', [CorrientesgeneradorController::class, 'resultadosCantidades'])->name('cantidadesanuales');
+
 Route::get('/corrientesgenerador/{id}', [CorrientesgeneradorController::class, 'show'])->name('editarcorrientegenerador');
+
+Route::patch('/corrientesgenerador/{id}', [CorrientesgeneradorController::class, 'update']);
+
+Route::delete('/corrientesgenerador/{id}', [CorrientesgeneradorController::class, 'destroy'])->name('eliminarcorrientegrdor');
 
 Route::get('/direccionesgenerador', function () {
     return view('generadores.direcciones');
@@ -89,13 +99,19 @@ Route::post('/direccionesgenerador', [DireccionController::class, 'store']);
 
 Route::get('/listadirecciones', [DireccionController::class, 'index']);
 
-Route::get('/manifiestosgenerador', function () {
-    return view('generadores.manifiestos');
-});
+Route::get('/direccionesgenerador/{id}', [DireccionController::class, 'show'])->name('editardireccion');
+
+Route::patch('/direccionesgenerador/{id}', [DireccionController::class, 'update']);
+
+Route::get('/manifiestosgenerador', [LibromanifiestoController::class, 'traerDatos']);
+
+Route::get('/librodegeneradores', [LibromanifiestoController::class, 'resultados'])->name('listamanifiestosgeneradores');
 
 Route::get('/listagenerador', [GeneradorController::class, 'index']);
 
 Route::get('/generadores/{id}', [GeneradorController::class, 'show'])->name('editargenerador');
+
+Route::patch('/generadores/{id}', [GeneradorController::class, 'update']);
 
 
 /*
@@ -127,6 +143,12 @@ Route::post('/corrientestransporte', [CorrientestransporteController::class, 'st
 
 Route::get('/listacorrientestransportes', [CorrientestransporteController::class, 'index']);
 
+Route::get('/corrientestransporte/{id}', [CorrientestransporteController::class, 'show'])->name('editarcorrientetransp');
+
+Route::patch('/corrientestransporte/{id}', [CorrientestransporteController::class, 'update']);
+
+Route::delete('/corrientestransporte/{id}', [CorrientestransporteController::class, 'destroy'])->name('eliminarcorrientetransporte');
+
 Route::get('/choferes', function () {
     return view('transportistas.choferes');
 });
@@ -136,6 +158,10 @@ Route::get('/choferes', [ChoferController::class, 'traerDatos']);
 Route::post('/choferes', [ChoferController::class, 'store']);
 
 Route::get('/listachoferes', [ChoferController::class, 'index']);
+
+Route::get('/choferes/{id}', [ChoferController::class, 'show'])->name('editarchofer');
+
+Route::patch('/choferes/{id}', [ChoferController::class, 'update']);
 
 Route::get('/vehiculos', function () {
     return view('transportistas.vehiculos');
@@ -147,9 +173,21 @@ Route::post('/vehiculos', [VehiculosController::class, 'store']);
 
 Route::get('/listavehiculos', [VehiculosController::class, 'index']);
 
+Route::get('/vehiculos/{id}', [VehiculosController::class, 'show'])->name('editarvehiculo');
+
+Route::patch('/vehiculos/{id}', [VehiculosController::class, 'update']);
+
 Route::get('/generarmanifiesto', function () {
     return view('transportistas.generarmanif');
 });
+
+Route::get('/generarmanifiesto', [ManifiestoController::class, 'traerDatos']);
+
+Route::post('/generarmanifiesto', [ManifiestoController::class, 'store']);
+
+Route::get('/listacabeceras', [ManifiestoController::class, 'index']);
+
+Route::get('/listadetalles', [ManifiestodetController::class, 'index']);
 
 Route::get('/imagenesmanifiestostr', function () {
     return view('transportistas.cargarimg');
@@ -158,11 +196,11 @@ Route::get('/imagenesmanifiestostr', function () {
 Route::get('/buscarmanifiestos', function () {
     return view('transportistas.buscarmanif');
 });
+Route::get('/manifiestotransporteencontrado', [LibromanifiestoController::class, 'resultadosTransporteindividual'])->name('listamanifiestostransporteindividual');
 
-Route::get('/libromanifiestos', function () {
-    return view('transportistas.libro');
-});
+Route::get('/libromanifiestos', [LibromanifiestoController::class, 'traerDatosTransporte']);
 
+Route::get('/manifiestotransporte', [LibromanifiestoController::class, 'resultadosTransporte'])->name('listamanifiestostransporte');
 /*
 
 ---------------------------Rutas de op almacenamiento------------------------------
@@ -193,9 +231,15 @@ Route::post('/corrientesopalmacenamiento', [CorrientesopalmController::class, 's
 
 Route::get('/listacorrientesopalm', [CorrientesopalmController::class, 'index']);
 
+Route::get('/listacantidadesanualesOpalm', [CorrientesopalmController::class, 'traerDatosCantidades']);
+
+Route::get('/cantidadesanualesOpalm', [CorrientesopalmController::class, 'resultadosCantidades'])->name('cantidadesanualesOpalm');
+
 Route::get('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::class, 'show'])->name('editarcorrienteopalm');
 
 Route::patch('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::class, 'update']);
+
+Route::delete('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::class, 'destroy'])->name('eliminarcorrienteopalm');
 
 Route::get('/recibirmanifiestoalm', function () {
     return view('opalmacenamiento.recibir');
@@ -213,13 +257,14 @@ Route::get('/cargarimgrpg', function () {
     return view('opalmacenamiento.cargarimg');
 });
 
-Route::get('/manifiestosalm', function () {
-    return view('opalmacenamiento.libromanif');
-});
+Route::get('/libromanifiestosopalm', [LibromanifiestoController::class, 'traerDatosOpalm']);
 
-Route::get('/listarpg', function () {
-    return view('opalmacenamiento.listarpg');
-});
+Route::get('/manifiestopalm', [LibromanifiestoController::class, 'resultadosOpalm'])->name('listamanifiestosopalm');
+
+
+Route::get('/librorpgalm', [LibromanifiestoController::class, 'traerDatosRpgAlm']);
+
+Route::get('/rpgalm', [LibromanifiestoController::class, 'resultadosRpgAlm'])->name('listarpgalm');
 
 /*
 
@@ -250,9 +295,16 @@ Route::post('/corrientesopdispfinal', [CorrientesodfController::class, 'store'])
 
 Route::get('/listacorrientesodf', [CorrientesodfController::class, 'index']);
 
+Route::get('/listacantidadesanualesOdf', [CorrientesodfController::class, 'traerDatosCantidades']);
+
+Route::get('/cantidadesanualesOdf', [CorrientesodfController::class, 'resultadosCantidades'])->name('cantidadesanualesOdf');
+
+
 Route::get('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'show'])->name('editarcorrienteodf');
 
 Route::patch('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'update']);
+
+Route::delete('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'destroy'])->name('eliminarcorrienteodf');
 
 Route::get('/recibirmanifopdispfinal', function () {
     return view('opdispfinal.recibir');
@@ -266,13 +318,13 @@ Route::get('/cargarimgcertif', function () {
     return view('opdispfinal.cargarimg');
 });
 
-Route::get('/librocertificadosopdispfinal', function () {
-    return view('opdispfinal.librocertif');
-});
+Route::get('/libromanifiestosodf', [LibromanifiestoController::class, 'traerDatosOdf']);
 
-Route::get('/libromanifiestosopdispfinal', function () {
-    return view('opdispfinal.libromanif');
-});
+Route::get('/manifiestodf', [LibromanifiestoController::class, 'resultadosOdf'])->name('listamanifiestosodf');
+
+Route::get('/librocertificadoodf', [LibromanifiestoController::class, 'traerDatosCertifOdf']);
+
+Route::get('/certificadodf', [LibromanifiestoController::class, 'resultadosCertifOdf'])->name('listacertificadosodf');
 
 /*
 
@@ -344,3 +396,7 @@ Route::patch('/empresas/{id}', [EmpresasController::class, 'update']);
 ---------------------------Rutas de conceptos globales------------------------------
 
 */
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

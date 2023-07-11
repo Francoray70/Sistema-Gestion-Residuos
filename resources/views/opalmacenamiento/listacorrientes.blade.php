@@ -38,7 +38,13 @@
             <td>{{$datosCorrientes->peligrosidad}}</td>
             <td>{{$datosCorrientes->cantidad}}</td>
             <td><a href="{{ route('editarcorrienteopalm', ['id' => $datosCorrientes->id]) }}">Editar</a></td>
-            <td><a href="">Eliminar</a></td>
+            <td>
+                <form action="{{url('/corrientesopalmacenamiento/'.$datosCorrientes->id)}}" method="post">
+                    {{ @method_field('DELETE') }}
+                    @csrf
+                    <button type="submit" class="btn btn-primary p-0">Eliminar</button>
+                </form>
+            </td>
         </tr>
 
         @endforeach

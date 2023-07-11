@@ -7,6 +7,7 @@ use App\Models\corrientes;
 use App\Models\corrientesgenerador;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CorrientesgeneradorController extends Controller
 {
@@ -21,6 +22,28 @@ class CorrientesgeneradorController extends Controller
         return view('generadores.corrientes', compact('generador', 'corrientes'));
     }
 
+    public function traerDatosCantidades()
+    {
+        $generador = generador::all();
+
+        return view('generadores.corrientescant', ['generador' => $generador]);
+    }
+
+    public function resultadosCantidades(Request $request)
+    {
+        $generador = $request->input('nom_comp');
+
+        $resultados = corrientesgenerador::where('generador', $generador)
+            ->get();
+
+        $comprobar = $resultados->count();
+
+        if ($comprobar) {
+            return view('generadores.listacantidadesanuales')->with('resultados', $resultados);
+        } else {
+            return view('sincontenido');
+        }
+    }
 
     public function index()
     {
@@ -56,8 +79,9 @@ class CorrientesgeneradorController extends Controller
     public function show($id)
     {
         //
-        $id2 = corrientesgenerador::find($id);
-        return view('generadores.editarcorriente', ['id' => $id2]);
+        $corrientes = corrientes::all();
+        $id = corrientesgenerador::find($id);
+        return view('generadores.editarcorriente', compact('corrientes', 'id'));
     }
 
     /**
@@ -71,16 +95,21 @@ class CorrientesgeneradorController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, corrientesgenerador $corrientesgenerador)
+    public function update(Request $request,  $id)
     {
         //
+        $datosGenerador = request()->except(['_token', '_method']);
+        corrientesgenerador::where('id', '=', $id)->update($datosGenerador);
+
+        return redirect('/listacorrientesgeneradores')->with('success_message', 'Corriente cargada con exito');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(corrientesgenerador $corrientesgenerador)
+    public function destroy($id)
     {
-        //
+        corrientesgenerador::destroy($id);
+        return redirect('/listacorrientesgeneradores')->with('success_message', 'Corriente eliminada con exito');
     }
 }

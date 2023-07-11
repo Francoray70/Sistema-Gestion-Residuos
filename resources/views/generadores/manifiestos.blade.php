@@ -10,24 +10,25 @@
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">LIBRO DE MANIFIESTO POR GENERADOR</h2>
-    <form>
-        @csrf
+    <form action="{{route('listamanifiestosgeneradores')}}" method="get">
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Generador</label>
-            <select class="form-select w-75" aria-label="Default select example">
+            <label class="form-label">Generador</label>
+            <select class="form-select w-75" name="nom_comp" required>
                 <option selected>Seleccionar generador</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                @if (!empty($generador))
+                @foreach ($generador as $datosGenerador)
+                <option value="{{$datosGenerador->nom_comp}}">{{$datosGenerador->nom_comp}}</option>
+                @endforeach
+                @endif
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Fecha de inicio</label>
-            <input type="date" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Fecha de inicio</label>
+            <input type="date" name="fecha_inicio" required class="form-control w-75">
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Fecha de final</label>
-            <input type="date" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Fecha de final</label>
+            <input type="date" name="fecha_fin" required class="form-control w-75">
         </div>
 
         <button type="submit" class="btn btn-primary">Buscar</button>

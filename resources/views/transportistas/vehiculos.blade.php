@@ -85,6 +85,7 @@ $fecha = Carbon::now();
 
         <input type="text" value="{{$fecha}}" name="fecha_usu_alta" style="display: none;">
         <input type="text" value="{{$fecha}}" name="fecha_usu_modif" style="display: none;">
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
         <input type="text" value="ALTA" name="camio_act" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>

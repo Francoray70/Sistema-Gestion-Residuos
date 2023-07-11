@@ -54,9 +54,12 @@ class CorrientestransporteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(corrientestransporte $corrientestransporte)
+    public function show($id)
     {
         //
+        $corrientes = corrientes::all();
+        $id = corrientestransporte::find($id);
+        return view('transportistas.editarcorriente', compact('id', 'corrientes'));
     }
 
     /**
@@ -70,16 +73,21 @@ class CorrientestransporteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, corrientestransporte $corrientestransporte)
+    public function update(Request $request, $id)
     {
         //
+        $datosCorrientes = request()->except(['_token', '_method']);
+        corrientestransporte::where('id', '=', $id)->update($datosCorrientes);
+
+        return redirect('/listacorrientestransportes')->with('success_message', 'Empresa cargada con exito');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(corrientestransporte $corrientestransporte)
+    public function destroy($id)
     {
-        //
+        corrientestransporte::destroy($id);
+        return redirect('/listacorrientestransportes')->with('success_message', 'Corriente eliminada con exito');
     }
 }

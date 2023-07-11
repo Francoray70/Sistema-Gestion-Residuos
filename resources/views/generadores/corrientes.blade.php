@@ -1,3 +1,11 @@
+<?php
+
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
+
+?>
+
 @extends('nav')
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -100,9 +108,11 @@
             <input type="text" class="form-control w-75" name="cantidad">
         </div>
 
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
+
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listacorrientesgeneradores')}}"><button type="button" class="btn btn-primary">Listado</button></a>
-        <a href="{{url('/listacantidades')}}"><button type="button" class="btn btn-primary">Cantidad anual</button></a>
+        <a href="{{url('/listacantidadesanuales')}}"><button type="button" class="btn btn-primary">Cantidad anual</button></a>
     </form>
 </div>
 

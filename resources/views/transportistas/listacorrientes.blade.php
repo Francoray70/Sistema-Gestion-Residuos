@@ -41,8 +41,14 @@ use app\Http\Controllers\CorrientestransporteController;
             <td>{{$datosCorrientes->um}}</td>
             <td>{{$datosCorrientes->estado}}</td>
             <td>{{$datosCorrientes->peligrosidad}}</td>
-            <td><a href="">Editar</a></td>
-            <td><a href="">Eliminar</a></td>
+            <td><a href="{{ route('editarcorrientetransp', ['id' => $datosCorrientes->id]) }}">Editar</a></td>
+            <td>
+                <form action="{{url('/corrientestransporte/'.$datosCorrientes->id)}}" method="post">
+                    {{ @method_field('DELETE') }}
+                    @csrf
+                    <button type="submit" class="btn btn-primary p-0">Eliminar</button>
+                </form>
+            </td>
         </tr>
 
         @endforeach

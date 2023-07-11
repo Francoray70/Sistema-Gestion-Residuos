@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion de residuos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <link rel="shortcat icon" href="{{asset('img/logo.ico')}}">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
@@ -65,8 +67,8 @@
                             <li><a class="dropdown-item" href="{{url('/enviarmanifiestoalm')}}">Enviar a diposición final</a></li>
                             <li><a class="dropdown-item" href="{{url('/generarcertifrpg')}}">Generar certificado rpg/osp</a></li>
                             <li><a class="dropdown-item" href="{{url('/cargarimgrpg')}}">Cargar imagenes de rpg </a></li>
-                            <li><a class="dropdown-item" href="{{url('/manifiestosalm')}}">Libro de manifiestos</a></li>
-                            <li><a class="dropdown-item" href="{{url('/listarpg')}}">Listado de rpg/osp</a></li>
+                            <li><a class="dropdown-item" href="{{url('/libromanifiestosopalm')}}">Libro de manifiestos</a></li>
+                            <li><a class="dropdown-item" href="{{url('/librorpgalm')}}">Listado de rpg/osp</a></li>
                         </ul>
                     </li>
 
@@ -80,8 +82,8 @@
                             <li><a class="dropdown-item" href="{{url('/recibirmanifopdispfinal')}}">Recibir manifiestos</a></li>
                             <li><a class="dropdown-item" href="{{url('/generarcertdispfinal')}}">Generar certificado de diposición final</a></li>
                             <li><a class="dropdown-item" href="{{url('/cargarimgcertif')}}">Cargar imagen de certificado</a></li>
-                            <li><a class="dropdown-item" href="{{url('/librocertificadosopdispfinal')}}">Libro de certificados</a></li>
-                            <li><a class="dropdown-item" href="{{url('/libromanifiestosopdispfinal')}}">Libro de manifiestos</a></li>
+                            <li><a class="dropdown-item" href="{{url('/librocertificadoodf')}}">Libro de certificados</a></li>
+                            <li><a class="dropdown-item" href="{{url('/libromanifiestosodf')}}">Libro de manifiestos</a></li>
                         </ul>
                     </li>
 
@@ -107,9 +109,6 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Cerrar sesión</a>
-                    </li>
                 </ul>
             </div>
         </div>

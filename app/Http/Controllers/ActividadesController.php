@@ -34,9 +34,21 @@ class ActividadesController extends Controller
         //
         $actividades = request()->except('_token');
 
-        actividades::insert($actividades);
+        $actividadsolicitada = $request->input('actividades');
 
-        return redirect('/listaactividades')->with('success', 'Actividad cargada con exito!');
+        $resultado = actividades::where('actividades', $actividadsolicitada);
+
+        $comprobar = $resultado->count();
+
+        if (!$comprobar) {
+
+            actividades::insert($actividades);
+
+            return redirect('/listaactividades')->with('success', 'Actividad cargada con exito!');
+        } else {
+
+            return view('registroduplicado');
+        }
     }
 
     /**

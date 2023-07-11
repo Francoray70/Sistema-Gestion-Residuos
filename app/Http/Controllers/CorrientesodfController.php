@@ -22,6 +22,29 @@ class CorrientesodfController extends Controller
         return view('opdispfinal.corrientes', compact('generador', 'corrientes'));
     }
 
+    public function traerDatosCantidades()
+    {
+        $generador = operadordf::all();
+
+        return view('opdispfinal.corrientescant', ['generador' => $generador]);
+    }
+
+    public function resultadosCantidades(Request $request)
+    {
+        $generador = $request->input('id_operador_df');
+
+        $resultados = corrientesodf::where('id_oper_df', $generador)
+            ->get();
+
+        $comprobar = $resultados->count();
+
+        if ($comprobar) {
+            return view('opdispfinal.listacantidadesanuales')->with('resultados', $resultados);
+        } else {
+            return view('sincontenido');
+        }
+    }
+
     public function index()
     {
         //
@@ -84,8 +107,9 @@ class CorrientesodfController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(corrientesodf $corrientesodf)
+    public function destroy($id)
     {
-        //
+        corrientesodf::destroy($id);
+        return redirect('/listacorrientesodf')->with('success_message', 'Corriente eliminada con exito');
     }
 }

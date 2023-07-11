@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\provincia;
+use App\Models\certificadodetalle;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\DB;
 
-class ProvinciasController extends Controller
+class CertificadodetalleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,18 +14,8 @@ class ProvinciasController extends Controller
     public function index()
     {
         //
-        $provincias = provincia::orderBy('provincia')->get();
-
-        return view('generadores.index', ['provincias' => $provincias]);
     }
 
-    public function index2()
-    {
-        //
-        $provincias = provincia::orderBy('provincia')->get();
-
-        return view('usuarios.empresas', ['provincias' => $provincias]);
-    }
     /**
      * Show the form for creating a new resource.
      */
@@ -47,7 +35,7 @@ class ProvinciasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ProvinciasController $rc)
+    public function show(certificadodetalle $certificadodetalle)
     {
         //
     }
@@ -55,7 +43,7 @@ class ProvinciasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ProvinciasController $rc)
+    public function edit(certificadodetalle $certificadodetalle)
     {
         //
     }
@@ -63,7 +51,7 @@ class ProvinciasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ProvinciasController $rc)
+    public function update(Request $request, certificadodetalle $certificadodetalle)
     {
         //
     }
@@ -71,7 +59,7 @@ class ProvinciasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ProvinciasController $rc)
+    public function destroy(certificadodetalle $certificadodetalle)
     {
         //
     }

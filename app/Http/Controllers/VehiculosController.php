@@ -74,9 +74,11 @@ class VehiculosController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(vehiculos $vehiculos)
+    public function show($id)
     {
         //
+        $id = vehiculos::find($id);
+        return view('transportistas.editarvehiculo', ['id' => $id]);
     }
 
     /**
@@ -90,9 +92,13 @@ class VehiculosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, vehiculos $vehiculos)
+    public function update(Request $request, $id)
     {
         //
+        $datosCorrientes = request()->except(['_token', '_method']);
+        vehiculos::where('id', '=', $id)->update($datosCorrientes);
+
+        return redirect('/listavehiculos')->with('success_message', 'Empresa cargada con exito');
     }
 
     /**

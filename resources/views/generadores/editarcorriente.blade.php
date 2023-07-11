@@ -1,10 +1,48 @@
 <?php
 
-use App\Http\Controllers\CorrientesgeneradorController;
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
 
 ?>
 
 @extends('nav')
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#corriente").change(function() {
+
+            $("#corriente option:selected").each(function() {
+                id_corrientes = $(this).val();
+                $.post("{{asset('gets/getDescripcion.php')}}", {
+                    id_corrientes: id_corrientes
+                }, function(data) {
+                    $("#descripcion").html(data);
+                });
+
+                $.post("{{asset('gets/getUm2.php')}}", {
+                    id_corrientes: id_corrientes
+                }, function(data) {
+                    $("#um").html(data);
+                });
+
+                $.post("{{asset('gets/getEstados.php')}}", {
+                    id_corrientes: id_corrientes
+                }, function(data) {
+                    $("#estado").html(data);
+                });
+
+                $.post("{{asset('gets/getPeligrosidad.php')}}", {
+                    id_corrientes: id_corrientes
+                }, function(data) {
+                    $("#peligrosidad").html(data);
+                });
+
+            });
+        })
+    });
+</script>
 
 <style>
     .container {
@@ -14,42 +52,69 @@ use App\Http\Controllers\CorrientesgeneradorController;
 
 @section('navbar')
 
-<div class="container w-85 border p-4 mt-5">
+<div class="container w-85 border p-3 mt-5">
     <h2 class="mb-3">EDITAR CORRIENTE DE GENERADOR</h2>
-
-    <form action="" method="POST">
+    <form action="{{ url('/corrientesgenerador/'.$id->id)}}" method="post">
         @method('PATCH')
         @csrf
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Generador</label>
-            <input type="text" value="{{$id->generador}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Corriente de residuo</label>
-            <input type="text" value="{{$id->id_corrientes}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Descripcion</label>
-            <input type="text" value="{{$id->descripcion}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Unidad de medida</label>
-            <input type="text" value="{{$id->um}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Estado</label>
-            <input type="text" value="{{$id->estado}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Peligrosidad</label>
-            <input type="text" value="{{$id->peligrosidad}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Cantidad estimada anual</label>
-            <input type="text" value="{{$id->cantidad}}" class="form-control w-75" id="exampleInputPassword1">
-        </div>
+        <table class="table table-light mt-4 w-85">
+
+            <thead>
+                <tr>
+                    <th>Generador</th>
+                    <th>Corriente</th>
+                    <th>Descripcion</th>
+                    <th>Unidad de medida</th>
+                    <th>Estado</th>
+                    <th>Peligrosidad</th>
+                    <th>Cantidad estimada anual</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+                    <td><input type="text" class="form-control w-75" required value="{{$id->generador}}" name="generador" readonly></td>
+                    <td>
+                        <select name="id_corrientes" id="corriente" required class="form-select w-75">
+                            <option selected value="{{$id->id_corrientes}}">{{$id->id_corrientes}}</option>
+                            @if (!empty($corrientes))
+                            @foreach ($corrientes as $datosCorrientes)
+                            <option value="{{$datosCorrientes->id_corrientes}}">{{$datosCorrientes->id_corrientes}}</option>
+                            @endforeach
+                            @endif
+                        </select>
+                    <td>
+                        <select name="descripcion" id="descripcion" required class="form-select w-75">
+                        </select>
+                    </td>
+                    <td>
+                        <select name="um" id="um" required class="form-select w-75">
+                        </select>
+                    </td>
+                    <td>
+                        <select name="estado" id="estado" required class="form-select w-75">
+                        </select>
+                    </td>
+                    <td>
+                        <select name="peligrosidad" id="peligrosidad" required class="form-select w-75">
+                        </select>
+                    </td>
+                    <td><input type="text" class="form-control w-75" required value="{{$id->cantidad}}" name="cantidad"></td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{{url('/listacorrientesgeneradores')}}">
+            <button type="button" class="btn btn-primary">Listado</button>
+        </a>
     </form>
 </div>
 

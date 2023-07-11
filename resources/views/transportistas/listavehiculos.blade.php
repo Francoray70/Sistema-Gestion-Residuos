@@ -1,10 +1,3 @@
-<?php
-
-use app\Http\Controllers\ChoferController;
-
-?>
-
-
 @extends('nav')
 
 <style>
@@ -52,7 +45,7 @@ use app\Http\Controllers\ChoferController;
             <td><a href="{{$datosVehiculos->pat_vtv_img}}">Ver</a></td>
             <td>{{$datosVehiculos->pat_vtv_vto}}</td>
             <td><a href="">Actualizar</a></td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{ route('editarvehiculo', ['id' => $datosVehiculos->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

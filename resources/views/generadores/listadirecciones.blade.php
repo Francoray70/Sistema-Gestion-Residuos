@@ -15,7 +15,7 @@ use app\Http\Controllers\DireccionController;
 @section('navbar')
 
 
-<h2 class="mt-3">LISTA DE CORRIENTES DE GENERADORES</h2>
+<h2 class="mt-3">LISTA DE DIRECCIONES</h2>
 <table class="table table-light mt-4 w-85">
 
     <thead>
@@ -36,7 +36,7 @@ use app\Http\Controllers\DireccionController;
             <td>{{$datosDirecciones->dir_de_retiro}}</td>
             <td>{{$datosDirecciones->provincia}}</td>
             <td>{{$datosDirecciones->ciudad}}</td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{ route('editardireccion', ['id' => $datosDirecciones->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

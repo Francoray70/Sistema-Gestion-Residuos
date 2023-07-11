@@ -200,6 +200,7 @@ $fecha = date("Y-m-d");
 
         <input type="text" name="fecha_alta" value="{{$fecha}}" style="display: none">
         <input type="text" name="fecha_usu_modi" value="{{$fecha}}" style="display: none">
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
         <input type="text" name="clte_act" value="ALTA" style="display: none">
         <button type="submit" class="btn btn-primary">Cargar</button>
     </form>

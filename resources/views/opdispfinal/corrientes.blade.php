@@ -108,6 +108,7 @@ $fecha = Carbon::now();
         <a href="{{url('/listacorrientesodf')}}">
             <button type="button" class="btn btn-primary">Listado</button>
         </a>
+        <a href="{{url('/listacantidadesanualesOdf')}}"><button type="button" class="btn btn-primary">Cantidad anual</button></a>
     </form>
 </div>
 

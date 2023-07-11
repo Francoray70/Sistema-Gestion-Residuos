@@ -1,3 +1,11 @@
+<?php
+
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
+
+?>
+
 @extends('nav')
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -59,9 +67,10 @@
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Ciudad</label>
             <select class="form-select w-75" name="ciudad" id="ciudades">
-                <option selected>Seleccionar generador</option>
             </select>
         </div>
+
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listadirecciones')}}"><button type="button" class="btn btn-primary">Listado</button></a>

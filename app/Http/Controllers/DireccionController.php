@@ -18,7 +18,7 @@ class DireccionController extends Controller
     {
         //
         $generador = generador::all();
-        $provincias = provincia::all();
+        $provincias = provincia::orderBy('provincia')->get();
         return view('generadores.direcciones', compact('generador', 'provincias'));
     }
 
@@ -54,9 +54,12 @@ class DireccionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(direccion $direccion)
+    public function show($id)
     {
         //
+        $provincias = provincia::orderBy('provincia')->get();
+        $id = direccion::find($id);
+        return view('generadores.editardirecciones', compact('provincias', 'id'));
     }
 
     /**
@@ -70,9 +73,13 @@ class DireccionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, direccion $direccion)
+    public function update(Request $request, $id)
     {
         //
+        $datosDireccion = request()->except(['_token', '_method']);
+        direccion::where('id', '=', $id)->update($datosDireccion);
+
+        return redirect('/listadirecciones')->with('success_message', 'Direccion cargada con exito');
     }
 
     /**

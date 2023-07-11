@@ -1,3 +1,10 @@
+<?php
+
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
+?>
+
 @extends('nav')
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -95,6 +102,7 @@
             <select class="form-select w-75" name="peligrosidad" id="peligrosidad" required>
             </select>
         </div>
+        <input type="text" value="{{$fecha}}" name="updated_at" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listacorrientestransportes')}}"><button type="button" class="btn btn-primary">Listado</button></a>
