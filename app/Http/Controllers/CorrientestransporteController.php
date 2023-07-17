@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Transportista;
 use App\Models\corrientes;
 use App\Models\corrientestransporte;
@@ -16,7 +18,9 @@ class CorrientestransporteController extends Controller
 
     public function traerDatos()
     {
-        $transporte = Transportista::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
         $corrientes = corrientes::all();
 
         return view('transportistas.corrientes', compact('transporte', 'corrientes'));
@@ -26,8 +30,26 @@ class CorrientestransporteController extends Controller
     public function index()
     {
         //
-        $datosCorrientes = corrientestransporte::all();
-        return view('transportistas.listacorrientes', ['corrientes' => $datosCorrientes]);
+
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $corrientes = corrientestransporte::all();
+            return view('transportistas.listacorrientes', compact('corrientes'));
+        } else {
+            $corrientes = corrientestransporte::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $corrientes->count();
+
+            if ($comprobar) {
+                return view('transportistas.listacorrientes', compact('corrientes'));
+            } else {
+                return redirect('/corrientestransporte');
+            }
+        }
     }
 
     /**

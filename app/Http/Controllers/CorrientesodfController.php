@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\operadordf;
 use App\Models\corrientes;
 use App\Models\corrientesodf;
@@ -16,7 +18,9 @@ class CorrientesodfController extends Controller
 
     public function traerDatos()
     {
-        $generador = operadordf::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $generador = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
         $corrientes = corrientes::all();
 
         return view('opdispfinal.corrientes', compact('generador', 'corrientes'));
@@ -24,9 +28,20 @@ class CorrientesodfController extends Controller
 
     public function traerDatosCantidades()
     {
-        $generador = operadordf::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('opdispfinal.corrientescant', ['generador' => $generador]);
+        if ($userRol == '6') {
+
+            $generador = operadordf::all();
+            return view('opdispfinal.corrientescant', compact('generador'));
+        } else {
+
+            $generador = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opdispfinal.corrientescant', ['generador' => $generador]);
+        }
     }
 
     public function resultadosCantidades(Request $request)
@@ -38,18 +53,43 @@ class CorrientesodfController extends Controller
 
         $comprobar = $resultados->count();
 
+        $resultadosSumadoLt = corrientesodf::where('id_oper_df', $generador)
+            ->where('um', '=', 'Lts')
+            ->sum('cantidad');
+
+        $resultadosSumadoKg = corrientesodf::where('id_oper_df', $generador)
+            ->where('um', '=', 'KGs')
+            ->sum('cantidad');
+
         if ($comprobar) {
-            return view('opdispfinal.listacantidadesanuales')->with('resultados', $resultados);
+            return view('opdispfinal.listacantidadesanuales', compact('resultados', 'resultadosSumadoLt', 'resultadosSumadoKg', 'generador'));
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincorrientes');
         }
     }
 
     public function index()
     {
         //
-        $corrientes = corrientesodf::all();
-        return view('opdispfinal.listacorrientes', ['corrientes' => $corrientes]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $corrientes = corrientesodf::all();
+            return view('opdispfinal.listacorrientes', compact('corrientes'));
+        } else {
+            $corrientes = corrientesodf::where('id_oper_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $corrientes->count();
+
+            if ($comprobar) {
+                return view('opdispfinal.listacorrientes', compact('corrientes'));
+            } else {
+                return redirect('/corrientesopdispfinal');
+            }
+        }
     }
 
     /**

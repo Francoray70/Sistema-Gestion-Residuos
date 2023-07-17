@@ -1,3 +1,22 @@
+<?php
+
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Transportista;
+
+$fecha = Carbon::now();
+$user = Auth::user();
+$userEmpresa = $user->empresa;
+$userId = $user->id;
+
+$numManifiesto = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->first();
+$NumfinalManifiesto = ($numManifiesto->trans_nro_hab_pro) . "-" . ($numManifiesto->manifiesto_actual);
+
+$manifiestoPActualizar = $numManifiesto->manifiesto_actual;
+$NuevoNumManifiesto = $manifiestoPActualizar + 1;
+?>
+
+
 @extends('nav')
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -121,7 +140,7 @@
                 $.post("{{asset('gets/getDescripcion2.php')}}", {
                     id_corrientes: id_corrientes
                 }, function(data) {
-                    $("#descr").html(data);
+                    $("#descrr").html(data);
                 });
             });
         })
@@ -145,7 +164,7 @@
                 $.post("{{asset('gets/getDescripcion2.php')}}", {
                     id_corrientes: id_corrientes
                 }, function(data) {
-                    $("#descr2").html(data);
+                    $("#descr22").html(data);
                 });
             });
         })
@@ -169,7 +188,7 @@
                 $.post("{{asset('gets/getDescripcion2.php')}}", {
                     id_corrientes: id_corrientes
                 }, function(data) {
-                    $("#descr3").html(data);
+                    $("#descr33").html(data);
                 });
             });
         })
@@ -193,7 +212,7 @@
                 $.post("{{asset('gets/getDescripcion2.php')}}", {
                     id_corrientes: id_corrientes
                 }, function(data) {
-                    $("#descr4").html(data);
+                    $("#descr44").html(data);
                 });
             });
         })
@@ -403,6 +422,7 @@
 <style>
     .container {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -424,11 +444,14 @@
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">ALTA DE MANIFIESTOS</h2>
-    <form action="" method="post">
+    <form action="{{url('/generarmanifiesto')}}" method="post">
         @csrf
+        <input type="text" value="{{$NumfinalManifiesto}}" name="manifiesto" style="display: none;">
+        <input type="text" value="{{$NuevoNumManifiesto}}" name="nuevomanifiesto" style="display: none;">
+        <input type="text" value="{{$userId}}" name="idusuario" style="display: none;">
         <div class="mb-3">
             <label class="form-label">Generador</label>
-            <select class="form-select w-75" name="id_transp" id="generador" required>
+            <select class="form-select w-75" name="generador" id="generador" required>
                 <option selected>Seleccionar generador</option>
                 @if (!empty($generador))
                 @foreach ($generador as $datosGenerador)
@@ -439,7 +462,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Transporte</label>
-            <select class="form-select w-75" name="nom_comp" id="transporte" required>
+            <select class="form-select w-75" name="transporte" id="transporte" required>
                 <option selected>Seleccionar transporte</option>
                 @if (!empty($transportes))
                 @foreach ($transportes as $datosTransporte)
@@ -450,18 +473,18 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Operador</label>
-            <select class="form-select w-75" name="gener_nom" id="operador" required>
+            <select class="form-select w-75" name="operador" id="operador" required>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Tipo</label>
-            <select class="form-select w-75" name="" id="tipo" required>
+            <select class="form-select w-75" name="tipo" id="tipo" required>
             </select>
-            <select id="tipo2" name="tipo2" style="display: none"></select>
+            <select id="tipo2" name="tipo2" style="display: none;"></select>
         </div>
         <div class="mb-3">
             <label class="form-label">Patente</label>
-            <select class="form-select w-75" name="id_patente" id="patente" required>
+            <select class="form-select w-75" name="patente" id="patente" required>
             </select>
         </div>
         <div class="mb-4">
@@ -480,24 +503,24 @@
             <label class="form-label">Inhalacion</label>
             <select class="form-select w-75" name="inhalacion" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Dermica</label>
             <select class="form-select w-75" name="dermica" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Oral</label>
             <select class="form-select w-75" name="oral" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
 
@@ -508,32 +531,32 @@
             <label class="form-label">Inflamabilidad</label>
             <select class="form-select w-75" name="inflamabilidad" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Toxicidad</label>
             <select class="form-select w-75" name="toxicidad" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Reactividad</label>
             <select class="form-select w-75" name="reactividad" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Instrucciones especiales</label>
             <select class="form-select w-75" name="inst_esp" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
 
@@ -546,45 +569,45 @@
             <label class="form-label">Manipulación en planta trat. o disp. final</label>
             <select class="form-select w-75" name="manipulacion" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Planes de contingencia</label>
             <select class="form-select w-75" name="planes" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Rol de emergencia</label>
             <select class="form-select w-75" name="rol" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Hoja de ruta</label>
             <select class="form-select w-75" name="hoja" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Rutas alternativas</label>
             <select class="form-select w-75" name="rutas" required>
                 <option selected>Seleccione</option>
-                <option value="1">Si</option>
-                <option value="2">No</option>
+                <option value="SI">Si</option>
+                <option value="NO">No</option>
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Direccion de retiro</label>
-            <select class="form-select w-75" name="retiro_direc" id="direcciones" required>
+            <select class="form-select w-75" name="direccion" id="direcciones" required>
             </select>
         </div>
 
@@ -594,62 +617,64 @@
         <div class="row mb-5">
             <div class="col">
                 <label class="form-label">Corriente</label>
-                <select class="form-select w-75 mb-2" name="id_corrientes" id="corriente" required>
+                <select class="form-select w-75 mb-2" name="corriente" id="corriente" required>
                 </select>
-                <select class="form-select w-75 mb-2" name="id_corrientes" id="corriente1" required>
+                <select class="form-select w-75 mb-2" name="corriente1" id="corriente1">
                 </select>
-                <select class="form-select w-75 mb-2" name="id_corrientes" id="corriente2" required>
+                <select class="form-select w-75 mb-2" name="corriente2" id="corriente2">
                 </select>
-                <select class="form-select w-75 mb-2" name="id_corrientes" id="corriente3" required>
+                <select class="form-select w-75 mb-2" name="corriente3" id="corriente3">
                 </select>
             </div>
             <div class="col">
                 <label class="form-label">Kgs/Lts</label>
                 <select class="form-select w-75 mb-2" name="um" id="kgslts" required>
                 </select>
-                <select class="form-select w-75 mb-2" name="um" id="kgslts1" required>
+                <select class="form-select w-75 mb-2" name="um1" id="kgslts1">
                 </select>
-                <select class="form-select w-75 mb-2" name="um" id="kgslts2" required>
+                <select class="form-select w-75 mb-2" name="um2" id="kgslts2">
                 </select>
-                <select class="form-select w-75 mb-2" name="um" id="kgslts3" required>
+                <select class="form-select w-75 mb-2" name="um3" id="kgslts3">
                 </select>
             </div>
             <div class="col">
                 <label class="form-label">Estado</label>
                 <select class="form-select w-75 mb-2" name="estado" id="estado" required>
                 </select>
-                <select class="form-select w-75 mb-2" name="estado" id="estado1" required>
+                <select class="form-select w-75 mb-2" name="estado1" id="estado1">
                 </select>
-                <select class="form-select w-75 mb-2" name="estado" id="estado2" required>
+                <select class="form-select w-75 mb-2" name="estado2" id="estado2">
                 </select>
-                <select class="form-select w-75 mb-2" name="estado" id="estado3" required>
+                <select class="form-select w-75 mb-2" name="estado3" id="estado3">
                 </select>
             </div>
             <div class="col">
                 <label class="form-label">Cantidad</label>
                 <input type="text" class="form-control w-75 mb-2" name="cantidad" required>
-                <input type="text" class="form-control w-75 mb-2" name="cantidad" required>
-                <input type="text" class="form-control w-75 mb-2" name="cantidad" required>
-                <input type="text" class="form-control w-75 mb-2" name="cantidad" required>
+                <input type="text" class="form-control w-75 mb-2" name="cantidad1">
+                <input type="text" class="form-control w-75 mb-2" name="cantidad2">
+                <input type="text" class="form-control w-75 mb-2" name="cantidad3">
             </div>
             <div class="col">
                 <label class="form-label">Descripcion</label>
                 <input type="text" class="form-control w-75 mb-2" name="descr_ingreso" required>
-                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso" required>
-                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso" required>
-                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso" required>
+                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso1">
+                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso2">
+                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso3">
             </div>
         </div>
 
-        <select style="display: none" id="descrr" name="descripcion"></select>
-        <select style="display: none" id="descr22" name="descripcion"></select>
-        <select style="display: none" id="descr33" name="descripcion"></select>
-        <select style="display: none" id="descr44" name="descripcion"></select>
+        <select style="display: none;" id="descrr" name="descripcion"></select>
+        <select style="display: none;" id="descr22" name="descripcion1"></select>
+        <select style="display: none;" id="descr33" name="descripcion2"></select>
+        <select style="display: none;" id="descr44" name="descripcion3"></select>
+
+        <input type="text" value="{{$fecha}}" name="fecha" style="display: none;">
 
         <button type="submit" class="btn btn-primary">Cargar</button>
+
         <a href="{{url('/listacabeceras')}}"><button type="button" class="btn btn-primary">Cabeceras</button></a>
-        <a href="{{url('/listadetalles')}}"><button type="button" class="btn btn-primary">Detalles</button></a>
-        <a href="{{url('')}}"><button type="button" class="btn btn-primary">Reimprimir PDF</button></a>
+        <a href="{{url('/reimprimirpdf')}}"><button type="button" class="btn btn-primary">Reimprimir PDF</button></a>
     </form>
 </div>
 

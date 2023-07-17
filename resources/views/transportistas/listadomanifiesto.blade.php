@@ -6,8 +6,9 @@ use App\Models\manifiestodet;
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -62,5 +63,6 @@ use App\Models\manifiestodet;
 
 
 </table>
+<a href=""><button type="button" class="btn btn-primary mt-4 ml-4">DESCARGAR EXCEL</button></a>
 
 @endsection

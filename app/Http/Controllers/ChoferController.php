@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Transportista;
 use App\Models\chofer;
 use App\Http\Controllers\Controller;
@@ -17,15 +18,35 @@ class ChoferController extends Controller
     public function traerDatos()
     {
         //
-        $transporte = Transportista::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
         return view('transportistas.choferes', ['transporte' => $transporte]);
     }
 
     public function index()
     {
         //
-        $datosChoferes = chofer::all();
-        return view('transportistas.listachoferes', ['choferes' => $datosChoferes]);
+
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $choferes = chofer::all();
+            return view('transportistas.listachoferes', compact('choferes'));
+        } else {
+            $choferes = chofer::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $choferes->count();
+
+            if ($comprobar) {
+                return view('transportistas.listachoferes', compact('choferes'));
+            } else {
+                return redirect('/choferes');
+            }
+        }
     }
 
     /**
@@ -71,6 +92,12 @@ class ChoferController extends Controller
         return view('transportistas.editarchofer', ['id' => $id]);
     }
 
+    public function showImg($id)
+    {
+        //
+        $id2 = chofer::find($id);
+        return view('transportistas.actualizarimageneschof', ['id' => $id2]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -91,6 +118,28 @@ class ChoferController extends Controller
         return redirect('/listachoferes')->with('success_message', 'Empresa cargada con exito');
     }
 
+
+    public function updateImg(Request $request, $id)
+    {
+        //
+        $datosChofer = request()->except(['_token', '_method']);
+
+        if ($request->hasFile('nro_carnet_img')) {
+            $datosChofer['nro_carnet_img'] = $request->file('nro_carnet_img')->store('chofer', 'public');
+        }
+
+        if ($request->hasFile('carga_pelig_img')) {
+            $datosChofer['carga_pelig_img'] = $request->file('carga_pelig_img')->store('chofer', 'public');
+        }
+
+        if ($request->hasFile('sep_img')) {
+            $datosChofer['sep_img'] = $request->file('sep_img')->store('chofer', 'public');
+
+            chofer::where('id', '=', $id)->update($datosChofer);
+
+            return redirect('/listachoferes')->with('success_message', 'Empresa cargada con exito');
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */

@@ -11,6 +11,7 @@ $fecha = date("Y-m-d");
 <style>
     .container {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -76,7 +77,7 @@ $fecha = date("Y-m-d");
         @csrf
         <div class="mb-3">
 
-            <label for="exampleInputEmail1" class="form-label">Generador</label>
+            <label class="form-label">Generador</label>
             <select name="nom_comp" id="generador" class="form-select w-75" required>
                 <option selected>Seleccione una opción</option>
                 @if (!empty($datosEmpresa))
@@ -89,12 +90,12 @@ $fecha = date("Y-m-d");
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Cuit</label>
+            <label class="form-label">Cuit</label>
             <select name="cuit" id="cuit" class="form-select w-75" required>
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Tipo de IVA</label>
+            <label class="form-label">Tipo de IVA</label>
             <select name="cod_iva" class="form-select w-75" required>
                 <option selected>Seleccione una opción</option>
                 <option name="cod_iva" value="Responsable inscripto">Responsable inscripto</option>
@@ -102,11 +103,11 @@ $fecha = date("Y-m-d");
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Dirección</label>
+            <label class="form-label">Dirección</label>
             <input type="text" name="direccion" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Provincia</label>
+            <label class="form-label">Provincia</label>
             <select name="provincia" id="provincia" class="form-select w-75" required>
                 <option selected>Seleccione su provincia</option>
                 @if (!empty($datosProvincia))
@@ -119,25 +120,25 @@ $fecha = date("Y-m-d");
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Ciudad</label>
+            <label class="form-label">Ciudad</label>
             <select name="ciudad" id="ciudad" class="form-select w-75" required>
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">CP</label>
+            <label class="form-label">CP</label>
             <select name="cod_postal" id="cp" class="form-select w-75" required>
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Nombre</label>
+            <label class="form-label">Nombre</label>
             <input type="text" name="nom_cont" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Apellido</label>
+            <label class="form-label">Apellido</label>
             <input type="text" name="ape_cont" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Actividad</label>
+            <label class="form-label">Actividad</label>
             <select name="act" class="form-select w-75" required>
                 <option selected>Seleccione una opción</option>
                 @if (!empty($datosActividades))
@@ -150,39 +151,39 @@ $fecha = date("Y-m-d");
             </select>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Telefono</label>
+            <label class="form-label">Telefono</label>
             <input type="text" name="num_tel" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Celular</label>
+            <label class="form-label">Celular</label>
             <input type="text" name="num_cel" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Habilitación provincial n°:</label>
+            <label class="form-label">Habilitación provincial n°</label>
             <input type="text" name="cli_nro_hab_pro" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Habilitación provincial vto:</label>
+            <label class="form-label">Habilitación provincial vto</label>
             <input type="date" name="cli_vto_hab_pro" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="formFile" class="form-label">Habilitación provincial:</label>
+            <label class="form-label">Habilitación provincial</label>
             <input name="cli_ima_hab_pro" class="form-control w-75" type="file" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Habilitación nacional n°:</label>
+            <label class="form-label">Habilitación nacional n°</label>
             <input type="text" name="cli_nro_hab_mun" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Habilitación nacional vto:</label>
+            <label class="form-label">Habilitación nacional vto</label>
             <input type="date" name="cli_vto_hab_mun" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="formFile" class="form-label">Habilitación nacional:</label>
+            <label class="form-label">Habilitación nacional</label>
             <input name="cli_ima_hab_mun" class="form-control w-75" type="file" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Habilitación comercial n°:</label>
+            <label class="form-label">Habilitación comercial n°</label>
             <input type="text" name="cli_nro_hab_com" class="form-control w-75" required>
         </div>
         <div class="mb-3">
@@ -190,11 +191,11 @@ $fecha = date("Y-m-d");
             <input type="date" name="cli_vto_hab_com" class="form-control w-75" required>
         </div>
         <div class="mb-3">
-            <label for="formFile" class="form-label">Habilitación comercial:</label>
+            <label class="form-label">Habilitación comercial</label>
             <input name="cli_ima_hab_com" class="form-control w-75" type="file" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email</label>
+            <label class="form-label">Email</label>
             <input type="email" name="dir_correo" class="form-control w-75" required>
         </div>
 

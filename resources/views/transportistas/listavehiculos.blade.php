@@ -1,8 +1,9 @@
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -35,16 +36,16 @@
         <tr>
             <td>{{$datosVehiculos->id_transp}}</td>
             <td>{{$datosVehiculos->id_patente}}</td>
-            <td><a href="{{$datosVehiculos->pat_tit}}">Ver</a></td>
-            <td><a href="{{$datosVehiculos->pat_ced_verde}}">Ver</a></td>
+            <td><a href="{{ route('verprop', ['id' => $datosVehiculos->id]) }}">Ver</a></td>
+            <td><a href="{{ route('verced', ['id' => $datosVehiculos->id]) }}">Ver</a></td>
             <td>{{$datosVehiculos->pat_cpel_nro}}</td>
-            <td><a href="{{$datosVehiculos->pat_cpel_img}}">Ver</a></td>
+            <td><a href="{{ route('vercpveh', ['id' => $datosVehiculos->id]) }}">Ver</a></td>
             <td>{{$datosVehiculos->pat_cpel_vto}}</td>
-            <td><a href="{{$datosVehiculos->pat_rut}}">Ver</a></td>
+            <td><a href="{{ route('veruta', ['id' => $datosVehiculos->id]) }}">Ver</a></td>
             <td>{{$datosVehiculos->pat_rut_vto}}</td>
-            <td><a href="{{$datosVehiculos->pat_vtv_img}}">Ver</a></td>
+            <td><a href="{{ route('vervtv', ['id' => $datosVehiculos->id]) }}">Ver</a></td>
             <td>{{$datosVehiculos->pat_vtv_vto}}</td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('actualizarimgvehi', ['id' => $datosVehiculos->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editarvehiculo', ['id' => $datosVehiculos->id]) }}">Editar</a></td>
         </tr>
 

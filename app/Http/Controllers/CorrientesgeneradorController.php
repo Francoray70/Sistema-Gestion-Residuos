@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\generador;
 use App\Models\corrientes;
 use App\Models\corrientesgenerador;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CorrientesgeneradorController extends Controller
 {
@@ -16,7 +17,9 @@ class CorrientesgeneradorController extends Controller
      */
     public function traerDatos()
     {
-        $generador = generador::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $generador = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
         $corrientes = corrientes::all();
 
         return view('generadores.corrientes', compact('generador', 'corrientes'));
@@ -24,9 +27,20 @@ class CorrientesgeneradorController extends Controller
 
     public function traerDatosCantidades()
     {
-        $generador = generador::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('generadores.corrientescant', ['generador' => $generador]);
+        if ($userRol == '6') {
+
+            $generador = generador::all();
+            return view('generadores.corrientescant', compact('generador'));
+        } else {
+
+            $generador = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('generadores.corrientescant', ['generador' => $generador]);
+        }
     }
 
     public function resultadosCantidades(Request $request)
@@ -38,18 +52,43 @@ class CorrientesgeneradorController extends Controller
 
         $comprobar = $resultados->count();
 
+        $resultadosSumadoLt = corrientesgenerador::where('generador', $generador)
+            ->where('um', '=', 'Lts')
+            ->sum('cantidad');
+
+        $resultadosSumadoKg = corrientesgenerador::where('generador', $generador)
+            ->where('um', '=', 'KGs')
+            ->sum('cantidad');
+
         if ($comprobar) {
-            return view('generadores.listacantidadesanuales')->with('resultados', $resultados);
+            return view('generadores.listacantidadesanuales', compact('resultados', 'resultadosSumadoLt', 'resultadosSumadoKg', 'generador'));
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincorrientes');
         }
     }
 
     public function index()
     {
         //
-        $corrientes = corrientesgenerador::all();
-        return view('generadores.listacorrientes', ['corrientes' => $corrientes]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $corrientes = corrientesgenerador::all();
+            return view('generadores.listacorrientes', compact('corrientes'));
+        } else {
+            $corrientes = corrientesgenerador::where('generador', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $corrientes->count();
+
+            if ($comprobar) {
+                return view('generadores.listacorrientes', compact('corrientes'));
+            } else {
+                return redirect('/corrientesgenerador');
+            }
+        }
     }
 
     /**

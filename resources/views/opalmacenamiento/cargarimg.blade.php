@@ -1,8 +1,17 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$user = Auth::user();
+$userEmpresa = $user->empresa;
+?>
+
 @extends('nav')
 
 <style>
     .container {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -10,17 +19,20 @@
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">CARGAR IMAGENES DE RPG FIRMADOS</h2>
-    <form>
+    <form action="{{url('/cargarimgrpg')}}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Nº de rpg</label>
-            <input type="text" class="form-control w-75" id="exampleInputPassword1">
+            <label class="form-label">Nº de rpg</label>
+            <input type="text" class="form-control w-75" name="numero" required>
         </div>
         <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Rpg</label>
-            <input class="form-control w-75" type="file" id="formFile">
+            <label class="form-label">Rpg</label>
+            <input class="form-control w-75" name="foto" type="file" required>
         </div>
+        <input type="text" value="{{$userEmpresa}}" name="empresa" style="display: none;" class="form-control w-75">
+
         <button type="submit" class="btn btn-primary">Cargar</button>
+        <a href="{{url('/listaimgmanesrpg')}}"><button type="button" class="btn btn-primary">Listado</button></a>
     </form>
 </div>
 

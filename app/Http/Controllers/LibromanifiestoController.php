@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\manifiesto;
 use App\Models\certificado;
 use App\Models\generador;
@@ -11,7 +13,6 @@ use App\Models\operadordf;
 use App\Models\libromanifiesto;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 
 class LibromanifiestoController extends Controller
 {
@@ -23,49 +24,118 @@ class LibromanifiestoController extends Controller
     public function traerDatos()
     {
         //
-        $generador = generador::orderBy('nom_comp')->get();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('generadores.manifiestos', ['generador' => $generador]);
+        if ($userRol == '6') {
+
+            $generador = generador::orderBy('nom_comp')->get();
+            return view('generadores.manifiestos', compact('generador'));
+        } else {
+
+            $generador = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('generadores.manifiestos', ['generador' => $generador]);
+        }
     }
 
     public function traerDatosTransporte()
     {
         //
-        $transporte = Transportista::orderBy('id_transp')->get();
 
-        return view('transportistas.manifiestos', ['transporte' => $transporte]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $transporte = Transportista::orderBy('id_transp')->get();
+            return view('transportistas.manifiestos', compact('transporte'));
+        } else {
+
+            $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('transportistas.manifiestos', ['transporte' => $transporte]);
+        }
     }
 
     public function traerDatosOpalm()
     {
         //
-        $Operadoralm = operadoralm::orderBy('gener_nom')->get();
 
-        return view('opalmacenamiento.manifiestos', ['operador' => $Operadoralm]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $operador = operadoralm::orderBy('gener_nom')->get();
+            return view('opalmacenamiento.manifiestos', compact('operador'));
+        } else {
+
+            $operador = operadoralm::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opalmacenamiento.manifiestos', ['operador' => $operador]);
+        }
     }
 
     public function traerDatosRpgAlm()
     {
         //
-        $Operadoralm = operadoralm::orderBy('gener_nom')->get();
 
-        return view('opalmacenamiento.rpg', ['operador' => $Operadoralm]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $operador = operadoralm::orderBy('gener_nom')->get();
+            return view('opalmacenamiento.rpg', compact('operador'));
+        } else {
+
+            $operador = operadoralm::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opalmacenamiento.rpg', ['operador' => $operador]);
+        }
     }
 
     public function traerDatosOdf()
     {
         //
-        $Operadorodf = operadordf::orderBy('id_operador_df')->get();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('opdispfinal.manifiestos', ['operador' => $Operadorodf]);
+        if ($userRol == '6') {
+
+            $operador = operadordf::orderBy('id_operador_df')->get();
+            return view('opdispfinal.manifiestos', compact('operador'));
+        } else {
+
+            $operador = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opdispfinal.manifiestos', ['operador' => $operador]);
+        }
     }
 
     public function traerDatosCertifOdf()
     {
         //
-        $Operadorodf = operadordf::orderBy('id_operador_df')->get();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('opdispfinal.certificados', ['operador' => $Operadorodf]);
+        if ($userRol == '6') {
+
+            $operador = operadordf::orderBy('id_operador_df')->get();
+            return view('opdispfinal.certificados', compact('operador'));
+        } else {
+
+            $operador = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opdispfinal.certificados', ['operador' => $operador]);
+        }
     }
 
     public function index()
@@ -101,7 +171,7 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('generadores.listadomanifiesto')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 
@@ -122,22 +192,39 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('transportistas.listadomanifiesto')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 
     public function resultadosTransporteindividual(Request $request)
     {
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
         $numero = $request->input('numero_manifiesto');
 
-        $resultados = manifiesto::where('id_manifiesto', $numero)->get();
+        if ($userRol == '6') {
 
-        $comprobar = $resultados->count();
+            $resultados = manifiesto::where('id_manifiesto', $numero)->get();
+            $comprobar = $resultados->count();
 
-        if ($comprobar) {
-            return view('transportistas.manifencontrado')->with('resultados', $resultados);
+            if ($comprobar) {
+                return view('transportistas.manifencontrado')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('sincontenido');
+
+            $resultados = manifiesto::where('id_manifiesto', $numero)
+                ->where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
+                ->get();
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('transportistas.manifencontrado')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         }
     }
 
@@ -159,7 +246,7 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('opalmacenamiento.listadomanifiesto')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 
@@ -181,7 +268,7 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('opalmacenamiento.listadorpg')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 
@@ -203,7 +290,7 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('opdispfinal.listadomanifiestos')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 
@@ -222,7 +309,7 @@ class LibromanifiestoController extends Controller
         if ($comprobar) {
             return view('opdispfinal.listadocertificados')->with('resultados', $resultados);
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincontenido');
         }
     }
 

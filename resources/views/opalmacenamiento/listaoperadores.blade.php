@@ -1,14 +1,9 @@
-<?php
-
-use app\Http\Controllers\OperadoralmController;
-
-?>
-
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -48,13 +43,13 @@ use app\Http\Controllers\OperadoralmController;
             <td>{{$datosOperador->gener_cp}}</td>
             <td>{{$datosOperador->gener_ubi}}</td>
             <td>{{$datosOperador->dispfinal}}</td>
-            <td><a href="{{$datosOperador->gener_hab_pro}}">Ver</a></td>
+            <td><a href="{{ route('verprovinciaopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->gener_vto_hab_pro}}</td>
-            <td><a href="{{$datosOperador->gener_hab_nac}}">Ver</a></td>
+            <td><a href="{{ route('vernacionopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->gener_vto_hab_nac}}</td>
-            <td><a href="{{$datosOperador->gener_hab_mun}}">Ver</a></td>
+            <td><a href="{{ route('vermunicipalopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->gener_vto_hab_mun}}</td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('actualizarimgopalm', ['id' => $datosOperador->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editaropalm', ['id' => $datosOperador->id]) }}">Editar</a></td>
         </tr>
 

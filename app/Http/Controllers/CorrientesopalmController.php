@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\operadoralm;
 use App\Models\corrientes;
 use App\Models\corrientesopalm;
@@ -16,7 +17,9 @@ class CorrientesopalmController extends Controller
 
     public function traerDatos()
     {
-        $generador = operadoralm::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $generador = operadoralm::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')->get();
         $corrientes = corrientes::all();
 
         return view('opalmacenamiento.corrientes', compact('generador', 'corrientes'));
@@ -24,9 +27,20 @@ class CorrientesopalmController extends Controller
 
     public function traerDatosCantidades()
     {
-        $generador = operadoralm::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
 
-        return view('opalmacenamiento.corientescantidad', ['generador' => $generador]);
+        if ($userRol == '6') {
+
+            $generador = operadoralm::all();
+            return view('opalmacenamiento.corientescantidad', compact('generador'));
+        } else {
+
+            $generador = operadoralm::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('opalmacenamiento.corientescantidad', ['generador' => $generador]);
+        }
     }
 
     public function resultadosCantidades(Request $request)
@@ -38,18 +52,43 @@ class CorrientesopalmController extends Controller
 
         $comprobar = $resultados->count();
 
+        $resultadosSumadoLt = corrientesopalm::where('id_generador', $generador)
+            ->where('um', '=', 'Lts')
+            ->sum('cantidad');
+
+        $resultadosSumadoKg = corrientesopalm::where('id_generador', $generador)
+            ->where('um', '=', 'KGs')
+            ->sum('cantidad');
+
         if ($comprobar) {
-            return view('opalmacenamiento.listacantidadesanuales')->with('resultados', $resultados);
+            return view('opalmacenamiento.listacantidadesanuales', compact('resultados', 'resultadosSumadoLt', 'resultadosSumadoKg', 'generador'));
         } else {
-            return view('sincontenido');
+            return view('mensajes.sincorrientes');
         }
     }
 
     public function index()
     {
-        //
-        $corrientes = corrientesopalm::all();
-        return view('opalmacenamiento.listacorrientes', ['corrientes' => $corrientes]);
+        //   
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $corrientes = corrientesopalm::all();
+            return view('opalmacenamiento.listacorrientes', compact('corrientes'));
+        } else {
+            $corrientes = corrientesopalm::where('id_generador', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $corrientes->count();
+
+            if ($comprobar) {
+                return view('opalmacenamiento.listacorrientes', compact('corrientes'));
+            } else {
+                return redirect('/corrientesopalmacenamiento');
+            }
+        }
     }
 
     /**

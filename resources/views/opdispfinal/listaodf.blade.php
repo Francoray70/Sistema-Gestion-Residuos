@@ -1,14 +1,9 @@
-<?php
-
-use app\Http\Controllers\OperadordfController;
-
-?>
-
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -46,13 +41,13 @@ use app\Http\Controllers\OperadordfController;
             <td>{{$datosOperador->local_odf}}</td>
             <td>{{$datosOperador->prov_odf}}</td>
             <td>{{$datosOperador->ubi_odf}}</td>
-            <td><a href="{{$datosOperador->hab_pro_odf}}">Ver</a></td>
+            <td><a href="{{ route('verprovinciaodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->hab_pro_vto_odf}}</td>
-            <td><a href="{{$datosOperador->habil_nacion}}">Ver</a></td>
+            <td><a href="{{ route('vernacionodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->vto_hab_nac}}</td>
-            <td><a href="{{$datosOperador->hab_mun_odf}}">Ver</a></td>
+            <td><a href="{{ route('vermunicipalodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
             <td>{{$datosOperador->hab_mun_vto_odf}}</td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('actualizarimgodf', ['id' => $datosOperador->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editarodf', ['id' => $datosOperador->id]) }}">Editar</a></td>
         </tr>
 

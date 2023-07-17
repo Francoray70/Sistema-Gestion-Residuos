@@ -1,6 +1,6 @@
 <?php
 
-$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroup") or die("Problemas con la conexión");
+$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
 
 $gener_nom = $_POST['gener_nom'];
 
@@ -11,5 +11,5 @@ $html = "<option value=''>Seleccionar generador</option>";
 echo $html;
 
 while ($fila = mysqli_fetch_array($consulta)) { ?>
-	<option name="ciudad" value="<?php echo $fila['nom_comp']; ?>"><?php echo $fila['nom_comp']; ?></option>;
+	<option value="<?php echo $fila['nom_comp']; ?>"><?php echo $fila['nom_comp']; ?></option>;
 <?php } ?>

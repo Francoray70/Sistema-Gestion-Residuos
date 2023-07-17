@@ -2,21 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\actividades;
 use App\Models\provincia;
 use App\Models\empresas;
 use App\Models\generador;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+
 
 class GeneradorController extends Controller
 {
 
     public function traerDatos()
     {
+        $user = Auth::user();
+        if (empty($user)) {
+            return redirect('/');
+        }
+        $userEmpresa = $user->empresa;
+        $datosEmpresa = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')->get();
         $datosProvincia = provincia::orderBy('provincia')->get();
-        $datosEmpresa = Empresas::orderBy('nombre')->get();
         $datosActividades = actividades::all();
 
         return view('generadores.index', compact('datosProvincia', 'datosEmpresa', 'datosActividades'));
@@ -27,8 +34,25 @@ class GeneradorController extends Controller
     public function index()
     {
         //
-        $registros = generador::all();
-        return view('generadores.lista', ['registros' => $registros]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $registros = generador::all();
+            return view('generadores.lista', compact('registros'));
+        } else {
+            $registros = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $registros->count();
+
+            if ($comprobar) {
+                return view('generadores.lista', compact('registros'));
+            } else {
+                return redirect('/generadores');
+            }
+        }
     }
 
     /**
@@ -94,6 +118,12 @@ class GeneradorController extends Controller
         return view('generadores.editargenerador', ['id' => $id2]);
     }
 
+    public function showImg($id)
+    {
+        //
+        $id2 = generador::find($id);
+        return view('generadores.actualizarimagenes', ['id' => $id2]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -114,6 +144,27 @@ class GeneradorController extends Controller
         return redirect('/listagenerador')->with('success_message', 'Empresa cargada con exito');
     }
 
+    public function updateImg(Request $request, $id)
+    {
+        //
+        $datosGenerador = request()->except(['_token', '_method']);
+
+        if ($request->hasFile('cli_ima_hab_pro')) {
+            $datosGenerador['cli_ima_hab_pro'] = $request->file('cli_ima_hab_pro')->store('generadores', 'public');
+        }
+
+        if ($request->hasFile('cli_ima_hab_mun')) {
+            $datosGenerador['cli_ima_hab_mun'] = $request->file('cli_ima_hab_mun')->store('generadores', 'public');
+        }
+
+        if ($request->hasFile('cli_ima_hab_com')) {
+            $datosGenerador['cli_ima_hab_com'] = $request->file('cli_ima_hab_com')->store('generadores', 'public');
+        }
+
+        generador::where('id', '=', $id)->update($datosGenerador);
+
+        return redirect('/listagenerador')->with('success_message', 'Empresa cargada con exito');
+    }
     /**
      * Remove the specified resource from storage.
      */

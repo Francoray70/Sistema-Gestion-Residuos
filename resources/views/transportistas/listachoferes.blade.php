@@ -1,15 +1,9 @@
-<?php
-
-use app\Http\Controllers\ChoferController;
-
-?>
-
-
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -41,13 +35,13 @@ use app\Http\Controllers\ChoferController;
             <td>{{$datosChoferes->chofer}}</td>
             <td>{{$datosChoferes->id_transp}}</td>
             <td>{{$datosChoferes->nro_carnet}}</td>
-            <td><a href="{{$datosChoferes->nro_carnet_img}}">Ver</a></td>
+            <td><a href="{{ route('vercarnet', ['id' => $datosChoferes->id]) }}">Ver</a></td>
             <td>{{$datosChoferes->nro_carnet_vto}}</td>
-            <td><a href="{{$datosChoferes->carga_pelig_img}}">Ver</a></td>
+            <td><a href="{{ route('vercp', ['id' => $datosChoferes->id]) }}">Ver</a></td>
             <td>{{$datosChoferes->carga_pelig_vto}}</td>
-            <td><a href="{{$datosChoferes->sep_img}}">Ver</a></td>
+            <td><a href="{{ route('versep', ['id' => $datosChoferes->id]) }}">Ver</a></td>
             <td>{{$datosChoferes->sep_vto}}</td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('actualizarimgchofer', ['id' => $datosChoferes->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editarchofer', ['id' => $datosChoferes->id]) }}">Editar</a></td>
         </tr>
 

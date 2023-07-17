@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\generador;
 use App\Models\provincia;
 use App\Models\direccion;
@@ -17,7 +18,9 @@ class DireccionController extends Controller
     public function traerDatos()
     {
         //
-        $generador = generador::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $generador = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
         $provincias = provincia::orderBy('provincia')->get();
         return view('generadores.direcciones', compact('generador', 'provincias'));
     }
@@ -26,8 +29,20 @@ class DireccionController extends Controller
     public function index()
     {
         //
-        $direcciones = direccion::all();
-        return view('generadores.listadirecciones', ['direcciones' => $direcciones]);
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $direcciones = direccion::orderBy('nom_comp')->get();
+            return view('generadores.listadirecciones', compact('direcciones'));
+        } else {
+
+            $direcciones = direccion::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('generadores.listadirecciones', ['direcciones' => $direcciones]);
+        }
     }
 
     /**

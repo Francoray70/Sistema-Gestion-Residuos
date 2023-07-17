@@ -1,14 +1,15 @@
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
 @section('navbar')
 
-<h2 class="mt-3">LISTA DE MANIFIESTOS</h2>
+<h2 class="mt-3">LISTA DE MANIFIESTOS CABECERAS</h2>
 <table class="table table-light mt-4 w-85">
 
     <thead>
@@ -26,25 +27,27 @@
         </tr>
     </thead>
 
-    <tbody>
-        @foreach ($manifiesto as $datosManifiesto)
+    <form action="{{route('listadetalles')}}" method="get">
+        <tbody>
+            @foreach ($manifiesto as $datosManifiesto)
+            <tr>
+                <td><input type="checkbox" name="id" value="{{$datosManifiesto->id_manifiesto}}"></td>
+                <td>{{$datosManifiesto->id_manifiesto}}</td>
+                <td>{{$datosManifiesto->id_transp}}</td>
+                <td>{{$datosManifiesto->nom_comp}}</td>
+                <td>{{$datosManifiesto->fecha_alta_manif}}</td>
+                <td>{{$datosManifiesto->id_patente}}</td>
+                <td>{{$datosManifiesto->gener_nom}}</td>
+                <td>{{$datosManifiesto->simple_multiple}}</td>
+                <td>{{$datosManifiesto->estadoo}}</td>
+                <td><a href="">Editar</a></td>
+            </tr>
 
-        <tr>
-            <td><a href="">Seleccionar</a></td>
-            <td>{{$datosManifiesto->id_manifiesto}}</td>
-            <td>{{$datosManifiesto->id_transp}}</td>
-            <td>{{$datosManifiesto->nom_comp}}</td>
-            <td>{{$datosManifiesto->fecha_alta_manif}}</td>
-            <td>{{$datosManifiesto->id_patente}}</td>
-            <td>{{$datosManifiesto->gener_nom}}</td>
-            <td>{{$datosManifiesto->simple_multiple}}</td>
-            <td>{{$datosManifiesto->estadoo}}</td>
-            <td><a href="">Editar</a></td>
-        </tr>
-
-        @endforeach
-    </tbody>
+            @endforeach
+        </tbody>
 
 </table>
+<button type="submit" class="btn btn-primary ml-3">Buscar detalle</button>
+</form>
 
 @endsection

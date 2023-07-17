@@ -1,14 +1,15 @@
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
 @section('navbar')
 
-<h2 class="mt-3">LISTA DE MANIFIESTOS</h2>
+<h2 class="mt-3">LISTA DE MANIFIESTOS DETALLES</h2>
 <table class="table table-light mt-4 w-85">
 
     <thead>

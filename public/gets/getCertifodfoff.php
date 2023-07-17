@@ -1,5 +1,5 @@
 <?php
-$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroup") or die("Problemas con la conexión");
+$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
 
 $id_operador_df = $_POST['id_operador_df'];
 

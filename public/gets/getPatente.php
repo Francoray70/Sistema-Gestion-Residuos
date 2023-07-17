@@ -1,10 +1,10 @@
 <?php
 
-$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroup") or die("Problemas con la conexión");
+$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
 
 $id_transp = $_POST['id_transp'];
 
-$consulta = mysqli_query($conexion, "SELECT id_patente FROM camiones WHERE id_transp = '$id_transp' and camio_act = 'ALTA' ORDER BY numero");
+$consulta = mysqli_query($conexion, "SELECT id_patente FROM camiones WHERE id_transp = '$id_transp' and camio_act = 'ALTA' ORDER BY id");
 
 $html = "<option value=''>Seleccionar Patente</option>";
 

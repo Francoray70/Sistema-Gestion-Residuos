@@ -6,7 +6,6 @@ use App\Models\provincia;
 use App\Models\localidades;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class LocalidadesController extends Controller
 {

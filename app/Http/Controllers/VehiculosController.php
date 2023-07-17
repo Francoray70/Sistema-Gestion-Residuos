@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Transportista;
 use App\Models\vehiculos;
 use App\Http\Controllers\Controller;
@@ -18,7 +19,9 @@ class VehiculosController extends Controller
     public function traerDatos()
     {
         //
-        $transporte = Transportista::all();
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
         return view('transportistas.vehiculos', ['transporte' => $transporte]);
     }
 
@@ -26,8 +29,26 @@ class VehiculosController extends Controller
     public function index()
     {
         //
-        $datosVehiculos = vehiculos::all();
-        return view('transportistas.listavehiculos', ['vehiculos' => $datosVehiculos]);
+
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $userRol = $user->rol_id;
+
+        if ($userRol == '6') {
+
+            $vehiculos = vehiculos::all();
+            return view('transportistas.listavehiculos', compact('vehiculos'));
+        } else {
+            $vehiculos = vehiculos::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            $comprobar = $vehiculos->count();
+
+            if ($comprobar) {
+                return view('transportistas.listavehiculos', compact('vehiculos'));
+            } else {
+                return redirect('/vehiculos');
+            }
+        }
     }
 
     /**
@@ -81,6 +102,12 @@ class VehiculosController extends Controller
         return view('transportistas.editarvehiculo', ['id' => $id]);
     }
 
+    public function showImg($id)
+    {
+        //
+        $id2 = vehiculos::find($id);
+        return view('transportistas.actualizarimagenesvehi', ['id' => $id2]);
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -101,11 +128,36 @@ class VehiculosController extends Controller
         return redirect('/listavehiculos')->with('success_message', 'Empresa cargada con exito');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(vehiculos $vehiculos)
+    public function updateImg(Request $request, $id)
     {
         //
+        $datosVehiculos = request()->except(['_token', '_method']);
+
+        if ($request->hasFile('pat_rut')) {
+            $datosVehiculos['pat_rut'] = $request->file('pat_rut')->store('vehiculos', 'public');
+        }
+
+        if ($request->hasFile('pat_tit')) {
+            $datosVehiculos['pat_tit'] = $request->file('pat_tit')->store('vehiculos', 'public');
+        }
+
+        if ($request->hasFile('pat_ced_verde')) {
+            $datosVehiculos['pat_ced_verde'] = $request->file('pat_ced_verde')->store('vehiculos', 'public');
+        }
+
+        if ($request->hasFile('pat_vtv_img')) {
+            $datosVehiculos['pat_vtv_img'] = $request->file('pat_vtv_img')->store('vehiculos', 'public');
+        }
+
+        if ($request->hasFile('pat_cpel_img')) {
+            $datosVehiculos['pat_cpel_img'] = $request->file('pat_cpel_img')->store('vehiculos', 'public');
+        }
+
+        vehiculos::where('id', '=', $id)->update($datosVehiculos);
+
+        return redirect('/listavehiculos')->with('success_message', 'Empresa cargada con exito');
     }
 }
+/**
+ * Remove the specified resource from storage.
+ */

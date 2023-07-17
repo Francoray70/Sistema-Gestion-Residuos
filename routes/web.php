@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ActividadesController;
+use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\ChoferController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\nombresUsuarios;
@@ -21,6 +22,9 @@ use App\Http\Controllers\VehiculosController;
 use App\Http\Controllers\ManifiestoController;
 use App\Http\Controllers\ManifiestodetController;
 use App\Http\Controllers\LibromanifiestoController;
+use App\Http\Controllers\ImagenController;
+use App\Http\Controllers\ImagenesmanifiestosController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,21 +45,17 @@ use App\Http\Controllers\LibromanifiestoController;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('auth.login');
 });
 
+Route::get('/inicio', [HomeController::class, 'index']);
+Route::patch('/inicio/{id}', [HomeController::class, 'update']);
 
 /*
 
 ---------------------------Rutas de generadores------------------------------
 
-Route::get('/images', function () {
-    return view('generadores.imagenes');
-});
-
-
 */
-
 
 Route::get('/generadores', function () {
     return view('generadores.index');
@@ -113,7 +113,13 @@ Route::get('/generadores/{id}', [GeneradorController::class, 'show'])->name('edi
 
 Route::patch('/generadores/{id}', [GeneradorController::class, 'update']);
 
+Route::get('/actualizargeneradorimg/{id}', [GeneradorController::class, 'showImg'])->name('actualizarimggen');
 
+Route::patch('/actualizargeneradorimg/{id}', [GeneradorController::class, 'updateImg']);
+
+Route::get('/imagenesgeneradorp/{id}', [ImagenController::class, 'imgProvincial'])->name('verprovincia');
+Route::get('/imagenesgeneradorn/{id}', [ImagenController::class, 'imgNacional'])->name('vernacion');
+Route::get('/imagenesgeneradorc/{id}', [ImagenController::class, 'imgComercial'])->name('vercomercial');
 /*
 
 ---------------------------Rutas de transportistas------------------------------
@@ -187,20 +193,59 @@ Route::post('/generarmanifiesto', [ManifiestoController::class, 'store']);
 
 Route::get('/listacabeceras', [ManifiestoController::class, 'index']);
 
-Route::get('/listadetalles', [ManifiestodetController::class, 'index']);
+Route::get('/reimprimirpdf', [ManifiestoController::class, 'paraImprimir']);
+
+Route::get('/listadetalles', [ManifiestodetController::class, 'traerDetalles'])->name('listadetalles');
+
 
 Route::get('/imagenesmanifiestostr', function () {
     return view('transportistas.cargarimg');
 });
 
+Route::post('/imagenesmanifiestostr', [ImagenesmanifiestosController::class, 'store']);
+
+Route::get('/imagenesmanifiestostr/{id}', [ImagenesmanifiestosController::class, 'imgManif'])->name('verimgmanif');
+
+Route::get('/listaimgmanifiestos', [ImagenesmanifiestosController::class, 'index']);
+
 Route::get('/buscarmanifiestos', function () {
     return view('transportistas.buscarmanif');
 });
+
 Route::get('/manifiestotransporteencontrado', [LibromanifiestoController::class, 'resultadosTransporteindividual'])->name('listamanifiestostransporteindividual');
 
 Route::get('/libromanifiestos', [LibromanifiestoController::class, 'traerDatosTransporte']);
 
 Route::get('/manifiestotransporte', [LibromanifiestoController::class, 'resultadosTransporte'])->name('listamanifiestostransporte');
+
+
+Route::get('/actualizartransporteimg/{id}', [TransportistaController::class, 'showImg'])->name('actualizarimgtransp');
+
+Route::patch('/actualizartransporteimg/{id}', [TransportistaController::class, 'updateImg']);
+
+Route::get('/actualizarchoferimg/{id}', [ChoferController::class, 'showImg'])->name('actualizarimgchofer');
+
+Route::patch('/actualizarchoferimg/{id}', [ChoferController::class, 'updateImg']);
+
+Route::get('/actualizarvehiculoimg/{id}', [VehiculosController::class, 'showImg'])->name('actualizarimgvehi');
+
+Route::patch('/actualizarvehiculoimg/{id}', [VehiculosController::class, 'updateImg']);
+
+Route::get('/imagenestransportep/{id}', [ImagenController::class, 'imgProvincialT'])->name('verprovinciat');
+Route::get('/imagenestransporten/{id}', [ImagenController::class, 'imgNacionalT'])->name('vernaciont');
+Route::get('/imagenestransportem/{id}', [ImagenController::class, 'imgMunicipalT'])->name('vermunicipalt');
+
+
+Route::get('/imageneschoferc/{id}', [ImagenController::class, 'imgcarnetCH'])->name('vercarnet');
+Route::get('/imageneschofercp/{id}', [ImagenController::class, 'imgcargapeligrosaCH'])->name('vercp');
+Route::get('/imageneschofers/{id}', [ImagenController::class, 'imgsepCH'])->name('versep');
+
+Route::get('/imagenesvehr/{id}', [ImagenController::class, 'imgrutaVEH'])->name('veruta');
+Route::get('/imagenesvehp/{id}', [ImagenController::class, 'imgpropiedadVEH'])->name('verprop');
+Route::get('/imagenesvehc/{id}', [ImagenController::class, 'imgcedulaVEH'])->name('verced');
+Route::get('/imagenesvehv/{id}', [ImagenController::class, 'imgvtvVEH'])->name('vervtv');
+Route::get('/imagenesvehcp/{id}', [ImagenController::class, 'imgcargapeligrosaVEH'])->name('vercpveh');
+
 /*
 
 ---------------------------Rutas de op almacenamiento------------------------------
@@ -241,21 +286,25 @@ Route::patch('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::cla
 
 Route::delete('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::class, 'destroy'])->name('eliminarcorrienteopalm');
 
-Route::get('/recibirmanifiestoalm', function () {
-    return view('opalmacenamiento.recibir');
-});
+Route::get('/recibirmanifiestoalm', [CertificadoController::class, 'recibirManifiestos']);
 
-Route::get('/enviarmanifiestoalm', function () {
-    return view('opalmacenamiento.enviar');
-});
+Route::get('/enviarmanifiestoalm', [CertificadoController::class, 'traerDatospEnviar']);
 
-Route::get('/generarcertifrpg', function () {
-    return view('opalmacenamiento.generarcert');
-});
+Route::post('/enviarmanifiestoalm', [CertificadoController::class, 'traerDatospCertificar']);
+
+Route::get('/generarcertifrpg', [CertificadoController::class, 'traerDatospgenerarCertif']);
+
+Route::post('/generarcertifrpg', [CertificadoController::class, 'traerDatospgenerarCertificar']);
 
 Route::get('/cargarimgrpg', function () {
     return view('opalmacenamiento.cargarimg');
 });
+
+Route::post('/cargarimgrpg', [ImagenesmanifiestosController::class, 'storeRpg']);
+
+Route::get('/cargarimgrpg/{id}', [ImagenesmanifiestosController::class, 'imgRpga'])->name('verimgrpgoalm');
+
+Route::get('/listaimgmanesrpg', [ImagenesmanifiestosController::class, 'indexrpg']);
 
 Route::get('/libromanifiestosopalm', [LibromanifiestoController::class, 'traerDatosOpalm']);
 
@@ -265,6 +314,15 @@ Route::get('/manifiestopalm', [LibromanifiestoController::class, 'resultadosOpal
 Route::get('/librorpgalm', [LibromanifiestoController::class, 'traerDatosRpgAlm']);
 
 Route::get('/rpgalm', [LibromanifiestoController::class, 'resultadosRpgAlm'])->name('listarpgalm');
+
+Route::get('/actualizaropalmimg/{id}', [OperadoralmController::class, 'showImg'])->name('actualizarimgopalm');
+
+Route::patch('/actualizaropalmimg/{id}', [OperadoralmController::class, 'updateImg']);
+
+
+Route::get('/imagenesopalmp/{id}', [ImagenController::class, 'imgProvincialOALM'])->name('verprovinciaopalm');
+Route::get('/imagenesopalmn/{id}', [ImagenController::class, 'imgNacionalOALM'])->name('vernacionopalm');
+Route::get('/imagenesopalmm/{id}', [ImagenController::class, 'imgMunicipalOALM'])->name('vermunicipalopalm');
 
 /*
 
@@ -326,6 +384,13 @@ Route::get('/librocertificadoodf', [LibromanifiestoController::class, 'traerDato
 
 Route::get('/certificadodf', [LibromanifiestoController::class, 'resultadosCertifOdf'])->name('listacertificadosodf');
 
+Route::get('/actualizarodfimg/{id}', [OperadordfController::class, 'showImg'])->name('actualizarimgodf');
+
+Route::patch('/actualizarodfimg/{id}', [OperadordfController::class, 'updateImg']);
+
+Route::get('/imagenesodfp/{id}', [ImagenController::class, 'imgProvincialODF'])->name('verprovinciaodf');
+Route::get('/imagenesodfn/{id}', [ImagenController::class, 'imgNacionalODF'])->name('vernacionodf');
+Route::get('/imagenesodfm/{id}', [ImagenController::class, 'imgMunicipalODF'])->name('vermunicipalodf');
 /*
 
 ---------------------------Rutas de complementos------------------------------
@@ -379,6 +444,7 @@ Route::patch('/corrientesderesiduos/{id}', [CorrientesController::class, 'update
 Route::get('/empresas', function () {
     return view('usuarios.empresas');
 });
+
 Route::get('/empresas', [EmpresasController::class, 'traerDatos']);
 
 Route::post('/empresas', [EmpresasController::class, 'store']);
@@ -400,3 +466,11 @@ Route::patch('/empresas/{id}', [EmpresasController::class, 'update']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+/*
+
+---------------------------Rutas de descargas de excel------------------------------
+
+*/
+
+Route::get('/excelgenerador', [ExcelesController::class, 'excelGenerador']);

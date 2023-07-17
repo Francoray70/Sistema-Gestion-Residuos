@@ -1,8 +1,9 @@
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -15,19 +16,17 @@
     <thead>
         <tr>
             <th>GENERADOR</th>
-            <th>VOLUMEN EN KILOS</th>
             <th>VOLUMEN EN LITROS</th>
+            <th>VOLUMEN EN KILOS</th>
         </tr>
     </thead>
 
     <tbody>
-        @foreach ($resultados as $datosCorrientes)
         <tr>
-            <td>{{$datosCorrientes->generador}}</td>
-            <td>{{$datosCorrientes->cantidad}}</td>
-            <td>{{$datosCorrientes->cantidad}}</td>
+            <td>{{$generador}}</td>
+            <td>{{$resultadosSumadoLt}}</td>
+            <td>{{$resultadosSumadoKg}}</td>
         </tr>
-        @endforeach
     </tbody>
 
 </table>

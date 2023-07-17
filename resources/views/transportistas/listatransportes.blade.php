@@ -1,15 +1,9 @@
-<?php
-
-use app\Http\Controllers\TransportistaController;
-
-?>
-
-
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -45,13 +39,13 @@ use app\Http\Controllers\TransportistaController;
             <td>{{$datosUsuario->direc_transp}}</td>
             <td>{{$datosUsuario->local_transp}}</td>
             <td>{{$datosUsuario->transp_act}}</td>
-            <td><a href="{{$datosUsuario->hab_pcia_transp}}">Ver</a></td>
+            <td><a href="{{ route('verprovinciat', ['id' => $datosUsuario->id]) }}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_pro}}</td>
-            <td><a href="{{$datosUsuario->hab_nac_transp}}">Ver</a></td>
+            <td><a href="{{ route('vernaciont', ['id' => $datosUsuario->id]) }}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_nac}}</td>
-            <td><a href="{{$datosUsuario->hab_mun_transp}}">Ver</a></td>
+            <td><a href="{{ route('vermunicipalt', ['id' => $datosUsuario->id]) }}">Ver</a></td>
             <td>{{$datosUsuario->trans_vto_hab_mun}}</td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('actualizarimgtransp', ['id' => $datosUsuario->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editartransporte', ['id' => $datosUsuario->id]) }}">Editar</a></td>
         </tr>
 

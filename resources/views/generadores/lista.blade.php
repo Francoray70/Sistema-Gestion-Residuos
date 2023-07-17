@@ -1,14 +1,9 @@
-<?php
-
-use app\Http\Controllers\GeneradorController;
-
-?>
-
 @extends('nav')
 
 <style>
-    .container {
+    .table {
         background-color: rgb(228, 228, 228);
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
 
@@ -45,12 +40,12 @@ use app\Http\Controllers\GeneradorController;
             <td>{{$datosEmpresa->direccion}}</td>
             <td>{{$datosEmpresa->ciudad}}</td>
             <td>{{$datosEmpresa->cod_postal}}</td>
-            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
+            <td><a href="{{ route('verprovincia', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
             <td>{{$datosEmpresa->cli_vto_hab_pro}}</td>
-            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
+            <td><a href="{{ route('vercomercial', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
             <td>{{$datosEmpresa->cli_vto_hab_com}}</td>
-            <td><a href="{{ route('mostrarimagen', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
-            <td><a href="">Actualizar</a></td>
+            <td><a href="{{ route('vernacion', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
+            <td><a href="{{ route('actualizarimggen', ['id' => $datosEmpresa->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editargenerador', ['id' => $datosEmpresa->id]) }}">Editar</a></td>
         </tr>
 

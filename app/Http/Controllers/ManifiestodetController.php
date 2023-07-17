@@ -19,6 +19,23 @@ class ManifiestodetController extends Controller
         return view('transportistas.listadetalles', ['manifiesto' => $manifiesto]);
     }
 
+
+    public function traerDetalles(Request $request)
+    {
+        //
+        if ($request->input('id')) {
+            $numManifiesto = $request->input('id');
+            $manifiesto = manifiestodet::where('id_manifies', '=', $numManifiesto)->get();
+
+            if ($manifiesto) {
+                return view('transportistas.listadetalles', compact('manifiesto'));
+            } else {
+                return view('transportistas.listacabeceras');
+            }
+        } else {
+            return view('mensajes.noseleccion');
+        }
+    }
     /**
      * Show the form for creating a new resource.
      */
