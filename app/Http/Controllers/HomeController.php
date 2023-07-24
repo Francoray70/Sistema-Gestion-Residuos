@@ -50,13 +50,17 @@ class HomeController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        if (($request->input('empresa')) && ($request->input('pago'))) {
+            $empresa = $request->input('empresa');
+            $pago = $request->input('pago');
 
-        $datosEmpresa = request()->except(['_token', '_method']);
+            Empresas::where('id', '=', $empresa)->update(['pago' => $pago]);
 
-        Empresas::where('id', '=', $id)->update($datosEmpresa);
-
-        return redirect('/home')->with('success_message', 'Empresa cargada con exito');
+            return redirect('/home')->with('success_message', 'Empresa cargada con exito');
+        } else {
+            return view('mensajes.noseleccion');
+        }
     }
 }

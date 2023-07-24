@@ -8,6 +8,7 @@ use App\Models\certificado;
 use App\Models\manifiesto;
 use App\Models\manifiestodet;
 use App\Models\operadoralm;
+use App\Models\operadordf;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -44,7 +45,6 @@ class CertificadoController extends Controller
 
     public function traerDatospgenerarCertificar(Request $request)
     {
-
         $operador = $request->input('operador');
         $generador = $request->input('generador');
 
@@ -61,11 +61,54 @@ class CertificadoController extends Controller
 
         $user = Auth::user();
         $userEmpresa = $user->empresa;
-        $resultados = manifiesto::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')
+        $datos = manifiesto::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')
             ->where('estadoo', 'LIKE', '%' . 'INICIADO' . '%')
             ->get();
-        return view('opalmacenamiento.recibir', compact('resultados'));
+        return view('opalmacenamiento.recibir', compact('datos'));
     }
+
+    public function traerDatospEnviar2()
+    {
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $empresas = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+        return view('opdispfinal.generar', ['empresas' => $empresas]);
+    }
+
+    public function traerDatosFinalpCertificar(Request $request)
+    {
+        $operador = $request->input('operador');
+        $certificado = $request->input('certificado');
+        $manifiesto = $request->input('manifiesto');
+        $generador = $request->input('generador');
+
+
+        $consultaManifiestoDet = manifiestodet::where('id_manifies', '=', $manifiesto)->get();
+        $consultaOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $operador . '%')->get();
+        $consultaManifiesto = manifiesto::where('id_manifiesto', '=', $manifiesto)->get();
+        $consultaGenerador = operadoralm::where('gener_nom', 'LIKE', '%' . $generador . '%')->get();
+
+
+        return view('opdispfinal.generarcertificado', compact('operador', 'certificado', 'manifiesto', 'generador', 'consultaManifiestoDet', 'consultaOperador', 'consultaManifiesto', 'consultaGenerador'));
+    }
+
+    public function actualizarCertificadopDispFinal(Request $request)
+    {
+        if ($request->input('manifiestoId') && $request->input('manifiestoSeleccion')) {
+            $manifiestoSeleccionado = $request->input('manifiestoId');
+            $manifestoCertifica = $request->input('manifiestoSeleccion');
+            $um = $request->input('um');
+
+            manifiestodet::where('id', '=', $manifiestoSeleccionado)
+                ->where('um', 'LIKE', '%' . $um . '%')
+                ->update(['id_man_tra_nac' => $manifestoCertifica]);
+
+            return redirect('/enviarmanifiestoalm');
+        } else {
+            return view('mensajes.noseleccion');
+        }
+    }
+
     public function index()
     {
         //
@@ -87,6 +130,10 @@ class CertificadoController extends Controller
         //
     }
 
+    public function envioManifiesto(Request $request)
+    {
+        //
+    }
     /**
      * Display the specified resource.
      */

@@ -23,12 +23,12 @@ $userRol = $user->rol_id;
 
 @section('navbar')
 
+@if ($userRol == 6)
 
 <div class="container w-85 border p-4 mt-5">
 
-    @if ($userRol == 6)
 
-    <form action="" method="post">
+    <form action="{{url('/inicio')}}" method="post">
         @method('PATCH')
         @csrf
         <div class="mb-3">
@@ -49,33 +49,35 @@ $userRol = $user->rol_id;
                 <option value="NO">No</option>
                 <!-- </select> -->
         </div>
-        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <input type="submit" class="btn btn-primary mt-3" value="Actualizar">
     </form>
 
     @else
 
-    <h1>¡HOLA {{$userEmpresa}}!</h1>
 
     @if (!empty($manifiestosRestantes))
 
-    <div class="position-relative m-4">
-        <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
-            <div class="progress-bar" style="width: {{$manifiestosRestantes}}%"></div>
+    <div class="container w-85 border p-4 mt-5">
+        <h1>¡HOLA {{$userEmpresa}}!</h1>
+        <div class="position-relative m-4">
+            <div class="progress" role="progressbar" aria-label="Progress" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="height: 1px;">
+                <div class="progress-bar" style="width: {{$manifiestosRestantes}}%"></div>
+            </div>
+            <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 4rem; height:2rem;">{{$manifiestosRestantes}}%</button>
+            <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: {{$manifiestosRestantes}}; display: none;"></button>
+            <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style="width: 4rem; height:2rem;">100%</button>
+
+            @if(!empty($manifiestoRestanteNumero))
+
+            <p class="mt-5">Te restan {{$manifiestoRestanteNumero}} Manifiestos disponibles</p>
         </div>
-        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: 4rem; height:2rem;">{{$manifiestosRestantes}}%</button>
-        <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-pill" style="width: {{$manifiestosRestantes}}; display: none;"></button>
-        <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-secondary rounded-pill" style="width: 4rem; height:2rem;">100%</button>
-
-        @if(!empty($manifiestoRestanteNumero))
-
-        <p class="mt-5">Te restan {{$manifiestoRestanteNumero}} Manifiestos disponibles</p>
         @endif
     </div>
 
 
     @endif
 
-    @endif
-
 </div>
+@endif
+
 @endsection

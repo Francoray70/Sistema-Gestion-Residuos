@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\manifiestodet;
+use App\Models\Transportista;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -35,6 +37,51 @@ class ManifiestodetController extends Controller
         } else {
             return view('mensajes.noseleccion');
         }
+    }
+
+    public function sumarDetalle(Request $request, $id)
+    {
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+
+        $id = manifiestodet::where('id', '=', $id)
+            ->where('estadooo', '=', 'INICIADO')
+            ->get();
+        $empresa = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+        return view('transportistas.sumardetalle', compact('id', 'empresa'));
+    }
+
+    public function confirmarNewDetalle(Request $request)
+    {
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $datosDelNuevoDetalle =
+            [
+                'id_manifies' => $request->input('manifiesto'),
+                'id_transpo' => $request->input('transporte'),
+                'id_corrientes' => $request->input('corriente'),
+                'um' => $request->input('um'),
+                'estado' => $request->input('estado'),
+                'cantidad' => $request->input('cantidad'),
+                'descr_ingreso' => $request->input('descr_ingreso'),
+                'descripcion' => $request->input('descripcion'),
+                'simp_multi' => $request->input('alta'),
+                'estado_det_manif' => $request->input('estado'),
+                'estadooo' => 'INICIADO',
+                'useralta' => $userId,
+                'id_man_tra_nac' => '',
+                'nro_cert_disp_final' => '',
+                'rpg' => '',
+                'nro_cert_rpg' => '',
+                'fcha_entr_cdf' => $request->input('fecha'),
+                'fcha_entr_cdf' => $request->input('fecha'),
+                'updated_at' => $request->input('fecha'),
+            ];
+
+        manifiestodet::insert($datosDelNuevoDetalle);
+
+        return view('transportistas.generarmanif');
     }
     /**
      * Show the form for creating a new resource.

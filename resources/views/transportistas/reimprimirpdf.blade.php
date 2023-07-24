@@ -27,11 +27,11 @@
         </tr>
     </thead>
 
-    <form action="{{route('listadetalles')}}" method="get">
+    <form action="{{route('reimpresiondelpdf')}}" method="get">
         <tbody>
             @foreach ($manifiesto as $datosManifiesto)
             <tr>
-                <td><input type="checkbox" name="id" value="{{$datosManifiesto->id_manifiesto}}"></td>
+                <td><input type="checkbox" name="manifiesto" value="{{$datosManifiesto->id_manifiesto}}"></td>
                 <td>{{$datosManifiesto->id_manifiesto}}</td>
                 <td>{{$datosManifiesto->id_transp}}</td>
                 <td>{{$datosManifiesto->nom_comp}}</td>

@@ -40,7 +40,7 @@
                 <td>{{$datosManifiesto->gener_nom}}</td>
                 <td>{{$datosManifiesto->simple_multiple}}</td>
                 <td>{{$datosManifiesto->estadoo}}</td>
-                <td><a href="">Editar</a></td>
+                <td><a href="{{url('/editarmanifiesto/'.$datosManifiesto->id)}}">Editar</a></td>
             </tr>
 
             @endforeach

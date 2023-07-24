@@ -41,14 +41,21 @@ class EmpresasController extends Controller
     public function store(Request $request)
     {
         //
+        $comprobar = $request->input('cuit');
+        $empresas = Empresas::where('cuit', '=', $comprobar)->get();
+        $verificador = $empresas->count();
 
-        $datosEmpresa = request()->except('_token');
+        if ($verificador) {
+            return view('mensajes.empresaduplicada');
+        } else {
 
-        Empresas::insert($datosEmpresa);
+            $datosEmpresa = request()->except('_token');
 
-        return redirect('/listaempresas')->with('success', 'Empresa cargada con exito');
+            Empresas::insert($datosEmpresa);
+
+            return redirect('/listaempresas')->with('success', 'Empresa cargada con exito');
+        }
     }
-
     /**
      * Display the specified resource.
      */

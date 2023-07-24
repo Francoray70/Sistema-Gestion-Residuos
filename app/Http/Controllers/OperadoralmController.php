@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\provincia;
 use App\Models\Empresas;
 use App\Models\operadoralm;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\manifiesto;
+use App\Models\manifiestodet;
+use Carbon\Carbon;
 
 class OperadoralmController extends Controller
 {
@@ -50,6 +53,43 @@ class OperadoralmController extends Controller
         }
     }
 
+    public function autorizarOrechazar(Request $request)
+    {
+        $fecha = Carbon::now();
+
+        if ($request->input('autorizar')) {
+            $id = $request->input('autorizar');
+            $updateCabecera = manifiesto::where('id_manifiesto', $id);
+
+            $updateCabecera->update(['estadoo' => 'ALTA', 'fecha_autorizacion' => $fecha]);
+
+            manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'ALTA']);
+
+            return redirect('/recibirmanifopdispfinal')->with('success_message', 'Empresa cargada con éxito');
+        }
+
+        if ($request->input('rechazar')) {
+            $id = $request->input('rechazar');
+            $updateCabecera = manifiesto::where('id_manifiesto', $id);
+
+            $updateCabecera->update(['estadoo' => 'BAJA', 'fecha_autorizacion' => $fecha]);
+
+            manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'BAJA']);
+
+            return redirect('/recibirmanifopdispfinal')->with('success_message', 'Empresa cargada con éxito');
+        }
+
+        if ($request->input('buscar')) {
+            $numManif = $request->input('buscar');
+
+            $datos = manifiestodet::where('id_manifies', $numManif)->where('estadooo', 'INICIADO')->get();
+            if ($datos) {
+                return view('opdispfinal.recbiridet', compact('datos'));
+            } else {
+                return view('mensajes.sinmanifiesto');
+            }
+        }
+    }
     /**
      * Show the form for creating a new resource.
      */

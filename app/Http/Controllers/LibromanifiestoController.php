@@ -12,6 +12,7 @@ use App\Models\operadoralm;
 use App\Models\operadordf;
 use App\Models\libromanifiesto;
 use App\Http\Controllers\Controller;
+use App\Models\Empresas;
 use Illuminate\Http\Request;
 
 class LibromanifiestoController extends Controller
@@ -157,42 +158,69 @@ class LibromanifiestoController extends Controller
 
     public function resultados(Request $request)
     {
-        $generador = $request->input('nom_comp');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = manifiesto::where('nom_comp', $generador)
-            ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-            ->orderBy('id_manifiesto')
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('generadores.listadomanifiesto')->with('resultados', $resultados);
+        if ($verificar) {
+            $generador = $request->input('nom_comp');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = manifiesto::where('nom_comp', $generador)
+                ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
+                ->orderBy('id_manifiesto')
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('generadores.listadomanifiesto')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 
 
     public function resultadosTransporte(Request $request)
     {
-        $transporte = $request->input('id_transp');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = manifiesto::where('id_transp', $transporte)
-            ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-            ->orderBy('id_manifiesto')
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('transportistas.listadomanifiesto')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $transporte = $request->input('id_transp');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = manifiesto::where('id_transp', $transporte)
+                ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
+                ->orderBy('id_manifiesto')
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('transportistas.listadomanifiesto')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 
@@ -200,116 +228,184 @@ class LibromanifiestoController extends Controller
     {
         $user = Auth::user();
         $userEmpresa = $user->empresa;
-        $userRol = $user->rol_id;
-        $numero = $request->input('numero_manifiesto');
 
-        if ($userRol == '6') {
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
+            ->get();
 
-            $resultados = manifiesto::where('id_manifiesto', $numero)->get();
-            $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-            if ($comprobar) {
-                return view('transportistas.manifencontrado')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $userRol = $user->rol_id;
+            $numero = $request->input('numero_manifiesto');
+
+            if ($userRol == '6') {
+
+                $resultados = manifiesto::where('id_manifiesto', $numero)->get();
+                $comprobar = $resultados->count();
+
+                if ($comprobar) {
+                    return view('transportistas.manifencontrado')->with('resultados', $resultados);
+                } else {
+                    return view('mensajes.sincontenido');
+                }
             } else {
-                return view('mensajes.sincontenido');
+
+                $resultados = manifiesto::where('id_manifiesto', $numero)
+                    ->where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
+                    ->get();
+                $comprobar = $resultados->count();
+
+                if ($comprobar) {
+                    return view('transportistas.manifencontrado')->with('resultados', $resultados);
+                } else {
+                    return view('mensajes.sincontenido');
+                }
             }
         } else {
-
-            $resultados = manifiesto::where('id_manifiesto', $numero)
-                ->where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
-                ->get();
-            $comprobar = $resultados->count();
-
-            if ($comprobar) {
-                return view('transportistas.manifencontrado')->with('resultados', $resultados);
-            } else {
-                return view('mensajes.sincontenido');
-            }
+            return view('mensajes.nopago');
         }
     }
 
 
     public function resultadosOpalm(Request $request)
     {
-        $operador = $request->input('gener_nom');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = manifiesto::where('gener_nom', $operador)
-            ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-            ->where('estadoo', '<>', 'INICIADO')
-            ->orderBy('id_manifiesto')
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('opalmacenamiento.listadomanifiesto')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $operador = $request->input('gener_nom');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = manifiesto::where('gener_nom', $operador)
+                ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
+                ->where('estadoo', '<>', 'INICIADO')
+                ->orderBy('id_manifiesto')
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('opalmacenamiento.listadomanifiesto')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 
 
     public function resultadosRpgAlm(Request $request)
     {
-        $operador = $request->input('operador');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = manifiesto::where('gener_nom', $operador)
-            ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-            ->where('rpg', '<>', '')
-            ->orderBy('id_manifiesto')
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('opalmacenamiento.listadorpg')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $operador = $request->input('operador');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = manifiesto::where('gener_nom', $operador)
+                ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
+                ->where('rpg', '<>', '')
+                ->orderBy('id_manifiesto')
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('opalmacenamiento.listadorpg')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 
 
     public function resultadosOdf(Request $request)
     {
-        $operador = $request->input('operador');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = manifiesto::where('gener_nom', $operador)
-            ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-            ->where('estadoo', '<>', 'INICIADO')
-            ->orderBy('id_manifiesto')
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('opdispfinal.listadomanifiestos')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $operador = $request->input('operador');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = manifiesto::where('gener_nom', $operador)
+                ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
+                ->where('estadoo', '<>', 'INICIADO')
+                ->orderBy('id_manifiesto')
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('opdispfinal.listadomanifiestos')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 
     public function resultadosCertifOdf(Request $request)
     {
-        $operador = $request->input('operador');
-        $fechaInicio = $request->input('fecha_inicio');
-        $fechaFinal = $request->input('fecha_fin');
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
 
-        $resultados = certificado::where('opdfinal', $operador)
-            ->whereBetween('fechacertificado', [$fechaInicio, $fechaFinal])
+        $verificarPago = Empresas::where('nombre', 'LIKE', '%' . $userEmpresa . '%')
+            ->where('pago', '=', 'SI')
             ->get();
 
-        $comprobar = $resultados->count();
+        $verificar = $verificarPago->count();
 
-        if ($comprobar) {
-            return view('opdispfinal.listadocertificados')->with('resultados', $resultados);
+        if ($verificar) {
+
+            $operador = $request->input('operador');
+            $fechaInicio = $request->input('fecha_inicio');
+            $fechaFinal = $request->input('fecha_fin');
+
+            $resultados = certificado::where('opdfinal', $operador)
+                ->whereBetween('fechacertificado', [$fechaInicio, $fechaFinal])
+                ->get();
+
+            $comprobar = $resultados->count();
+
+            if ($comprobar) {
+                return view('opdispfinal.listadocertificados')->with('resultados', $resultados);
+            } else {
+                return view('mensajes.sincontenido');
+            }
         } else {
-            return view('mensajes.sincontenido');
+            return view('mensajes.nopago');
         }
     }
 

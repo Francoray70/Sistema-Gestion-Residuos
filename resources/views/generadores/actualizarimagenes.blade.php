@@ -79,11 +79,11 @@ $fecha = date("Y-m-d");
         <div class="mb-3">
 
             <label class="form-label">Generador</label>
-            <input type="text" value="{{$id->nom_comp}}" name="nom_comp" readonly class="form-control w-75">
+            <input type="text" value="{{$id->nom_comp}}" readonly class="form-control w-75">
         </div>
         <div class="mb-3">
             <label class="form-label">Cuit</label>
-            <input type="text" value="{{$id->cuit}}" name="cuit" readonly class="form-control w-75">
+            <input type="text" value="{{$id->cuit}}" readonly class="form-control w-75">
         </div>
         <div class="mb-3">
             <label class="form-label">Habilitación provincial*</label>

@@ -41,7 +41,7 @@
             <td>{{$datosManifiesto->descripcion}}</td>
             <td>{{$datosManifiesto->simp_multi}}</td>
             <td>{{$datosManifiesto->estadooo}}</td>
-            <td><a href="">Agregar</a></td>
+            <td><a href="{{url('/agregardetalle/'.$datosManifiesto->id)}}">Agregar</a></td>
             <td><a href="">Editar</a></td>
         </tr>
 

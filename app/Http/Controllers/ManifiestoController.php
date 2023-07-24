@@ -21,7 +21,7 @@ class ManifiestoController extends Controller
         //
         $user = Auth::user();
         $userEmpresa = $user->empresa;
-        $userid = $user->id;
+        $userid = $user->rol_id;
         $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->first();
         $manifiestosRestantes = ($transporte->manifiesto_final) - ($transporte->manifiesto_actual);
         $generador = generador::all();
@@ -34,12 +34,29 @@ class ManifiestoController extends Controller
         }
     }
 
+    public function traerCabecerapEditar(Request $request, $id)
+    {
+        //
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $manifiesto = manifiesto::where('id', '=', $id)
+            ->where('estadoo', '=', 'INICIADO')
+            ->get();
+        $generador = generador::where('nom_comp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+        if ($manifiesto) {
+            return view('transportistas.editarcabecera', compact('manifiesto', 'generador'));
+        } else {
+            return view('mensajes.manifiestonoeditable');
+        }
+    }
+
     public function index()
     {
         //
         $user = Auth::user();
         $userEmpresa = $user->empresa;
-        $userid = $user->id;
+        $userid = $user->rol_id;
 
 
         if ($userid == '6') {
@@ -58,7 +75,7 @@ class ManifiestoController extends Controller
         //
         $user = Auth::user();
         $userEmpresa = $user->empresa;
-        $userid = $user->id;
+        $userid = $user->rol_id;
 
 
         if ($userid == '6') {
@@ -70,6 +87,15 @@ class ManifiestoController extends Controller
 
             return view('transportistas.reimprimirpdf', ['manifiesto' => $manifiesto]);
         }
+    }
+
+    public function reimpresionpdf(Request $request)
+    {
+        //
+        $manifi = $request->input('manifiesto');
+        $manifiesto = manifiesto::where('id_manifiesto', $manifi)->get();
+
+        return view('transportistas.pdfreimpreso', compact('manifiesto'));
     }
     /**
      * Show the form for creating a new resource.
@@ -256,7 +282,7 @@ class ManifiestoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, manifiesto $manifiesto)
+    public function editarCabeceraManifiesto(Request $request, $id)
     {
         //
     }

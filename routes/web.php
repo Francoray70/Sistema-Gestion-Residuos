@@ -25,6 +25,7 @@ use App\Http\Controllers\LibromanifiestoController;
 use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\ImagenesmanifiestosController;
 use App\Http\Controllers\HomeController;
+use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +50,8 @@ Route::get('/', function () {
 });
 
 Route::get('/inicio', [HomeController::class, 'index']);
-Route::patch('/inicio/{id}', [HomeController::class, 'update']);
+
+Route::patch('/inicio', [HomeController::class, 'update']);
 
 /*
 
@@ -191,12 +193,19 @@ Route::get('/generarmanifiesto', [ManifiestoController::class, 'traerDatos']);
 
 Route::post('/generarmanifiesto', [ManifiestoController::class, 'store']);
 
+Route::get('/editarmanifiesto/{id}', [ManifiestoController::class, 'traerCabecerapEditar']);
+
+Route::patch('/editarmanifiesto/{id}', [ManifiestoController::class, 'editarCabeceraManifiesto']);
+
 Route::get('/listacabeceras', [ManifiestoController::class, 'index']);
 
 Route::get('/reimprimirpdf', [ManifiestoController::class, 'paraImprimir']);
 
 Route::get('/listadetalles', [ManifiestodetController::class, 'traerDetalles'])->name('listadetalles');
 
+Route::get('/agregardetalle/{id}', [ManifiestodetController::class, 'sumarDetalle'])->name('sumardetalle');
+
+Route::post('/agregardetalle', [ManifiestodetController::class, 'confirmarNewDetalle']);
 
 Route::get('/imagenesmanifiestostr', function () {
     return view('transportistas.cargarimg');
@@ -288,9 +297,13 @@ Route::delete('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::cl
 
 Route::get('/recibirmanifiestoalm', [CertificadoController::class, 'recibirManifiestos']);
 
+Route::get('/autorizarmanifodf', [OperadoralmController::class, 'autorizarOrechazar'])->name('autorizarmanifodf');
+
 Route::get('/enviarmanifiestoalm', [CertificadoController::class, 'traerDatospEnviar']);
 
 Route::post('/enviarmanifiestoalm', [CertificadoController::class, 'traerDatospCertificar']);
+
+Route::patch('/enviarmanifiestoalma', [CertificadoController::class, 'actualizarCertificadopDispFinal'])->name('actualizarCertificadopDispFinal');
 
 Route::get('/generarcertifrpg', [CertificadoController::class, 'traerDatospgenerarCertif']);
 
@@ -364,13 +377,13 @@ Route::patch('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'up
 
 Route::delete('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'destroy'])->name('eliminarcorrienteodf');
 
-Route::get('/recibirmanifopdispfinal', function () {
-    return view('opdispfinal.recibir');
-});
+Route::get('/recibirmanifopdispfinal', [OperadordfController::class, 'traerDatosdeManifiestos']);
 
-Route::get('/generarcertdispfinal', function () {
-    return view('opdispfinal.generar');
-});
+Route::get('/autorizarmanifodf', [OperadordfController::class, 'autorizarOrechazar'])->name('autorizarmanifodf');
+
+Route::get('/generarcertdispfinal', [CertificadoController::class, 'traerDatospEnviar2']);
+
+Route::get('/generarcertifdispfinal', [CertificadoController::class, 'traerDatosFinalpCertificar'])->name('generarelcertificado');
 
 Route::get('/cargarimgcertif', function () {
     return view('opdispfinal.cargarimg');
@@ -474,3 +487,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 */
 
 Route::get('/excelgenerador', [ExcelesController::class, 'excelGenerador']);
+
+
+Route::get('/reimpresionpdf', [ManifiestoController::class, 'reimpresionpdf'])->name('reimpresiondelpdf');

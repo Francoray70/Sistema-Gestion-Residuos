@@ -4,6 +4,11 @@ use Carbon\Carbon;
 
 $fecha = Carbon::now();
 
+
+use Illuminate\Support\Facades\Auth;
+
+$user = Auth::user();
+$userId = $user->id;
 ?>
 
 @extends('nav')
@@ -61,8 +66,8 @@ $fecha = Carbon::now();
                 <input type="text" style="display: none" name="fecha_modificacion" value="{{$fecha}}">
                 <input type="text" name="updated_at" value="{{$fecha}}" style="display: none;">
                 <input type="text" style="display: none" name="pago" value="NO">
-                <input type="text" style="display: none" name="altauser" value="NOMBRE DE USUARIO">
-                <input type="text" style="display: none" name="modifuser" value="NOMBRE DE USUARIO">
+                <input type="text" style="display: none" name="altauser" value="{{$id->altauser}}">
+                <input type="text" style="display: none" name="modifuser" value="{{$userId}}">
 
             </tbody>
 
