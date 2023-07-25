@@ -1,3 +1,8 @@
+<?php
+
+use App\Models\roles;
+?>
+
 @extends('nav')
 
 <style>
@@ -27,15 +32,22 @@
     <tbody>
         @foreach ($registros as $datosEmpresa)
 
+        <?php
+        $rol = roles::where('id_rol', '=', $datosEmpresa->rol_id)->get();
+        ?>
+
+        @foreach ($rol as $nombreRol)
+
         <tr>
             <td>{{$datosEmpresa->nombre}}</td>
             <td>{{$datosEmpresa->cuit}}</td>
             <td>{{$datosEmpresa->fecha_alta}}</td>
             <td>{{$datosEmpresa->fecha_modificacion}}</td>
-            <td>{{$datosEmpresa->rol_id}}</td>
+            <td>{{$nombreRol->rol}}</td>
             <td><a href="{{ route('editarempresa', ['id' => $datosEmpresa->id]) }}">Editar</a></td>
         </tr>
 
+        @endforeach
         @endforeach
     </tbody>
 

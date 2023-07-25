@@ -35,13 +35,7 @@ class ImagenController extends Controller
         //
         $id = generador::find($id);
 
-        $comprobar = $id->count();
-
-        if ($comprobar) {
-            return view('generadores.imgnac', compact('id'));
-        } else {
-            return view('mensajes.sinimagen');
-        }
+        return view('generadores.imgnac', compact('id'));
     }
     public function imgComercial($id)
     {

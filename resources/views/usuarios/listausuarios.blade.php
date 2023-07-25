@@ -1,3 +1,8 @@
+<?php
+
+use App\Models\roles;
+?>
+
 @extends('nav')
 
 <style>
@@ -29,6 +34,11 @@
     <tbody>
         @foreach ($registros as $datosUsuario)
 
+        <?php
+        $rol = roles::where('id_rol', '=', $datosUsuario->rol_id)->get();
+        ?>
+
+        @foreach ($rol as $nombreRol)
         <tr>
             <td>{{$datosUsuario->dni}}</td>
             <td>{{$datosUsuario->nombre}}</td>
@@ -36,11 +46,12 @@
             <td>{{$datosUsuario->empresa}}</td>
             <td>{{$datosUsuario->fecha_usu_alta}}</td>
             <td>{{$datosUsuario->fecha_usu_modi}}</td>
-            <td>{{$datosUsuario->rol_id}}</td>
+            <td>{{$nombreRol->rol}}</td>
             <td>{{$datosUsuario->baneado}}</td>
             <td><a href="">Editar</a></td>
         </tr>
 
+        @endforeach
         @endforeach
     </tbody>
 

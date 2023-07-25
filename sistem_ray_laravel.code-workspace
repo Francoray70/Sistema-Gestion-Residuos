@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "sistemaGestionResiduos-1",
+			"path": "sistemaGestionResiduos-1"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "sistem_ray_laravel"
+	}
+}

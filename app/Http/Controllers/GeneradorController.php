@@ -147,21 +147,21 @@ class GeneradorController extends Controller
     public function updateImg(Request $request, $id)
     {
         //
-        $datosGenerador = request()->except(['_token', '_method']);
+        $datos = request()->except(['_token', '_method']);
 
         if ($request->hasFile('cli_ima_hab_pro')) {
-            $datosGenerador['cli_ima_hab_pro'] = $request->file('cli_ima_hab_pro')->store('generadores', 'public');
+            $datos['cli_ima_hab_pro'] = $request->file('cli_ima_hab_pro')->store('generadores', 'public');
         }
 
         if ($request->hasFile('cli_ima_hab_mun')) {
-            $datosGenerador['cli_ima_hab_mun'] = $request->file('cli_ima_hab_mun')->store('generadores', 'public');
+            $datos['cli_ima_hab_mun'] = $request->file('cli_ima_hab_mun')->store('generadores', 'public');
         }
 
         if ($request->hasFile('cli_ima_hab_com')) {
-            $datosGenerador['cli_ima_hab_com'] = $request->file('cli_ima_hab_com')->store('generadores', 'public');
+            $datos['cli_ima_hab_com'] = $request->file('cli_ima_hab_com')->store('generadores', 'public');
         }
 
-        generador::where('id', '=', $id)->update($datosGenerador);
+        generador::where('id', '=', $id)->update($datos);
 
         return redirect('/listagenerador')->with('success_message', 'Empresa cargada con exito');
     }
