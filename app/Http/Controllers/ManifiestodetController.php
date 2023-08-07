@@ -39,6 +39,25 @@ class ManifiestodetController extends Controller
         }
     }
 
+    public function traerDetallepEditar(Request $request, $id)
+    {
+        //
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $manifiesto = manifiestodet::where('id', '=', $id)
+            ->where('estadooo', '=', 'INICIADO')
+            ->get();
+        $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+        $comprobar = $manifiesto->count();
+
+        if ($comprobar) {
+            return view('transportistas.editardetalle', compact('manifiesto', 'transporte'));
+        } else {
+            return view('mensajes.manifiestonoeditable');
+        }
+    }
+
     public function sumarDetalle(Request $request, $id)
     {
         $user = Auth::user();
@@ -47,8 +66,21 @@ class ManifiestodetController extends Controller
         $id = manifiestodet::where('id', '=', $id)
             ->where('estadooo', '=', 'INICIADO')
             ->get();
-        $empresa = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
-        return view('transportistas.sumardetalle', compact('id', 'empresa'));
+
+        foreach ($id as $datosId) {
+            $buscar = $datosId->id_manifies;
+            $comprobar = manifiestodet::where('id_manifies', '=', $buscar)->get();
+            $verificar = $comprobar->count();
+        }
+
+        if ($verificar < 4) {
+
+            $empresa = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+            return view('transportistas.sumardetalle', compact('id', 'empresa'));
+        } else {
+            return view('mensajes.impedirsumadetalle');
+        }
     }
 
     public function confirmarNewDetalle(Request $request)
@@ -67,7 +99,7 @@ class ManifiestodetController extends Controller
                 'descr_ingreso' => $request->input('descr_ingreso'),
                 'descripcion' => $request->input('descripcion'),
                 'simp_multi' => $request->input('alta'),
-                'estado_det_manif' => $request->input('estado'),
+                'estado_det_manif' => $request->input('estado_det'),
                 'estadooo' => 'INICIADO',
                 'useralta' => $userId,
                 'id_man_tra_nac' => '',
@@ -110,9 +142,22 @@ class ManifiestodetController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(manifiestodet $manifiestodet)
+    public function editarDetalleManifiesto(Request $request)
     {
         //
+        $datosDetalle = [
+            'id_corrientes' => $request->input('corrientes'),
+            'um' => $request->input('um'),
+            'estado' => $request->input('estado'),
+            'cantidad' => $request->input('cantidad'),
+            'descr_ingreso' => $request->input('descr_ingreso'),
+            'descripcion' => $request->input('descripcion'),
+            'updated_at' => $request->input('fecha'),
+        ];
+
+        manifiestodet::where('id', '=', $request->input('id'))->update($datosDetalle);
+
+        return redirect('/listacabeceras');
     }
 
     /**

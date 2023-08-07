@@ -13,7 +13,7 @@
 
 
     <div class="container mt-6">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             Para realizar esta acción debe contratar el pack premium. Contactese con soporte para conseguirlo.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>

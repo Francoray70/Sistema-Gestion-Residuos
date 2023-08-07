@@ -10,9 +10,7 @@ $userRol = $user->rol_id;
 
 ?>
 
-
 @extends('nav')
-
 
 <style>
     .container {

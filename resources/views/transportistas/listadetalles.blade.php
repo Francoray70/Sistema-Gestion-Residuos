@@ -42,7 +42,7 @@
             <td>{{$datosManifiesto->simp_multi}}</td>
             <td>{{$datosManifiesto->estadooo}}</td>
             <td><a href="{{url('/agregardetalle/'.$datosManifiesto->id)}}">Agregar</a></td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{url('/editarmanifiestodetalle/'.$datosManifiesto->id)}}">Editar</a></td>
         </tr>
 
         @endforeach

@@ -14,9 +14,9 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Esta empresa no tiene imagen cargada
+            Su usuario debe ser aceptado por la empresa. Comuniquese con ella para que pueda utilizar el sistema.
         </div>
-        <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
+        <a href="{{ url('/')}}" class="btn btn-primary">Regresar</a>
     </div>
 
 </body>

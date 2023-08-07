@@ -72,7 +72,7 @@ $fecha = date("Y-m-d");
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">VEHICULOS</h2>
+    <h2 class="mb-3">ACTUALIZAR IMAGENES DE VEHICULOS</h2>
     <form action="{{url('/actualizarvehiculoimg/'.$id->id)}}" method="post" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
@@ -87,22 +87,37 @@ $fecha = date("Y-m-d");
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen de ruta*</label>
+            @if ($id->pat_rut)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="pat_rut" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Titulo de propiedad*</label>
+            @if ($id->pat_tit)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="pat_tit" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Cedula verde*</label>
+            @if ($id->pat_ced_verde)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="pat_ced_verde" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen de la V.T.V.*</label>
+            @if ($id->pat_vtv_img)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="pat_vtv_img" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen de la carga peligrosa*</label>
+            @if ($id->pat_cpel_img)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="pat_cpel_img" required>
         </div>
 

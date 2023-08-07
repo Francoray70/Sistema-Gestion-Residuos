@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Empresas;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -66,16 +67,37 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
+
     protected function create(array $data)
     {
-        return User::create([
-            'usuario' => $data['usuario'],
-            'nombre' => $data['nombre'],
-            'apellido' => $data['apellido'],
-            'dni' => $data['dni'],
-            'cargo' => $data['cargo'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $cuit = $data['cuit'];
+        $empresa = Empresas::where('cuit', '=', $cuit)->get();
+
+        $verificar = $empresa->count();
+
+        if ($verificar) {
+            foreach ($empresa as $datosEmpresa) {
+                $empresaNombre = $datosEmpresa->nombre;
+                $empresaRol = $datosEmpresa->rol_id;
+                $empresaProvincia = $datosEmpresa->provincia;
+            }
+
+            return User::create([
+                'usuario' => $data['cuit'],
+                'nombre' => $data['nombre'],
+                'apellido' => $data['apellido'],
+                'dni' => $data['dni'],
+                'cargo' => $data['cargo'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'rol_id' => $empresaRol,
+                'empresa' => $empresaNombre,
+                'provincia' => $empresaProvincia,
+                'fecha_usu_alta' => $data['fecha'],
+                'fecha_usu_modi' => $data['fecha'],
+            ]);
+        } else {
+            return view('mensajes.cuitnocompatible');
+        }
     }
 }

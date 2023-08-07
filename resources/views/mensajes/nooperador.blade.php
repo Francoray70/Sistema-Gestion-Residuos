@@ -14,7 +14,7 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Esta empresa no tiene imagen cargada
+            Su empresa no esta cargada como operadora para poder generar un certificado.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
     </div>

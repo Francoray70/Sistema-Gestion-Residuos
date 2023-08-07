@@ -48,7 +48,7 @@ use App\Models\roles;
             <td>{{$datosUsuario->fecha_usu_modi}}</td>
             <td>{{$nombreRol->rol}}</td>
             <td>{{$datosUsuario->baneado}}</td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{ route('editarusuario', ['id' => $datosUsuario->id]) }}">Editar</a></td>
         </tr>
 
         @endforeach

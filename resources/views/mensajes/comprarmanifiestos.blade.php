@@ -13,7 +13,7 @@
 
 
     <div class="container mt-6">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             Su empresa no tiene más manifiestos disponibles para realizar. Comuniquese con soporte para realizar el pago correspondiente.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>

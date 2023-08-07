@@ -2,7 +2,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Transportista;
+use App\Http\Controllers\Controller;
+use App\Models\manifiestodet;
 
 $fecha = Carbon::now();
 $user = Auth::user();
@@ -12,8 +13,8 @@ $userId = $user->id;
 ?>
 
 
-@extends('nav')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
 
 
 <script language="javascript">
@@ -132,9 +133,8 @@ $userId = $user->id;
         })
     });
 </script>
-@section('navbar')
 
-<form action="{{url('/agregardetalle')}}" method="post">
+@extends('nav') @section('navbar') <form action="{{url('/agregardetalle')}}" method="post">
     @csrf
     <h2 class="mb-4">AGREGAR DETALLE</h2>
 
@@ -149,10 +149,10 @@ $userId = $user->id;
             @endif
         </select>
     </div>
-    @foreach ($id as $datos)
 
-    <input type="text" value="{{$datos->id_manifies}}" name="manifiesto" style="display: none;">
+    @foreach ($id as $datos)
     @endforeach
+    <input type="text" value="{{$datos->id_manifies}}" name="manifiesto" style="display: none;">
     <div class="row mb-5">
         <div class="col">
             <label class="form-label">Corriente</label>
@@ -183,7 +183,7 @@ $userId = $user->id;
 
     <input type="text" name="fecha" value="{{$fecha}}" style="display: none;">
     <input type="text" value="{{$datos->simp_multi}}" name="alta" style="display: none;">
-    <input type="text" value="{{$datos->estado_det_manif}}" name="estado" style="display: none;">
+    <input type="text" value="{{$datos->estado_det_manif}}" name="estado_det" style="display: none;">
 
     <button type="submit" class="btn btn-primary">Agregar</button>
 

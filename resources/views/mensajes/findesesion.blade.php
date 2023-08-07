@@ -14,9 +14,9 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Esta empresa no tiene imagen cargada
+            Se cerró la sesion por inactividad. Ingrese sus credenciales nuevamente.
         </div>
-        <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
+        <a href="{{ url('/') }}" class="btn btn-primary">Regresar</a>
     </div>
 
 </body>

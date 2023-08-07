@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\manifiestodet;
+use App\Models\manifiesto;
 ?>
 
 @extends('nav')
@@ -13,7 +14,9 @@ use App\Models\manifiestodet;
 </style>
 
 @section('navbar')
-<form action="">
+<form action="{{url('/cargarpg')}}" method="post">
+    @method('PATCH')
+    @csrf
     <h2 class="mt-3">LISTA DE MANIFIESTOS A CERTIFICAR</h2>
     <table class="table table-light mt-4 w-85">
 
@@ -31,7 +34,6 @@ use App\Models\manifiestodet;
                 <th>VOLUMEN</th>
                 <th>MANIF. P/DISP. FINAL</th>
                 <th>CERTIF. DISP. FINAL</th>
-                <th>TRANSP. DISP. FINAL</th>
                 <th>ESTADO</th>
             </tr>
         </thead>
@@ -42,33 +44,34 @@ use App\Models\manifiestodet;
             $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)
                 ->where('simp_multi', '=', 'UNO')
                 ->where('nro_cert_disp_final', '<>', '')
-                ->where('rpg', '<>', '')
+                ->where('rpg', '=', '')
                 ->get();
+
             ?>
 
             @if(!empty($detalles))
             @foreach ($detalles as $datosManifiestoDetalles)
 
-            <tr>
-                <td><input type="checkbox" name="manifiestoSeleccion" value="{{$datosManifiestoCabecera->id}}"></td>
-                <td>{{$datosManifiestoCabecera->id_manifiesto}}</td>
-                <td>{{$datosManifiestoCabecera->nom_comp}}</td>
-                <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
-                <td>{{$datosManifiestoCabecera->id_transp}}</td>
-                <td>{{$datosManifiestoCabecera->gener_nom}}</td>
+            <input type="text" name="certirpg" style="display: none;" value="{{$rpg}}">
+            <td><input type="checkbox" name="id" value="{{$datosManifiestoDetalles->id}}"></td>
+            <td><input type="text" readonly name="manifiestoreal" value="{{$datosManifiestoDetalles->id_manifies}}"></td>
+            <td><input type="text" readonly name="generador" value="{{$datosManifiestoCabecera->nom_comp}}"></td>
+            <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
+            <td>{{$datosManifiestoCabecera->id_transp}}</td>
+            <td><input type="text" readonly name="operador" value="{{$datosManifiestoCabecera->gener_nom}}"></td>
 
-                <td>{{$datosManifiestoDetalles->estado_det_manif}}</td>
-                <td>{{$datosManifiestoDetalles->id_corrientes}}</td>
-                <td>{{$datosManifiestoDetalles->um}}</td>
-                <td>{{$datosManifiestoDetalles->cantidad}}</td>
-                <td>{{$datosManifiestoDetalles->id_man_tra_nac}}</td>
-                <td>{{$datosManifiestoDetalles->nro_cert_disp_final}}</td>
-                <td>{{$datosManifiestoDetalles->nro_cert_disp_final}}</td>
-                <td>{{$datosManifiestoDetalles->estadooo}}</td>
+            <td>{{$datosManifiestoDetalles->estado_det_manif}}</td>
+            <td>{{$datosManifiestoDetalles->id_corrientes}}</td>
+            <td>{{$datosManifiestoDetalles->um}}</td>
+            <td>{{$datosManifiestoDetalles->cantidad}}</td>
+            <td><input type="text" readonly name="manifiesto" value="{{$datosManifiestoDetalles->id_man_tra_nac}}"></td>
+            <td><input type="text" readonly name="certificado" value="{{$datosManifiestoDetalles->nro_cert_disp_final}}"></td>
+            <td>{{$datosManifiestoDetalles->estadooo}}</td>
             </tr>
 
             @endforeach
             @endif
+
             @endforeach
         </tbody>
 

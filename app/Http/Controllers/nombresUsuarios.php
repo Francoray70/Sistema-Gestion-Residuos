@@ -37,9 +37,11 @@ class nombresUsuarios extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(cr $cr)
+    public function show($id)
     {
         //
+        $id = cr::find($id);
+        return view('usuarios.editarusuario', ['id' => $id]);
     }
 
     /**
@@ -53,9 +55,13 @@ class nombresUsuarios extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, cr $cr)
+    public function update(Request $request, $id)
     {
         //
+        $datosUsuarios = request()->except(['_token', '_method', 'password']);
+        cr::where('id', '=', $id)->update($datosUsuarios);
+
+        return redirect('/listausuarios')->with('success', 'Empresa cargada con exito');
     }
 
     /**

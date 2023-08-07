@@ -13,7 +13,7 @@
 
 
     <div class="container mt-6">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             Seleccione una opción para realizar la busqueda
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>

@@ -36,7 +36,10 @@ use App\Models\manifiestodet;
     <tbody>
         @foreach ($resultados as $datosManifiestoCabecera)
         <?php
-        $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)->get();
+        $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)
+            ->where('rpg', '<>', '')
+            ->orderBy('id_manifies')
+            ->get();
         ?>
         @if(!empty($detalles))
         @foreach ($detalles as $datosManifiestoDetalles)
@@ -65,5 +68,6 @@ use App\Models\manifiestodet;
 
 </table>
 <a href=""><button type="button" class="btn btn-primary mt-4 ml-4">DESCARGAR EXCEL</button></a>
+<a href=""><button type="button" class="btn btn-primary mt-4 ml-4">REIMPRIMIR PDF</button></a>
 
 @endsection

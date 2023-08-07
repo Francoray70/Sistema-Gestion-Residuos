@@ -85,26 +85,6 @@ $userId = $user->id;
                 }, function(data) {
                     $("#trans").html(data);
                 });
-                $.post("{{asset('gets/getCorriente.php')}}", {
-                    id_transp: id_transp
-                }, function(data) {
-                    $("#corriente").html(data);
-                });
-                $.post("{{asset('gets/getCorriente.php')}}", {
-                    id_transp: id_transp
-                }, function(data) {
-                    $("#corriente1").html(data);
-                });
-                $.post("{{asset('gets/getCorriente.php')}}", {
-                    id_transp: id_transp
-                }, function(data) {
-                    $("#corriente2").html(data);
-                });
-                $.post("{{asset('gets/getCorriente.php')}}", {
-                    id_transp: id_transp
-                }, function(data) {
-                    $("#corriente3").html(data);
-                });
             });
         })
     });
@@ -138,14 +118,15 @@ $userId = $user->id;
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">EDITAR CABECERAS DE MANIFIESTOS</h2>
-    <form action="{{url('/editarcabecera/'.$datosManifiestos->id)}}" method="post">
+    <form action="{{url('/editarmanifiesto/'.$datosManifiestos->id)}}" method="post">
         @method('PATCH')
         @csrf
         <input type="text" style="display: none;" value="{{$datosManifiestos->id_manifiesto}}" name="manifiesto">
-        <input type="text" style="display: none;" value="{{$userId}}" name="idusuario">
+        <input type="text" style="display: none;" value="{{$fecha}}" name="fecha">
+        <input type="text" style="display: none;" value="{{$datosManifiestos->fecha_alta_manif}}" name="fecha_alta">
         <div class="mb-3">
             <label class="form-label">Generador</label>
-            <select class="form-select w-75" name="generador" id="generador" required>
+            <select class="form-select w-50" name="generador" id="generador" required>
                 <option selected>Seleccionar generador</option>
                 @if (!empty($generador))
                 @foreach ($generador as $datosGenerador)
@@ -156,26 +137,37 @@ $userId = $user->id;
         </div>
         <div class="mb-3">
             <label class="form-label">Transporte</label>
-            <input class="form-control w-75 mb-2" type="text" name="" value="{{$datosManifiestos->id_transp}}">
+            <select class="form-select w-50" name="transporte" id="transporte" required>
+                <option selected>Seleccionar transporte</option>
+                @if (!empty($transporte))
+                @foreach ($transporte as $datosTransporte)
+                <option value="{{$datosTransporte->id_transp}}">{{$datosTransporte->id_transp}}</option>
+                @endforeach
+                @endif
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Operador</label>
-            <input class="form-control w-75 mb-2" type="text" name="" value="{{$datosManifiestos->gener_nom}}">
+            <input class="form-control w-50 mb-2" type="text" value="{{$datosManifiestos->gener_nom}}" readonly>
+            <select class="form-select w-50" name="operador" id="operador" required>
+            </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Tipo</label>
-            <select class="form-select w-75" name="tipo" id="tipo" required>
+            <input class="form-control w-50 mb-2" type="text" value="{{$datosManifiestos->simple_multiple}}" readonly>
+            <select class="form-select w-50" name="tipo" id="tipo" required>
             </select>
-            <select id="tipo2" name="tipo2" style="display: none;"></select>
         </div>
         <div class="mb-3">
             <label class="form-label">Patente</label>
-            <select class="form-select w-75" name="patente" id="patente" required>
+            <input class="form-control w-50 mb-2" type="text" value="{{$datosManifiestos->id_patente}}" readonly>
+            <select class="form-select w-50" name="patente" id="patente" required>
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Chofer</label>
-            <select class="form-select w-75" name="chofer" id="chofer" required>
+            <input class="form-control w-50 mb-2" type="text" value="{{$datosManifiestos->chofer}}" readonly>
+            <select class="form-select w-50" name="chofer" id="chofer" required>
             </select>
         </div>
 
@@ -187,26 +179,35 @@ $userId = $user->id;
 
         <div class="mb-3">
             <label class="form-label">Inhalacion</label>
-            <select class="form-select w-75" name="inhalacion" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="inhalacion" required>
+                <option selected value="{{$datosManifiestos->inhalacion}}">{{$datosManifiestos->inhalacion}}</option>
+                @if (($datosManifiestos->inhalacion) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Dermica</label>
-            <select class="form-select w-75" name="dermica" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="dermica" required>
+                <option selected value="{{$datosManifiestos->dermica}}">{{$datosManifiestos->dermica}}</option>
+                @if (($datosManifiestos->dermica) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Oral</label>
-            <select class="form-select w-75" name="oral" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="oral" required>
+                <option selected value="{{$datosManifiestos->oral}}">{{$datosManifiestos->oral}}</option>
+                @if (($datosManifiestos->oral) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
 
@@ -215,34 +216,46 @@ $userId = $user->id;
 
         <div class="mb-3">
             <label class="form-label">Inflamabilidad</label>
-            <select class="form-select w-75" name="inflamabilidad" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="inflamabilidad" required>
+                <option selected value="{{$datosManifiestos->inflamabilidad}}">{{$datosManifiestos->inflamabilidad}}</option>
+                @if (($datosManifiestos->inflamabilidad) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Toxicidad</label>
-            <select class="form-select w-75" name="toxicidad" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="toxicidad" required>
+                <option selected value="{{$datosManifiestos->toxicidad}}">{{$datosManifiestos->toxicidad}}</option>
+                @if (($datosManifiestos->toxicidad) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Reactividad</label>
-            <select class="form-select w-75" name="reactividad" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="reactividad" required>
+                <option selected value="{{$datosManifiestos->reactividad}}">{{$datosManifiestos->reactividad}}</option>
+                @if (($datosManifiestos->reactividad) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Instrucciones especiales</label>
-            <select class="form-select w-75" name="inst_esp" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="inst_esp" required>
+                <option selected value="{{$datosManifiestos->inst_esp}}">{{$datosManifiestos->inst_esp}}</option>
+                @if (($datosManifiestos->inst_esp) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
 
@@ -253,53 +266,70 @@ $userId = $user->id;
 
         <div class="mb-3">
             <label class="form-label">Manipulación en planta trat. o disp. final</label>
-            <select class="form-select w-75" name="manipulacion" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="manipulacion" required>
+                <option selected value="{{$datosManifiestos->manipulacion}}">{{$datosManifiestos->manipulacion}}</option>
+                @if (($datosManifiestos->manipulacion) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Planes de contingencia</label>
-            <select class="form-select w-75" name="planes" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="planes" required>
+                <option selected value="{{$datosManifiestos->planes}}">{{$datosManifiestos->planes}}</option>
+                @if (($datosManifiestos->planes) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Rol de emergencia</label>
-            <select class="form-select w-75" name="rol" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="rol" required>
+                <option selected value="{{$datosManifiestos->rol}}">{{$datosManifiestos->rol}}</option>
+                @if (($datosManifiestos->rol) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Hoja de ruta</label>
-            <select class="form-select w-75" name="hoja" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="hoja" required>
+                <option selected value="{{$datosManifiestos->hoja}}">{{$datosManifiestos->hoja}}</option>
+                @if (($datosManifiestos->hoja) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-3">
             <label class="form-label">Rutas alternativas</label>
-            <select class="form-select w-75" name="rutas" required>
-                <option selected>Seleccione</option>
-                <option value="SI">Si</option>
-                <option value="NO">No</option>
+            <select class="form-select w-50" name="rutas" required>
+                <option selected value="{{$datosManifiestos->rutas}}">{{$datosManifiestos->rutas}}</option>
+                @if (($datosManifiestos->rutas) == 'SI')
+                <option value="NO">NO</option>
+                @else
+                <option value="SI">SI</option>
+                @endif
             </select>
         </div>
         <div class="mb-4">
             <label class="form-label">Direccion de retiro</label>
-            <select class="form-select w-75" name="direccion" id="direcciones" required>
+            <input class="form-control w-50 mb-2" type="text" value="{{$datosManifiestos->retiro_direc}}" readonly>
+            <select class="form-select w-50" name="direccion" id="direcciones" required>
             </select>
         </div>
 
         @endforeach
 
-        <button type="submit" class="btn btn-primary">Editar</button>
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{{url('/listacabeceras')}}"><button type="button" class="btn btn-primary">Cabeceras</button></a>
     </form>
 </div>
 

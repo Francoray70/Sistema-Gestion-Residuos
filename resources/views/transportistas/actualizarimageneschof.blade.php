@@ -72,7 +72,7 @@ $fecha = date("Y-m-d");
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">CHOFERES</h2>
+    <h2 class="mb-3">ACTUALIZAR IMAGENES DE CHOFERES</h2>
     <form action="{{url('/actualizarchoferimg/'.$id->id)}}" method="post" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
@@ -87,14 +87,23 @@ $fecha = date("Y-m-d");
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen del carnet*</label>
+            @if ($id->nro_carnet_img)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="nro_carnet_img" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen de carga peligrosa*</label>
+            @if ($id->carga_pelig_img)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="carga_pelig_img" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Imagen del S.E.P.*</label>
+            @if ($id->sep_img)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input class="form-control w-75" type="file" name="sep_img" required>
         </div>
 

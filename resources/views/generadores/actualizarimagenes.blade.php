@@ -72,7 +72,7 @@ $fecha = date("Y-m-d");
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">GENERADORES</h2>
+    <h2 class="mb-3">ACTUALIZAR IMAGENES DE TRANSPORTES</h2>
     <form action="{{url('/actualizargeneradorimg/'.$id->id)}}" method="post" enctype="multipart/form-data">
         @method('PATCH')
         @csrf
@@ -87,14 +87,23 @@ $fecha = date("Y-m-d");
         </div>
         <div class="mb-3">
             <label class="form-label">Habilitación provincial*</label>
+            @if ($id->cli_ima_hab_pro)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input name="cli_ima_hab_pro" class="form-control w-75" type="file" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Habilitación nacional*</label>
+            @if ($id->cli_ima_hab_mun)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input name="cli_ima_hab_mun" class="form-control w-75" type="file" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Habilitación comercial*</label>
+            @if ($id->cli_ima_hab_com)
+            <input type="text" value="Existe imagen cargada" readonly class="form-control w-75">
+            @endif
             <input name="cli_ima_hab_com" class="form-control w-75" type="file" required>
         </div>
 

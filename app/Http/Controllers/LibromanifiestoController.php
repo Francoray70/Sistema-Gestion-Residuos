@@ -172,7 +172,7 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = manifiesto::where('nom_comp', $generador)
+            $resultados = manifiesto::where('nom_comp', 'LIKE', '%' . $generador . '%')
                 ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
                 ->orderBy('id_manifiesto')
                 ->get();
@@ -207,7 +207,7 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = manifiesto::where('id_transp', $transporte)
+            $resultados = manifiesto::where('id_transp', 'LIKE', '%' . $transporte . '%')
                 ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
                 ->orderBy('id_manifiesto')
                 ->get();
@@ -242,7 +242,7 @@ class LibromanifiestoController extends Controller
 
             if ($userRol == '6') {
 
-                $resultados = manifiesto::where('id_manifiesto', $numero)->get();
+                $resultados = manifiesto::where('id_manifiesto', '=', $numero)->get();
                 $comprobar = $resultados->count();
 
                 if ($comprobar) {
@@ -252,7 +252,7 @@ class LibromanifiestoController extends Controller
                 }
             } else {
 
-                $resultados = manifiesto::where('id_manifiesto', $numero)
+                $resultados = manifiesto::where('id_manifiesto', '=', $numero)
                     ->where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
                     ->get();
                 $comprobar = $resultados->count();
@@ -286,7 +286,7 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = manifiesto::where('gener_nom', $operador)
+            $resultados = manifiesto::where('gener_nom', 'LIKE', '%' . $operador . '%')
                 ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
                 ->where('estadoo', '<>', 'INICIADO')
                 ->orderBy('id_manifiesto')
@@ -322,16 +322,14 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = manifiesto::where('gener_nom', $operador)
+            $resultados = manifiesto::where('gener_nom', 'LIKE', '%' . $operador . '%')
                 ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
-                ->where('rpg', '<>', '')
-                ->orderBy('id_manifiesto')
                 ->get();
 
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('opalmacenamiento.listadorpg')->with('resultados', $resultados);
+                return view('opalmacenamiento.listadorpg', compact('resultados'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -358,7 +356,7 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = manifiesto::where('gener_nom', $operador)
+            $resultados = manifiesto::where('gener_nom', 'LIKE', '%' . $operador . '%')
                 ->whereBetween('fecha_alta_manif', [$fechaInicio, $fechaFinal])
                 ->where('estadoo', '<>', 'INICIADO')
                 ->orderBy('id_manifiesto')
@@ -393,7 +391,7 @@ class LibromanifiestoController extends Controller
             $fechaInicio = $request->input('fecha_inicio');
             $fechaFinal = $request->input('fecha_fin');
 
-            $resultados = certificado::where('opdfinal', $operador)
+            $resultados = certificado::where('opdfinal', 'LIKE', '%' . $operador . '%')
                 ->whereBetween('fechacertificado', [$fechaInicio, $fechaFinal])
                 ->get();
 

@@ -1,8 +1,16 @@
+<?php
+
+use Carbon\Carbon;
+
+$fecha = Carbon::now();
+?>
+
 @extends('layouts.app')
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 @section('content')
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -10,14 +18,14 @@
                 <div class="card-header">Registrarse</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form action="{{url('/registro')}}" method="POST">
                         @csrf
 
                         <div class="row mb-3">
                             <label class="col-md-4 col-form-label text-md-end">Cuit</label>
 
                             <div class="col-md-6">
-                                <input id="cuit" type="text" data-mask="00-00000000-0" class="form-control" name="usuario" required autofocus>
+                                <input id="cuit" type="text" data-mask="00-00000000-0" class="form-control" name="cuit" required autofocus>
 
                             </div>
                         </div>
@@ -90,6 +98,7 @@
                                     </button>
                                 </div>
                             </div>
+                            <input type="text" name="fecha" value="{{$fecha}}" style="display: none;">
                     </form>
                 </div>
             </div>

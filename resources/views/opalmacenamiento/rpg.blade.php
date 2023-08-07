@@ -12,7 +12,7 @@
 
 <div class="container w-85 border p-4 mt-5">
     <h2 class="mb-3">LIBRO DE RPG</h2>
-    <form action="{{route('listamanifiestosopalm')}}" method="get">
+    <form action="{{route('listarpgalm')}}" method="get">
         <div class="mb-3">
             <label class="form-label">Operador</label>
             <select class="form-select w-75" name="operador" required>

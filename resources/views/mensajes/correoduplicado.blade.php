@@ -14,7 +14,7 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Esta empresa no tiene imagen cargada
+            Ya existe una cuenta con este correo electrónico.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
     </div>

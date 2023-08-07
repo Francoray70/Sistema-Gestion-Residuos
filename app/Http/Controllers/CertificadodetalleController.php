@@ -11,6 +11,25 @@ class CertificadodetalleController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function traerCertificadosDetalles(Request $request)
+    {
+        if ($request->input('id')) {
+            $numCertif = $request->input('id');
+            $resultados = certificadodetalle::where('numero_certif', '=', $numCertif)->get();
+
+            $verificar = $resultados->count();
+
+            if ($verificar) {
+                return view('opdispfinal.listadetalles', compact('resultados'));
+            } else {
+                return view('opdispfinal.listacabecerasCer');
+            }
+        } else {
+            return view('mensajes.noseleccion');
+        }
+    }
+
     public function index()
     {
         //

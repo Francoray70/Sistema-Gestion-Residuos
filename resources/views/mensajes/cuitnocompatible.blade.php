@@ -14,7 +14,7 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Esta empresa no tiene imagen cargada
+            El CUIT ingresado no es de una empresa registrada en el sistema.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
     </div>

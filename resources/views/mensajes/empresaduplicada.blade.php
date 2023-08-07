@@ -13,7 +13,7 @@
 
 
     <div class="container mt-6">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             Ya existe una empresa con ese cuit.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>

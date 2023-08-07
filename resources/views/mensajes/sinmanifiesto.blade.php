@@ -13,7 +13,7 @@
 
 
     <div class="container mt-6">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger mt-3" role="alert">
             El manifiesto ingresado no está cargado en el sistema.
         </div>
         <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
