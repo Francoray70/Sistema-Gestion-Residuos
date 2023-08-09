@@ -14,60 +14,65 @@ use App\Models\manifiestodet;
 
 @section('navbar')
 
-<h2 class="mt-3">LISTA DE RPG DE OPERADORAS DE ALMACENAMIENTO</h2>
-<table class="table table-light mt-4 w-85">
+<form action="{{url('/excelrpg')}}" method="get">
+    <h2 class="mt-3">LISTA DE RPG DE OPERADORAS DE ALMACENAMIENTO</h2>
+    <table class="table table-light mt-4 w-85">
 
-    <thead>
-        <tr>
-            <th>RPG</th>
-            <th>N° CERTIF. RPG</th>
-            <th>GENERADOR</th>
-            <th>CERTIF. D.F.</th>
-            <th>MANIFIESTO SALIDA</th>
-            <th>N° MANIFIESTO</th>
-            <th>FECHA ALTA</th>
-            <th>CORRIENTE</th>
-            <th>CANTIDAD</th>
-            <th>TRANSPORTISTA</th>
-            <th>ESTADO</th>
-        </tr>
-    </thead>
+        <thead>
+            <tr>
+                <th>RPG</th>
+                <th>N° CERTIF. RPG</th>
+                <th>GENERADOR</th>
+                <th>CERTIF. D.F.</th>
+                <th>MANIFIESTO SALIDA</th>
+                <th>N° MANIFIESTO</th>
+                <th>FECHA ALTA</th>
+                <th>CORRIENTE</th>
+                <th>CANTIDAD</th>
+                <th>TRANSPORTISTA</th>
+                <th>ESTADO</th>
+            </tr>
+        </thead>
 
-    <tbody>
-        @foreach ($resultados as $datosManifiestoCabecera)
-        <?php
-        $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)
-            ->where('rpg', '<>', '')
-            ->orderBy('id_manifies')
-            ->get();
-        ?>
-        @if(!empty($detalles))
-        @foreach ($detalles as $datosManifiestoDetalles)
+        <tbody>
+            @foreach ($resultados as $datosManifiestoCabecera)
+            <?php
+            $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)
+                ->where('rpg', '<>', '')
+                ->orderBy('id_manifies')
+                ->get();
+            ?>
+            @if(!empty($detalles))
+            @foreach ($detalles as $datosManifiestoDetalles)
 
-        <tr>
-            <td>{{$datosManifiestoDetalles->rpg}}</td>
-            <td>{{$datosManifiestoDetalles->nro_cert_rpg}}</td>
-            <td>{{$datosManifiestoCabecera->nom_comp}}</td>
-            <td>{{$datosManifiestoDetalles->nro_cert_disp_final}}</td>
-            <td>{{$datosManifiestoDetalles->id_man_tra_nac}}</td>
-
-
-            <td>{{$datosManifiestoDetalles->id_manifies}}</td>
-            <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
-            <td>{{$datosManifiestoDetalles->id_corrientes}}</td>
-            <td>{{$datosManifiestoDetalles->cantidad}}</td>
-            <td>{{$datosManifiestoDetalles->id_transpo}}</td>
-            <td>{{$datosManifiestoDetalles->estadooo}}</td>
-        </tr>
-
-        @endforeach
-        @endif
-        @endforeach
-    </tbody>
+            <tr>
+                <td>{{$datosManifiestoDetalles->rpg}}</td>
+                <td>{{$datosManifiestoDetalles->nro_cert_rpg}}</td>
+                <td>{{$datosManifiestoCabecera->nom_comp}}</td>
+                <td>{{$datosManifiestoDetalles->nro_cert_disp_final}}</td>
+                <td>{{$datosManifiestoDetalles->id_man_tra_nac}}</td>
 
 
-</table>
-<a href=""><button type="button" class="btn btn-primary mt-4 ml-4">DESCARGAR EXCEL</button></a>
-<a href=""><button type="button" class="btn btn-primary mt-4 ml-4">REIMPRIMIR PDF</button></a>
+                <td>{{$datosManifiestoDetalles->id_manifies}}</td>
+                <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
+                <td>{{$datosManifiestoDetalles->id_corrientes}}</td>
+                <td>{{$datosManifiestoDetalles->cantidad}}</td>
+                <td>{{$datosManifiestoDetalles->id_transpo}}</td>
+                <td>{{$datosManifiestoDetalles->estadooo}}</td>
+            </tr>
 
-@endsection
+            @endforeach
+            @endif
+            @endforeach
+        </tbody>
+
+
+        <input type="text" value="{{$operador}}" style="display: none;" name="operador">
+        <input type="date" value="{{$fechaInicio}}" style="display: none;" name="fechainicio">
+        <input type="date" value="{{$fechaFinal}}" style="display: none;" name="fechafinal">
+
+    </table>
+    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Descargar excel">
+    <a href=""><button type="button" class="btn btn-primary mt-4 ml-4">REIMPRIMIR PDF</button></a>
+
+    @endsection

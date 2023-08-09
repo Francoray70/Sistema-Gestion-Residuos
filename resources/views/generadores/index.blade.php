@@ -152,11 +152,11 @@ $fecha = date("Y-m-d");
         </div>
         <div class="mb-3">
             <label class="form-label">Telefono</label>
-            <input type="text" name="num_tel" class="form-control w-75" required>
+            <input type="text" name="num_tel" data-mask="(000)000-000000" class="form-control w-75" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Celular</label>
-            <input type="text" name="num_cel" class="form-control w-75" required>
+            <input type="text" name="num_cel" data-mask="(000)000-000000" class="form-control w-75" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Habilitación provincial n°</label>
@@ -196,7 +196,7 @@ $fecha = date("Y-m-d");
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="dir_correo" class="form-control w-75" required>
+            <input type="email" name="dir_correo" class="form-control w-75" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         </div>
 
         <input type="text" name="fecha_alta" value="{{$fecha}}" style="display: none">

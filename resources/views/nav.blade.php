@@ -1,10 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
-
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 $user = Auth::user();
 $userNombre = $user->nombre;

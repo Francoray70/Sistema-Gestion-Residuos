@@ -35,6 +35,7 @@ class CertificadoController extends Controller
 
         $resultados = manifiesto::where('gener_nom', 'LIKE', '%' . $generador . '%')->get();
         $resultado2 = manifiesto::where('simple_multiple', 'LIKE', '%' . 'VARIOS' . '%')->get();
+
         return view('opalmacenamiento.listamanifparaenviar', compact('resultados', 'resultado2', 'um'));
     }
 
@@ -147,14 +148,17 @@ class CertificadoController extends Controller
     public function actualizarCertificadopDispFinal(Request $request)
     {
         if ($request->input('manifiestoId') && $request->input('manifiestoSeleccion')) {
-            $manifiestoSeleccionado = $request->input('manifiestoId');
+
+            $manifiestoSeleccion = $request->input('manifiestoId');
+            $rowCount = count($manifiestoSeleccion);
             $manifestoCertifica = $request->input('manifiestoSeleccion');
             $um = $request->input('um');
 
-            manifiestodet::where('id', '=', $manifiestoSeleccionado)
-                ->where('um', 'LIKE', '%' . $um . '%')
-                ->update(['id_man_tra_nac' => $manifestoCertifica]);
-
+            for ($i = 0; $i < $rowCount; $i++) {
+                manifiestodet::where('id', '=', $manifiestoSeleccion[$i])
+                    ->where('um', 'LIKE', '%' . $um . '%')
+                    ->update(['id_man_tra_nac' => $manifestoCertifica]);
+            }
             return redirect('/enviarmanifiestoalm');
         } else {
             return view('mensajes.noseleccion');
@@ -195,23 +199,27 @@ class CertificadoController extends Controller
         $ubicacion = $request->input('ubi_odf');
         $manifiesto = $request->input('manifiesto');
 
-        foreach ($corrientes as $index => $corriente) {
+        $rowCount = count($tratamiento);
 
-            certificadodetalle::create([
-                'corriente' => $corriente[$index],
+        for ($i = 0; $i < $rowCount; $i++) {
+
+            $datoDetalle = ([
+                'corriente' => $corrientes[$i],
                 'numero_certif' => $certificado,
                 'numero_manifiesto' => $manifiesto,
                 'fechatratamiento' => $fechacertif,
-                'descripcion' => $descripcion[$index],
-                'um' => $contenedor[$index],
-                'cantidad' => $cantidad[$index],
-                'tipotratamiento' => $tratamiento[$index],
-                'estado' => $estado[$index],
+                'descripcion' => $descripcion[$i],
+                'um' => $contenedor[$i],
+                'cantidad' => $cantidad[$i],
+                'tipotratamiento' => $tratamiento[$i],
+                'estado' => $estado[$i],
                 'ubicacion' => $ubicacion,
                 'updated_at' => $fecha,
                 'created_at' => $fecha,
                 'transportista' => $transporte,
             ]);
+
+            certificadodetalle::insert($datoDetalle);
         }
 
         $operador = $request->input('operador');

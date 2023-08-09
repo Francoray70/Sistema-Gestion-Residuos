@@ -28,6 +28,7 @@ use App\Http\Controllers\ImagenController;
 use App\Http\Controllers\ImagenesmanifiestosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\ExcelesController;
 use Dompdf\Dompdf;
 
 /*
@@ -252,7 +253,6 @@ Route::patch('/actualizarvehiculoimg/{id}', [VehiculosController::class, 'update
 Route::get('/imagenestransportep/{id}', [ImagenController::class, 'imgProvincialT'])->name('verprovinciat')->middleware('auth');
 Route::get('/imagenestransporten/{id}', [ImagenController::class, 'imgNacionalT'])->name('vernaciont')->middleware('auth');
 Route::get('/imagenestransportem/{id}', [ImagenController::class, 'imgMunicipalT'])->name('vermunicipalt')->middleware('auth');
-
 
 Route::get('/imageneschoferc/{id}', [ImagenController::class, 'imgcarnetCH'])->name('vercarnet')->middleware('auth');
 Route::get('/imageneschofercp/{id}', [ImagenController::class, 'imgcargapeligrosaCH'])->name('vercp')->middleware('auth');
@@ -513,5 +513,14 @@ Route::post('/registro', [RegistroController::class, 'CrearUsuario'])->middlewar
 
 Route::get('/excelgenerador', [ExcelesController::class, 'excelGenerador'])->middleware('auth');
 
+Route::get('/exceltransporte', [ExcelesController::class, 'excelTransporte'])->middleware('auth');
+
+Route::get('/excelopalm', [ExcelesController::class, 'excelOpalm'])->middleware('auth');
+
+Route::get('/excelrpg', [ExcelesController::class, 'excelRpg'])->middleware('auth');
+
+Route::get('/excelodf', [ExcelesController::class, 'excelOdf'])->middleware('auth');
+
+Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->middleware('auth');
 
 Route::get('/reimpresionpdf', [ManifiestoController::class, 'reimpresionpdf'])->name('reimpresiondelpdf')->middleware('auth');

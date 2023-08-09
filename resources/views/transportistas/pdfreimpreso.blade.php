@@ -49,12 +49,12 @@ if ($manifiesto) {
             $this->Ln(10);
         }
     }
-
     $conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
+
 
     $consulta = mysqli_query($conexion, "SELECT * FROM manifiesto WHERE id = '$manifiesto'");
     while ($row = mysqli_fetch_array($consulta)) {
-        $numeroManifiesto = utf8_decode($row['id_manifiesto']);
+        $manifiestonumero = utf8_decode($row['id_manifiesto']);
         $transporte = utf8_decode($row['id_transp']);
         $nombre = utf8_decode($row['nom_comp']);
         $operador = utf8_decode($row['gener_nom']);
@@ -80,7 +80,7 @@ if ($manifiesto) {
         $patente = $row['id_patente'];
     }
 
-    $consulta2 = mysqli_query($conexion, "SELECT * FROM manifiestodet WHERE id_manifies = '$numeroManifiesto'");
+    $consulta2 = mysqli_query($conexion, "SELECT * FROM manifiestodet WHERE id_manifies = '$manifiestonumero'");
 
     $generador = mysqli_query($conexion, "SELECT * FROM generador WHERE nom_comp = '$nombre'");
     while ($filita = mysqli_fetch_array($generador)) {

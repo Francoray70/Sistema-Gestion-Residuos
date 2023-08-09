@@ -126,11 +126,11 @@ $fecha = Carbon::now();
         </div>
         <div class="mb-3">
             <label class="form-label">Telefono</label>
-            <input type="text" name="telef_transp" class="form-control w-75" required>
+            <input type="text" name="telef_transp" data-mask="(000)000-000000" class="form-control w-75" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="email_transp" class="form-control w-75" required>
+            <input type="email" name="email_transp" class="form-control w-75" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Nº manifiesto inicial</label>

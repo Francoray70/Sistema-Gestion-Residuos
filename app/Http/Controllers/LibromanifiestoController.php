@@ -180,7 +180,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('generadores.listadomanifiesto')->with('resultados', $resultados);
+                return view('generadores.listadomanifiesto', compact('resultados', 'generador', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -215,7 +215,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('transportistas.listadomanifiesto')->with('resultados', $resultados);
+                return view('transportistas.listadomanifiesto', compact('resultados', 'transporte', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -295,7 +295,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('opalmacenamiento.listadomanifiesto')->with('resultados', $resultados);
+                return view('opalmacenamiento.listadomanifiesto', compact('resultados', 'operador', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -329,7 +329,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('opalmacenamiento.listadorpg', compact('resultados'));
+                return view('opalmacenamiento.listadorpg', compact('resultados', 'operador', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -365,7 +365,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('opdispfinal.listadomanifiestos')->with('resultados', $resultados);
+                return view('opdispfinal.listadomanifiestos', compact('resultados', 'operador', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }
@@ -398,7 +398,7 @@ class LibromanifiestoController extends Controller
             $comprobar = $resultados->count();
 
             if ($comprobar) {
-                return view('opdispfinal.listadocertificados')->with('resultados', $resultados);
+                return view('opdispfinal.listadocertificados', compact('resultados', 'operador', 'fechaInicio', 'fechaFinal'));
             } else {
                 return view('mensajes.sincontenido');
             }

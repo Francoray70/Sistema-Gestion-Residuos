@@ -167,29 +167,29 @@ $userId = $user->id;
 
 
         @if ($consultaManifiestoDet)
-        @foreach ($consultaManifiestoDet as $i => $datosDetalle)
+        @foreach ($consultaManifiestoDet as $datosDetalle)
         <div class="row mb-5">
             <div class="col">
                 <label class="form-label">Corriente</label>
-                <input type="text" name="corriente[{{$i}}]" value="{{$datosDetalle->id_corrientes}}">
+                <input type="text" name="corriente[]" value="{{$datosDetalle->id_corrientes}}">
             </div>
             <div class="col">
                 <label class="form-label">Descripcion</label>
-                <input type="text" name="descripcion[{{$i}}]" value="{{$datosDetalle->descripcion}}">
+                <input type="text" name="descripcion[]" value="{{$datosDetalle->descripcion}}">
             </div>
             <div class="col">
                 <label class="form-label">Contenedor</label>
-                <input type="text" name="contenedor[{{$i}}]" value="{{$datosDetalle->um}}">
+                <input type="text" name="contenedor[]" value="{{$datosDetalle->um}}">
             </div>
             <div class="col">
                 <label class="form-label">Cantidad real</label>
-                <input type="text" name="cantidad[{{$i}}]" value="{{$datosDetalle->cantidad}}">
+                <input type="text" name="cantidad[]" value="{{$datosDetalle->cantidad}}">
             </div>
             <div class="col">
                 <label class="form-label">Tratamiento</label>
-                <input type="text" class="form-control w-75 mb-2" name="tratamiento[{{$i}}]" required>
+                <input type="text" class="form-control w-75 mb-2" name="tratamiento[]" required>
             </div>
-            <input type="text" name="estado" style="display: none;" value="{{$datosDetalle->estado}}">
+            <input type="text" name="estado[]" style="display: none;" value="{{$datosDetalle->estado}}">
         </div>
         @endforeach
         @endif

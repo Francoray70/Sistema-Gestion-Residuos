@@ -25,7 +25,7 @@ $fecha = Carbon::now();
                             <label class="col-md-4 col-form-label text-md-end">Cuit</label>
 
                             <div class="col-md-6">
-                                <input id="cuit" type="text" data-mask="00-00000000-0" class="form-control" name="cuit" required autofocus>
+                                <input id="cuit" type="text" data-mask="00-00000000-0" minlength="13" class="form-control" name="cuit" required autofocus>
 
                             </div>
                         </div>
@@ -34,7 +34,7 @@ $fecha = Carbon::now();
                             <label class="col-md-4 col-form-label text-md-end">Nombre</label>
 
                             <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control" name="nombre" required>
+                                <input id="nombre" type="text" class="form-control" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,48}" name="nombre" required>
 
                             </div>
                         </div>
@@ -43,7 +43,7 @@ $fecha = Carbon::now();
                             <label class="col-md-4 col-form-label text-md-end">Apellido</label>
 
                             <div class="col-md-6">
-                                <input id="apellido" type="text" class="form-control" name="apellido" required>
+                                <input id="apellido" type="text" class="form-control" pattern="[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]{2,50}" name="apellido" required>
 
                             </div>
                         </div>
@@ -52,7 +52,7 @@ $fecha = Carbon::now();
                             <label class="col-md-4 col-form-label text-md-end">DNI</label>
 
                             <div class="col-md-6">
-                                <input id="dni" type="text" data-mask="00.000.000" class="form-control" name="dni" required>
+                                <input id="dni" type="text" data-mask="00.000.000" minlength="10" class="form-control" name="dni" required>
                             </div>
                         </div>
 
@@ -69,7 +69,7 @@ $fecha = Carbon::now();
                                 <label class="col-md-4 col-form-label text-md-end">Email</label>
 
                                 <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control" name="email" required>
+                                    <input id="email" type="email" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
 
                                 </div>
                             </div>
@@ -78,7 +78,7 @@ $fecha = Carbon::now();
                                 <label class="col-md-4 col-form-label text-md-end">Contraseña</label>
 
                                 <div class="col-md-6">
-                                    <input id="password" type="password" class="form-control" name="password" required>
+                                    <input id="password" type="password" class="form-control" minlength="7" maxlength="12" name="password" required>
 
                                 </div>
                             </div>
@@ -87,7 +87,7 @@ $fecha = Carbon::now();
                                 <label class="col-md-4 col-form-label text-md-end">Repetir contraseña</label>
 
                                 <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                                    <input id="password-confirm" type="password" class="form-control" minlength="7" maxlength="12" name="password_confirmation" required>
                                 </div>
                             </div>
 
