@@ -27,12 +27,18 @@ class ManifiestoController extends Controller
         if ($transporte) {
             $manifiestosRestantes = ($transporte->manifiesto_final) - ($transporte->manifiesto_actual);
             $generador = generador::all();
-            $transportes = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
-
-            if ($manifiestosRestantes > 0) {
+            $userRol = $user->rol_id;
+            if ($userRol == '6') {
+                $transportes = Transportista::orderBy('id_transp')->get();
                 return view('transportistas.generarmanif', compact('transportes', 'generador'));
             } else {
-                return view('mensajes.comprarmanifiestos');
+                $transportes = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+                if ($manifiestosRestantes > 0) {
+                    return view('transportistas.generarmanif', compact('transportes', 'generador'));
+                } else {
+                    return view('mensajes.comprarmanifiestos');
+                }
             }
         } else {
             return view('mensajes.notransporte');

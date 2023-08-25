@@ -6,7 +6,6 @@ header("Content-Disposition: attachment; filename= librogeneradores.xls");
 <?php
 $conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
 
-
 $consulta = mysqli_query($conexion, "SELECT * FROM manifiesto INNER JOIN manifiestodet ON manifiesto.id_manifiesto = manifiestodet.id_manifies
     WHERE nom_comp = '$generador' AND fecha_alta_manif >= '$fechainicio' and fecha_alta_manif <= '$fechafinal' ORDER BY id_manifiesto");
 mysqli_set_charset($conexion, "utf8");

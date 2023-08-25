@@ -67,19 +67,26 @@ class ManifiestodetController extends Controller
             ->where('estadooo', '=', 'INICIADO')
             ->get();
 
-        foreach ($id as $datosId) {
-            $buscar = $datosId->id_manifies;
+        $conteo = $id->count();
+
+        if (!$conteo) {
+            return view('mensajes.manifiestonoeditable');
+        } else {
+
+            foreach ($id as $datosId) {
+                $buscar = $datosId->id_manifies;
+            }
             $comprobar = manifiestodet::where('id_manifies', '=', $buscar)->get();
             $verificar = $comprobar->count();
-        }
 
-        if ($verificar < 4) {
+            if ($verificar < 4) {
 
-            $empresa = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+                $empresa = Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
 
-            return view('transportistas.sumardetalle', compact('id', 'empresa'));
-        } else {
-            return view('mensajes.impedirsumadetalle');
+                return view('transportistas.sumardetalle', compact('id', 'empresa'));
+            } else {
+                return view('mensajes.impedirsumadetalle');
+            }
         }
     }
 

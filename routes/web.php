@@ -29,6 +29,7 @@ use App\Http\Controllers\ImagenesmanifiestosController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ExcelesController;
+use App\Http\Controllers\PDFController;
 use Dompdf\Dompdf;
 
 /*
@@ -504,7 +505,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
-Route::post('/registro', [RegistroController::class, 'CrearUsuario'])->middleware('auth');
+Route::post('/registro', [RegistroController::class, 'CrearUsuario']);
 /*
 
 ---------------------------Rutas de descargas de excel------------------------------
@@ -522,5 +523,10 @@ Route::get('/excelrpg', [ExcelesController::class, 'excelRpg'])->middleware('aut
 Route::get('/excelodf', [ExcelesController::class, 'excelOdf'])->middleware('auth');
 
 Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->middleware('auth');
+/*
 
-Route::get('/reimpresionpdf', [ManifiestoController::class, 'reimpresionpdf'])->name('reimpresiondelpdf')->middleware('auth');
+---------------------------Rutas de descargas de pdf------------------------------
+
+*/
+
+Route::get('/reimpresionpdf', [PDFController::class, 'generarPDF']);

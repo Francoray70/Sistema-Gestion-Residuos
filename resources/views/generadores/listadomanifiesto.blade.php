@@ -68,7 +68,7 @@ use App\Models\manifiestodet;
             @endforeach
         </tbody>
 
-        <input type="text" value="{{$generador}}" style="display: none;" name="transporte">
+        <input type="text" value="{{$generador}}" style="display: none;" name="generador">
         <input type="date" value="{{$fechaInicio}}" style="display: none;" name="fechainicio">
         <input type="date" value="{{$fechaFinal}}" style="display: none;" name="fechafinal">
 

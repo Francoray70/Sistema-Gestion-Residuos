@@ -27,7 +27,7 @@
         </tr>
     </thead>
 
-    <form action="{{route('reimpresiondelpdf')}}" method="get">
+    <form action="{{url('/reimpresionpdf')}}" method="get">
         <tbody>
             @foreach ($manifiesto as $datosManifiesto)
             <tr>
