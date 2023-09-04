@@ -17,7 +17,6 @@ use App\Models\Transportista;
 use App\Models\operadoralm;
 use App\Models\vehiculos;
 use App\Models\chofer;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 $detalleManifiesto = manifiestodet::where('id_manifies', '=', $numeroManifiesto)->get();
 $generador = generador::where('nom_comp', 'LIKE', '%' . $nombreGenerador . '%')->get();
@@ -37,10 +36,9 @@ $verificarDetalles = $detalleManifiesto->count();
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gestion de residuos</title>
 
-    <link rel="shortcat icon" href="{{ public_path('storage/imgPdf/logo.ico')}}">
+    <link rel="shortcat icon" href="{{public_path('imgPdf/logo.ico')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
 
     <style>
         .cabeza {
@@ -66,14 +64,14 @@ $verificarDetalles = $detalleManifiesto->count();
 
         .logoChubut {
             width: 100%;
-            margin-top: 10%;
-            height: 70%;
+            height: 80%;
             padding: 2px;
         }
 
         .qr {
             width: 25%;
             height: 100%;
+            background-color: red;
             float: left;
         }
 
@@ -156,7 +154,7 @@ $verificarDetalles = $detalleManifiesto->count();
         </div>
 
         <div class="qr">
-            <img src="{{ public_path('storage/qr/ejemplo.png')}}" class="elqr" alt="qr">
+            <img src="{{ public_path('storage/qr/'.$numeroManifiesto.'.png')}}" class="elqr" alt="qr">
         </div>
 
         <p class="tipeado">
@@ -231,7 +229,7 @@ $verificarDetalles = $detalleManifiesto->count();
             </tr>
             <tr class="border-1">
                 <td class="border-1" colspan="2">CONDUCTOR: {{$dataChofer->chofer}}</td>
-                <td class="border-1" colspan="2">LIC. MER. PELIG. CNRT N°: {{$dataChofer->nro_carnet}}</td>
+                <td class="border-1" colspan="2">LIC. MERC. PELIG. CNRT N°: {{$dataChofer->nro_carnet}}</td>
                 <td class="border-1">{{$dataChofer->carga_pelig_vto}}</td>
             </tr>
         </tbody>
@@ -244,7 +242,7 @@ $verificarDetalles = $detalleManifiesto->count();
 
         <tbody class="table-group-divider border-1">
             <tr class="border-1">
-                <td class="border-1 subtitulos2">CONTENEDOR (TIPO-CANT)</td>
+                <td class="border-1 subtitulos2">CONTENEDORES (TIPO-CANT)</td>
                 <td class="border-1 titulos">DESCRIPCIÓN</td>
                 <td class="border-1 titulos">U.M.</td>
                 <td class="border-1 titulos">ESTADO FÍSICO</td>

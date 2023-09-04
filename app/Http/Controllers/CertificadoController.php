@@ -145,6 +145,7 @@ class CertificadoController extends Controller
         }
     }
 
+
     public function actualizarCertificadopDispFinal(Request $request)
     {
         if ($request->input('manifiestoId') && $request->input('manifiestoSeleccion')) {
@@ -243,6 +244,13 @@ class CertificadoController extends Controller
     {
         $resultados = certificado::all();
         return view('opdispfinal.listacabecerasCer', compact('resultados'));
+    }
+
+
+    public function traerDatospReimprimir(Request $request)
+    {
+        $resultados = certificado::all();
+        return view('opdispfinal.reimprimircertif', compact('resultados'));
     }
 
     public function index()

@@ -9,6 +9,7 @@ use App\Models\manifiestodet;
 use App\Models\manifiesto;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ManifiestoController extends Controller
 {
@@ -77,7 +78,9 @@ class ManifiestoController extends Controller
 
             return view('transportistas.listacabeceras', compact('manifiesto'));
         } else {
-            $manifiesto = manifiesto::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+            $manifiesto = manifiesto::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
+                ->orderBy('fecha_alta_manif', 'desc')
+                ->get();
 
             return view('transportistas.listacabeceras', ['manifiesto' => $manifiesto]);
         }
@@ -95,7 +98,9 @@ class ManifiestoController extends Controller
 
             return view('transportistas.reimprimirpdf', compact('manifiesto'));
         } else {
-            $manifiesto = manifiesto::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->get();
+            $manifiesto = manifiesto::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')
+                ->orderBy('fecha_alta_manif', 'desc')
+                ->get();
 
             return view('transportistas.reimprimirpdf', ['manifiesto' => $manifiesto]);
         }
@@ -123,9 +128,10 @@ class ManifiestoController extends Controller
     public function store(Request $request)
     {
         //
+        $numeroManifiesto = $request->input('manifiesto');
 
         $datosCabecera = [
-            'id_manifiesto' => $request->input('manifiesto'),
+            'id_manifiesto' => $numeroManifiesto,
             'id_transp' => $request->input('transporte'),
             'nom_comp' => $request->input('generador'),
             'fecha_alta_manif' => $request->input('fecha'),
@@ -154,7 +160,7 @@ class ManifiestoController extends Controller
         ];
 
         $datosDetalles = [
-            'id_manifies' => $request->input('manifiesto'),
+            'id_manifies' => $numeroManifiesto,
             'id_transpo' => $request->input('transporte'),
             'id_corrientes' => $request->input('corriente'),
             'um' => $request->input('um'),
@@ -181,7 +187,7 @@ class ManifiestoController extends Controller
         if ($request->input('corriente1')) {
 
             $datosDetalles1 = [
-                'id_manifies' => $request->input('manifiesto'),
+                'id_manifies' => $numeroManifiesto,
                 'id_transpo' => $request->input('transporte'),
                 'id_corrientes' => $request->input('corriente1'),
                 'um' => $request->input('um1'),
@@ -209,7 +215,7 @@ class ManifiestoController extends Controller
 
         if ($request->input('corriente2')) {
             $datosDetalles2 = [
-                'id_manifies' => $request->input('manifiesto'),
+                'id_manifies' => $numeroManifiesto,
                 'id_transpo' => $request->input('transporte'),
                 'id_corrientes' => $request->input('corriente2'),
                 'um' => $request->input('um2'),
@@ -237,7 +243,7 @@ class ManifiestoController extends Controller
         if ($request->input('corriente3')) {
 
             $datosDetalles3 = [
-                'id_manifies' => $request->input('manifiesto'),
+                'id_manifies' => $numeroManifiesto,
                 'id_transpo' => $request->input('transporte'),
                 'id_corrientes' => $request->input('corriente3'),
                 'um' => $request->input('um3'),
@@ -271,8 +277,10 @@ class ManifiestoController extends Controller
         ];
         Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->update($nuevoManifiesto);
 
+        $manifiesto = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
 
-        return redirect('/listacabeceras')->with('success_message', 'Empresa cargada con exito');
+        $pdf = PDF::loadView('pdf.manifiestonuevo', compact('manifiesto'));
+        return $pdf->download('manifiesto_nuevo.pdf');
     }
 
     public function storeOff(Request $request)

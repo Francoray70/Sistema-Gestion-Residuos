@@ -28,7 +28,6 @@ class OperadordfController extends Controller
         return view('opdispfinal.index', compact('provincias', 'empresas'));
     }
 
-
     public function traerDatosdeManifiestos()
     {
         //

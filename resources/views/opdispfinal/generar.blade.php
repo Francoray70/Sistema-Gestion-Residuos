@@ -182,6 +182,7 @@
 
         <button type="submit" class="btn btn-primary">Cargar</button>
         <a href="{{url('/listaCertificadoCabecera')}}"><button type="button" class="btn btn-primary">Listado</button></a>
+        <a href="{{url('/reimprimircertif')}}"><button type="button" class="btn btn-primary">Reimprimir pdf</button></a>
     </form>
 </div>
 

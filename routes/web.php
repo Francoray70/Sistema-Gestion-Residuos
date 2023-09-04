@@ -30,7 +30,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ExcelesController;
 use App\Http\Controllers\PDFController;
-use Dompdf\Dompdf;
 
 /*
 |--------------------------------------------------------------------------
@@ -381,7 +380,6 @@ Route::get('/listacantidadesanualesOdf', [CorrientesodfController::class, 'traer
 
 Route::get('/cantidadesanualesOdf', [CorrientesodfController::class, 'resultadosCantidades'])->name('cantidadesanualesOdf')->middleware('auth');
 
-
 Route::get('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'show'])->name('editarcorrienteodf')->middleware('auth');
 
 Route::patch('/corrientesopdispfinal/{id}', [CorrientesodfController::class, 'update'])->middleware('auth');
@@ -395,6 +393,8 @@ Route::get('/autorizarmanifodf', [OperadordfController::class, 'autorizarOrechaz
 Route::get('/generarcertdispfinal', [CertificadoController::class, 'traerDatospEnviar2'])->middleware('auth');
 
 Route::post('/generarcertifdispfinal', [CertificadoController::class, 'traerDatosFinalpCertificar'])->middleware('auth');
+
+Route::get('/reimprimircertif', [CertificadoController::class, 'traerDatospReimprimir'])->middleware('auth');
 
 Route::post('/generarcertifdispfinaloff', [CertificadoController::class, 'traerDatosFinalpCertificarOff'])->middleware('auth');
 
@@ -529,4 +529,6 @@ Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->m
 
 */
 
-Route::get('/reimpresionpdf', [PDFController::class, 'generarPDF']);
+Route::get('/reimprimirelpdf', [PDFController::class, 'generarPDF']);
+
+Route::get('/reimprimirelcertificado', [PDFController::class, 'generarCertificado']);

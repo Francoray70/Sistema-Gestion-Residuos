@@ -14,7 +14,7 @@
 
     <thead>
         <tr>
-            <th>SELECCIONAR</th>
+            <th>🖨</th>
             <th>N° MANIFIESTO</th>
             <th>TRANSPORTE</th>
             <th>GENERADOR</th>
@@ -27,11 +27,11 @@
         </tr>
     </thead>
 
-    <form action="{{url('/reimpresionpdf')}}" method="get">
+    <form action="{{url('/reimprimirelpdf')}}" method="get">
         <tbody>
             @foreach ($manifiesto as $datosManifiesto)
             <tr>
-                <td><input type="checkbox" name="manifiesto" value="{{$datosManifiesto->id_manifiesto}}"></td>
+                <td><input type="checkbox" name="id" value="{{$datosManifiesto->id}}"></td>
                 <td>{{$datosManifiesto->id_manifiesto}}</td>
                 <td>{{$datosManifiesto->id_transp}}</td>
                 <td>{{$datosManifiesto->nom_comp}}</td>
@@ -40,7 +40,7 @@
                 <td>{{$datosManifiesto->gener_nom}}</td>
                 <td>{{$datosManifiesto->simple_multiple}}</td>
                 <td>{{$datosManifiesto->estadoo}}</td>
-                <td><a href="">Editar</a></td>
+                <td><a href="{{url('/editarmanifiesto/'.$datosManifiesto->id)}}">Editar</a></td>
             </tr>
 
             @endforeach
