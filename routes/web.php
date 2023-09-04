@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\ActividadesController;
 use App\Http\Controllers\CertificadoController;
 use App\Http\Controllers\CertificadodetalleController;
@@ -503,7 +502,7 @@ Route::patch('/usuarios/{id}', [nombresUsuarios::class, 'update'])->middleware('
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth')->middleware('baneado');
 
 Route::post('/registro', [RegistroController::class, 'CrearUsuario']);
 /*

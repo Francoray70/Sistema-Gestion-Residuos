@@ -21,7 +21,7 @@
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>Los datos ingresados no son correctos</strong>
                                 </span>
                                 @enderror
                             </div>
@@ -35,7 +35,7 @@
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
+                                    <strong>Los datos ingresados no son correctos</strong>
                                 </span>
                                 @enderror
                             </div>
@@ -55,6 +55,11 @@
                             </div>
                         </div>
                     </form>
+                    @if(session('ban'))
+                    <div class="alert alert-danger">
+                        {{ session('ban') }}
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
