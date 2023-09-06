@@ -29,6 +29,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\ExcelesController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\QrController;
 
 /*
 |--------------------------------------------------------------------------
@@ -531,3 +532,5 @@ Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->m
 Route::get('/reimprimirelpdf', [PDFController::class, 'generarPDF']);
 
 Route::get('/reimprimirelcertificado', [PDFController::class, 'generarCertificado']);
+
+Route::get('/qr', [QrController::class, 'generateQRCode']);
