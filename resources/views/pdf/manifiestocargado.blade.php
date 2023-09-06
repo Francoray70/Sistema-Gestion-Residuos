@@ -97,7 +97,7 @@ $verificarDetalles = $detalleManifiesto->count();
 
         td {
             font-size: 11px;
-            padding: 3px;
+            padding: 2px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
@@ -107,7 +107,7 @@ $verificarDetalles = $detalleManifiesto->count();
 
         th {
             font-size: 11px;
-            padding: 3px;
+            padding: 1px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
@@ -156,7 +156,7 @@ $verificarDetalles = $detalleManifiesto->count();
         </div>
 
         <div class="qr">
-            <img src="{{ public_path('storage/qr/ejemplo.png')}}" class="elqr" alt="qr">
+            <img src="{{ public_path('storage/qr/'.$numeroManifiesto.'_manifiesto.png')}}" class="elqr" alt="qr">
         </div>
 
         <p class="tipeado">

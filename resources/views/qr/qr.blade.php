@@ -1,18 +1,27 @@
 <?php
 //Agregamos la libreria para genera códigos QR
-require_once "phpcode/phpqrcode/qrlib.php";
+
+$QR_BASEDIR = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+
+// Required libs
+
+include $QR_BASEDIR . "qrconst.php";
+include $QR_BASEDIR . "qrconfig.php";
+include $QR_BASEDIR . "qrtools.php";
+include $QR_BASEDIR . "qrspec.php";
+include $QR_BASEDIR . "qrimage.php";
+include $QR_BASEDIR . "qrinput.php";
+include $QR_BASEDIR . "qrbitstream.php";
+include $QR_BASEDIR . "qrsplit.php";
+include $QR_BASEDIR . "qrrscode.php";
+include $QR_BASEDIR . "qrmask.php";
+include $QR_BASEDIR . "qrencode.php";
 
 //Declaramos una carpeta temporal para guardar la imagenes generadas
-$dir = 'tempo/';
-
-//Si no existe la carpeta la creamos
-if (!file_exists($dir))
-    mkdir($dir);
 
 //conexion bdd
 
-require "conexion.php";
-$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroup") or die("Problemas con la conexión");
+$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
 mysqli_set_charset($conexion, "utf8");
 $consulta = mysqli_query($conexion, "SELECT * FROM manifiesto");
 
@@ -62,7 +71,7 @@ while ($ral = mysqli_fetch_array($choferes)) {
 }
 
 //Declaramos la ruta y nombre del archivo a generar
-$filename = $dir . $manifiesto . 'manifiesto.png';
+$filename = 'storage/qr/' . $manifiesto . '_manifiesto.png';
 
 //Parametros de Condiguración
 

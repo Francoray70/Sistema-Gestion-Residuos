@@ -1,4 +1,94 @@
-@foreach ($manifiesto as $datosManifiesto)
+<?php
+//Agregamos la libreria para genera códigos QR
+
+$QR_BASEDIR = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+
+// Required libs
+
+include $QR_BASEDIR . "qrconst.php";
+include $QR_BASEDIR . "qrconfig.php";
+include $QR_BASEDIR . "qrtools.php";
+include $QR_BASEDIR . "qrspec.php";
+include $QR_BASEDIR . "qrimage.php";
+include $QR_BASEDIR . "qrinput.php";
+include $QR_BASEDIR . "qrbitstream.php";
+include $QR_BASEDIR . "qrsplit.php";
+include $QR_BASEDIR . "qrrscode.php";
+include $QR_BASEDIR . "qrmask.php";
+include $QR_BASEDIR . "qrencode.php";
+
+//Declaramos una carpeta temporal para guardar la imagenes generadas
+
+//conexion bdd
+
+$conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") or die("Problemas con la conexión");
+mysqli_set_charset($conexion, "utf8");
+$consultaqr = mysqli_query($conexion, "SELECT * FROM manifiesto");
+
+while ($row = mysqli_fetch_array($consultaqr)) {
+    $transporteqr = $row['id_transp'];
+    $nombreqr = $row['nom_comp'];
+    $operadorqr = $row['gener_nom'];
+    $manifiestoqr = $row['id_manifiesto'];
+    $patenteqr = $row['id_patente'];
+    $choferqr = $row['chofer'];
+}
+
+$consulta2 = mysqli_query($conexion, "SELECT * FROM transportes WHERE id_transp = '$transporteqr'");
+while ($fila = mysqli_fetch_array($consulta2)) {
+    $habilitacion = $fila['trans_nro_hab_pro'];
+}
+
+$generadorqr = mysqli_query($conexion, "SELECT * FROM generador WHERE nom_comp = '$nombreqr'");
+while ($filita = mysqli_fetch_array($generadorqr)) {
+    $nombregene = $filita['nom_comp'];
+    $cuitqr = $filita['cuit'];
+}
+
+$transportistaqr = mysqli_query($conexion, "SELECT * FROM transportes WHERE id_transp = '$transporteqr'");
+
+while ($fililla = mysqli_fetch_array($transportistaqr)) {
+    $transpor = $fililla['id_transp'];
+    $cuittransporte = $fililla['cuit_trans'];
+}
+
+$geneprincipalqr = mysqli_query($conexion, "SELECT * FROM generadorprincipal WHERE gener_nom = '$operadorqr'");
+
+while ($fil = mysqli_fetch_array($geneprincipalqr)) {
+    $oper = $fil['gener_nom'];
+    $cuitt = $fil['gener_cuit'];
+}
+
+$vehiculoqr = mysqli_query($conexion, "SELECT * FROM camiones WHERE id_patente = '$patenteqr'");
+while ($raw = mysqli_fetch_array($vehiculoqr)) {
+    $cam5 = $raw['pat_cpel_vto'];
+}
+
+$choferesqr = mysqli_query($conexion, "SELECT * FROM choferes WHERE chofer = '$choferqr'");
+while ($ral = mysqli_fetch_array($choferesqr)) {
+    $cho2 = $ral['nro_carnet'];
+    $cho3 = $ral['carga_pelig_vto'];
+}
+
+//Declaramos la ruta y nombre del archivo a generar
+$filename = 'storage/qr/' . $manifiestoqr . '_manifiesto.png';
+
+//Parametros de Condiguración
+
+$tamaño = 2; //Tamaño de Pixel
+$level = 'M'; //Precisión Baja
+$framSize = 2; //Tamaño en blanco
+$contenido = 'Manifiesto N°: ' . $manifiestoqr . ' / Generador: ' . $nombregene . ' / Cuit: ' . $cuitqr . ' / Transportista: ' . $transpor . ' / Cuit: '
+    . $cuittransporte . ' / Operador: ' . $oper . ' / Cuit: ' . $cuitt . '  / Registro de chofer: ' . $cho2 . ' / VTO del carnet: ' . $cho3 . ' / 
+	Patente: ' . $patenteqr . ' / VTO de cargas peligrosas: ' . $cam5; //Texto
+
+//Enviamos los parametros a la Función para generar código QR 
+QRcode::png($contenido, $filename, $level, $tamaño, $framSize);
+
+
+?>
+
+<!-- ---------------------------------------------------ARRANCA EL PDF ------------------------------------------------------ -->@foreach ($manifiesto as $datosManifiesto)
 
 {{$numeroManifiesto = $datosManifiesto->id_manifiesto}}
 {{$nombreGenerador = $datosManifiesto->nom_comp}}
@@ -71,7 +161,6 @@ $verificarDetalles = $detalleManifiesto->count();
         .qr {
             width: 25%;
             height: 100%;
-            background-color: red;
             float: left;
         }
 
@@ -95,7 +184,7 @@ $verificarDetalles = $detalleManifiesto->count();
 
         td {
             font-size: 11px;
-            padding: 3px;
+            padding: 2px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
@@ -105,7 +194,7 @@ $verificarDetalles = $detalleManifiesto->count();
 
         th {
             font-size: 11px;
-            padding: 3px;
+            padding: 1px;
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
 
@@ -154,7 +243,7 @@ $verificarDetalles = $detalleManifiesto->count();
         </div>
 
         <div class="qr">
-            <img src="{{ public_path('storage/qr/'.$numeroManifiesto.'.png')}}" class="elqr" alt="qr">
+            <img src="{{ public_path('storage/qr/'.$numeroManifiesto.'_manifiesto.png')}}" class="elqr" alt="qr">
         </div>
 
         <p class="tipeado">

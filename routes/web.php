@@ -532,5 +532,3 @@ Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->m
 Route::get('/reimprimirelpdf', [PDFController::class, 'generarPDF']);
 
 Route::get('/reimprimirelcertificado', [PDFController::class, 'generarCertificado']);
-
-Route::get('/qr', [QrController::class, 'generateQRCode']);

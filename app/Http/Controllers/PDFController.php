@@ -18,13 +18,10 @@ class PDFController extends Controller
 
         if ($id) {
 
-            //$manifiesto = manifiesto::where('id', '=', $id)->get();
+            $manifiesto = manifiesto::where('id', '=', $id)->get();
 
-            // $pdf = PDF::loadView('pdf.manifiestocargado', compact('manifiesto'));
-            // return $pdf->stream();
-            // return $pdf->download('manifiesto_reimpreso.pdf');
-
-            //return QrCode::size(300)->generate($id);
+            $pdf = PDF::loadView('pdf.manifiestocargado', compact('manifiesto'));
+            return $pdf->download('manifiesto-reimpreso.pdf');
         } else {
             return view('mensajes.noseleccion');
         }
@@ -38,7 +35,7 @@ class PDFController extends Controller
 
             $pdf = PDF::loadView('pdf.certificadocargado', compact('certificado'));
             $pdf->setPaper('a2', 'landscape');
-            return $pdf->download('certificado_reimpreso.pdf');
+            return $pdf->download('certificado-reimpreso.pdf');
         } else {
             return view('mensajes.noseleccion');
         }
