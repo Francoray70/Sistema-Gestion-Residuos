@@ -27,7 +27,7 @@ class ExcelesController extends Controller
 
     public function excelOpalm(Request $request)
     {
-        $generador = $request->input('operador');
+        $generador = $request->input('generador');
         $fechainicio = $request->input('fechainicio');
         $fechafinal = $request->input('fechafinal');
 

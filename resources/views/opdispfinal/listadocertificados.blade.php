@@ -15,7 +15,7 @@ use App\Models\certificadodetalle;
 @section('navbar')
 
 <form action="{{url('/excelcertifodf')}}" method="get">
-    <h2 class="mt-3">LISTA DE MANIFIESTOS DE OPERADORAS DE DISPOSICIÓN FINAL</h2>
+    <h2 class="mt-3">LISTA DE CERTIFICADOS DE OPERADORAS DE DISPOSICIÓN FINAL</h2>
     <table class="table table-light mt-4 w-85">
 
         <thead>

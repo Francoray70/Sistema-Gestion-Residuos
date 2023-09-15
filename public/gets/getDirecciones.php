@@ -4,7 +4,7 @@ $conexion = mysqli_connect("localhost", "root", "Energia2022.", "raygroupnew") o
 
 $nom_comp = $_POST['nom_comp'];
 
-$consulta = mysqli_query($conexion, "SELECT dir_de_retiro FROM generadordirecciones WHERE nom_comp = '$nom_comp' ORDER BY dir_de_retiro");
+$consulta = mysqli_query($conexion, "SELECT * FROM generadordirecciones WHERE nom_comp = '$nom_comp' ORDER BY dir_de_retiro");
 
 $html = "<option value=''>Seleccionar Direccion</option>";
 

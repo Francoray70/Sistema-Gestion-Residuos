@@ -72,7 +72,7 @@ $fecha = date("Y-m-d");
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">ACTUALIZAR IMAGENES DE TRANSPORTES</h2>
+    <h2 class="mb-3">ACTUALIZAR IMAGENES DE GENERADOR</h2>
     <form action="{{url('/actualizargeneradorimg/'.$id->id)}}" method="post" enctype="multipart/form-data">
         @method('PATCH')
         @csrf

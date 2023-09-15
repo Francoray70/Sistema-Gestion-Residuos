@@ -1,8 +1,3 @@
-<?php
-
-use App\Models\manifiestodet;
-?>
-
 @extends('nav')
 
 <style>
@@ -47,7 +42,7 @@ use App\Models\manifiestodet;
             <td>{{$datosManifiestoDetalles->descr_ingreso}}</td>
             <td>{{$datosManifiestoDetalles->simp_multi}}</td>
             <td>{{$datosManifiestoDetalles->estadooo}}</td>
-            <td><a href="">Editar</a></td>
+            <td><a href="{{url('/editarmanifiestodetallepararecibir/'.$datosManifiestoDetalles->id)}}">Editar</a></td>
         </tr>
         @endforeach
         @endif

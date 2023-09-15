@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\manifiesto;
 use App\Models\certificado;
 use Barryvdh\DomPDF\Facade\Pdf;
-//use QrCode;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -21,7 +20,8 @@ class PDFController extends Controller
             $manifiesto = manifiesto::where('id', '=', $id)->get();
 
             $pdf = PDF::loadView('pdf.manifiestocargado', compact('manifiesto'));
-            return $pdf->download('manifiesto-reimpreso.pdf');
+            return $pdf->stream();
+            // return $pdf->download('manifiesto-reimpreso.pdf');
         } else {
             return view('mensajes.noseleccion');
         }

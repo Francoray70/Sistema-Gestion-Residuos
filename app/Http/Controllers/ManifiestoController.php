@@ -94,7 +94,8 @@ class ManifiestoController extends Controller
         $userid = $user->rol_id;
 
         if ($userid == '6') {
-            $manifiesto = manifiesto::all();
+            $manifiesto = manifiesto::orderBy('fecha_alta_manif', 'desc')
+                ->get();
 
             return view('transportistas.reimprimirpdf', compact('manifiesto'));
         } else {
@@ -130,72 +131,51 @@ class ManifiestoController extends Controller
         //
         $numeroManifiesto = $request->input('manifiesto');
 
-        $datosCabecera = [
-            'id_manifiesto' => $numeroManifiesto,
-            'id_transp' => $request->input('transporte'),
-            'nom_comp' => $request->input('generador'),
-            'fecha_alta_manif' => $request->input('fecha'),
-            'chofer' => $request->input('chofer'),
-            'id_patente' => $request->input('patente'),
-            'retiro_direc' => $request->input('direccion'),
-            'gener_nom' => $request->input('operador'),
-            'inhalacion' => $request->input('inhalacion'),
-            'dermica' => $request->input('dermica'),
-            'oral' => $request->input('oral'),
-            'inflamabilidad' => $request->input('inflamabilidad'),
-            'reactividad' => $request->input('reactividad'),
-            'toxicidad' => $request->input('toxicidad'),
-            'inst_esp' => $request->input('inst_esp'),
-            'manipulacion' => $request->input('manipulacion'),
-            'planes' => $request->input('planes'),
-            'rol' => $request->input('rol'),
-            'hoja' => $request->input('hoja'),
-            'rutas' => $request->input('rutas'),
-            'simple_multiple' => $request->input('tipo'),
-            'estadoo' => 'INICIADO',
-            'fecha_modi_manif' => $request->input('fecha'),
-            'useralta' => $request->input('idusuario'),
-            'fecha_autorizacion' => $request->input('fecha'),
-            'updated_at' => $request->input('fecha'),
-        ];
+        $manifiestodoble = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
+        $control = $manifiestodoble->count();
+        if ($control > 0) {
+            return view('mensajes.manifiestoexistente');
+        } else {
 
-        $datosDetalles = [
-            'id_manifies' => $numeroManifiesto,
-            'id_transpo' => $request->input('transporte'),
-            'id_corrientes' => $request->input('corriente'),
-            'um' => $request->input('um'),
-            'cantidad' => $request->input('cantidad'),
-            'descr_ingreso' => $request->input('descr_ingreso'),
-            'estado_det_manif' => $request->input('tipo2'),
-            'estado' => $request->input('estado'),
-            'descripcion' => $request->input('descripcion'),
-            'simp_multi' => $request->input('tipo'),
-            'estadooo' => 'INICIADO',
-            'useralta' => $request->input('idusuario'),
-            'id_man_tra_nac' => '',
-            'nro_cert_disp_final' => '',
-            'rpg' => '',
-            'nro_cert_rpg' => '',
-            'fcha_entr_cdf' => $request->input('fecha'),
-            'fcha_entr_cdf' => $request->input('fecha'),
-            'updated_at' => $request->input('fecha'),
-        ];
+            $datosCabecera = [
+                'id_manifiesto' => $numeroManifiesto,
+                'id_transp' => $request->input('transporte'),
+                'nom_comp' => $request->input('generador'),
+                'fecha_alta_manif' => $request->input('fecha'),
+                'chofer' => $request->input('chofer'),
+                'id_patente' => $request->input('patente'),
+                'retiro_direc' => $request->input('direccion'),
+                'gener_nom' => $request->input('operador'),
+                'inhalacion' => $request->input('inhalacion'),
+                'dermica' => $request->input('dermica'),
+                'oral' => $request->input('oral'),
+                'inflamabilidad' => $request->input('inflamabilidad'),
+                'reactividad' => $request->input('reactividad'),
+                'toxicidad' => $request->input('toxicidad'),
+                'inst_esp' => $request->input('inst_esp'),
+                'manipulacion' => $request->input('manipulacion'),
+                'planes' => $request->input('planes'),
+                'rol' => $request->input('rol'),
+                'hoja' => $request->input('hoja'),
+                'rutas' => $request->input('rutas'),
+                'simple_multiple' => $request->input('tipo'),
+                'estadoo' => 'INICIADO',
+                'fecha_modi_manif' => $request->input('fecha'),
+                'useralta' => $request->input('idusuario'),
+                'fecha_autorizacion' => $request->input('fecha'),
+                'updated_at' => $request->input('fecha'),
+            ];
 
-        manifiesto::insert($datosCabecera);
-        manifiestodet::insert($datosDetalles);
-
-        if ($request->input('corriente1')) {
-
-            $datosDetalles1 = [
+            $datosDetalles = [
                 'id_manifies' => $numeroManifiesto,
                 'id_transpo' => $request->input('transporte'),
-                'id_corrientes' => $request->input('corriente1'),
-                'um' => $request->input('um1'),
-                'cantidad' => $request->input('cantidad1'),
-                'descr_ingreso' => $request->input('descr_ingreso1'),
+                'id_corrientes' => $request->input('corriente'),
+                'um' => $request->input('um'),
+                'cantidad' => $request->input('cantidad'),
+                'descr_ingreso' => $request->input('descr_ingreso'),
                 'estado_det_manif' => $request->input('tipo2'),
                 'estado' => $request->input('estado'),
-                'descripcion' => $request->input('descripcion1'),
+                'descripcion' => $request->input('descripcion'),
                 'simp_multi' => $request->input('tipo'),
                 'estadooo' => 'INICIADO',
                 'useralta' => $request->input('idusuario'),
@@ -208,79 +188,107 @@ class ManifiestoController extends Controller
                 'updated_at' => $request->input('fecha'),
             ];
 
-            if ($datosDetalles1) {
-                manifiestodet::insert($datosDetalles1);
-            }
-        }
+            manifiesto::insert($datosCabecera);
+            manifiestodet::insert($datosDetalles);
 
-        if ($request->input('corriente2')) {
-            $datosDetalles2 = [
-                'id_manifies' => $numeroManifiesto,
-                'id_transpo' => $request->input('transporte'),
-                'id_corrientes' => $request->input('corriente2'),
-                'um' => $request->input('um2'),
-                'cantidad' => $request->input('cantidad2'),
-                'descr_ingreso' => $request->input('descr_ingreso2'),
-                'estado_det_manif' => $request->input('tipo2'),
-                'estado' => $request->input('estado2'),
-                'descripcion' => $request->input('descripcion2'),
-                'simp_multi' => $request->input('tipo'),
-                'estadooo' => 'INICIADO',
-                'useralta' => $request->input('idusuario'),
-                'id_man_tra_nac' => '',
-                'nro_cert_disp_final' => '',
-                'rpg' => '',
-                'nro_cert_rpg' => '',
-                'fcha_entr_cdf' => $request->input('fecha'),
-                'fcha_entr_cdf' => $request->input('fecha'),
-                'updated_at' => $request->input('fecha'),
+            if ($request->input('corriente1')) {
+
+                $datosDetalles1 = [
+                    'id_manifies' => $numeroManifiesto,
+                    'id_transpo' => $request->input('transporte'),
+                    'id_corrientes' => $request->input('corriente1'),
+                    'um' => $request->input('um1'),
+                    'cantidad' => $request->input('cantidad1'),
+                    'descr_ingreso' => $request->input('descr_ingreso1'),
+                    'estado_det_manif' => $request->input('tipo2'),
+                    'estado' => $request->input('estado'),
+                    'descripcion' => $request->input('descripcion1'),
+                    'simp_multi' => $request->input('tipo'),
+                    'estadooo' => 'INICIADO',
+                    'useralta' => $request->input('idusuario'),
+                    'id_man_tra_nac' => '',
+                    'nro_cert_disp_final' => '',
+                    'rpg' => '',
+                    'nro_cert_rpg' => '',
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'updated_at' => $request->input('fecha'),
+                ];
+
+                if ($datosDetalles1) {
+                    manifiestodet::insert($datosDetalles1);
+                }
+            }
+
+            if ($request->input('corriente2')) {
+                $datosDetalles2 = [
+                    'id_manifies' => $numeroManifiesto,
+                    'id_transpo' => $request->input('transporte'),
+                    'id_corrientes' => $request->input('corriente2'),
+                    'um' => $request->input('um2'),
+                    'cantidad' => $request->input('cantidad2'),
+                    'descr_ingreso' => $request->input('descr_ingreso2'),
+                    'estado_det_manif' => $request->input('tipo2'),
+                    'estado' => $request->input('estado2'),
+                    'descripcion' => $request->input('descripcion2'),
+                    'simp_multi' => $request->input('tipo'),
+                    'estadooo' => 'INICIADO',
+                    'useralta' => $request->input('idusuario'),
+                    'id_man_tra_nac' => '',
+                    'nro_cert_disp_final' => '',
+                    'rpg' => '',
+                    'nro_cert_rpg' => '',
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'updated_at' => $request->input('fecha'),
+                ];
+
+                if ($datosDetalles2) {
+                    manifiestodet::insert($datosDetalles2);
+                }
+            }
+            if ($request->input('corriente3')) {
+
+                $datosDetalles3 = [
+                    'id_manifies' => $numeroManifiesto,
+                    'id_transpo' => $request->input('transporte'),
+                    'id_corrientes' => $request->input('corriente3'),
+                    'um' => $request->input('um3'),
+                    'cantidad' => $request->input('cantidad3'),
+                    'descr_ingreso' => $request->input('descr_ingreso3'),
+                    'estado_det_manif' => $request->input('tipo2'),
+                    'estado' => $request->input('estado3'),
+                    'descripcion' => $request->input('descripcion3'),
+                    'simp_multi' => $request->input('tipo'),
+                    'estadooo' => 'INICIADO',
+                    'useralta' => $request->input('idusuario'),
+                    'id_man_tra_nac' => '',
+                    'nro_cert_disp_final' => '',
+                    'rpg' => '',
+                    'nro_cert_rpg' => '',
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'fcha_entr_cdf' => $request->input('fecha'),
+                    'updated_at' => $request->input('fecha'),
+                ];
+
+                if ($datosDetalles3) {
+                    manifiestodet::insert($datosDetalles3);
+                }
+            }
+
+
+            $user = Auth::user();
+            $userEmpresa = $user->empresa;
+            $nuevoManifiesto = [
+                'manifiesto_actual' => $request->input('nuevomanifiesto'),
             ];
+            Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->update($nuevoManifiesto);
 
-            if ($datosDetalles2) {
-                manifiestodet::insert($datosDetalles2);
-            }
+            $manifiesto = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
+
+            $pdf = PDF::loadView('pdf.manifiestonuevo', compact('manifiesto'));
+            return $pdf->download('manifiesto_nuevo.pdf');
         }
-        if ($request->input('corriente3')) {
-
-            $datosDetalles3 = [
-                'id_manifies' => $numeroManifiesto,
-                'id_transpo' => $request->input('transporte'),
-                'id_corrientes' => $request->input('corriente3'),
-                'um' => $request->input('um3'),
-                'cantidad' => $request->input('cantidad3'),
-                'descr_ingreso' => $request->input('descr_ingreso3'),
-                'estado_det_manif' => $request->input('tipo2'),
-                'estado' => $request->input('estado3'),
-                'descripcion' => $request->input('descripcion3'),
-                'simp_multi' => $request->input('tipo'),
-                'estadooo' => 'INICIADO',
-                'useralta' => $request->input('idusuario'),
-                'id_man_tra_nac' => '',
-                'nro_cert_disp_final' => '',
-                'rpg' => '',
-                'nro_cert_rpg' => '',
-                'fcha_entr_cdf' => $request->input('fecha'),
-                'fcha_entr_cdf' => $request->input('fecha'),
-                'updated_at' => $request->input('fecha'),
-            ];
-
-            if ($datosDetalles3) {
-                manifiestodet::insert($datosDetalles3);
-            }
-        }
-
-
-        $user = Auth::user();
-        $userEmpresa = $user->empresa;
-        $nuevoManifiesto = [
-            'manifiesto_actual' => $request->input('nuevomanifiesto'),
-        ];
-        Transportista::where('id_transp', 'LIKE', '%' . $userEmpresa . '%')->update($nuevoManifiesto);
-
-        $manifiesto = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
-
-        $pdf = PDF::loadView('pdf.manifiestonuevo', compact('manifiesto'));
-        return $pdf->download('manifiesto_nuevo.pdf');
     }
 
     public function storeOff(Request $request)

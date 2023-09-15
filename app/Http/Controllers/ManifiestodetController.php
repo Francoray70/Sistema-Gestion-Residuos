@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\manifiestodet;
+use App\Models\manifiesto;
 use App\Models\Transportista;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -28,9 +29,10 @@ class ManifiestodetController extends Controller
         if ($request->input('id')) {
             $numManifiesto = $request->input('id');
             $manifiesto = manifiestodet::where('id_manifies', '=', $numManifiesto)->get();
+            $nombreGene = manifiesto::where('id_manifiesto', '=', $numManifiesto)->get();
 
             if ($manifiesto) {
-                return view('transportistas.listadetalles', compact('manifiesto'));
+                return view('transportistas.listadetalles', compact('manifiesto', 'nombreGene'));
             } else {
                 return view('transportistas.listacabeceras');
             }
@@ -53,6 +55,29 @@ class ManifiestodetController extends Controller
 
         if ($comprobar) {
             return view('transportistas.editardetalle', compact('manifiesto', 'transporte'));
+        } else {
+            return view('mensajes.manifiestonoeditable');
+        }
+    }
+
+    public function traerDetallepEditarRecibido(Request $request, $id)
+    {
+        //
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $manifiesto = manifiestodet::where('id', '=', $id)
+            ->where('estadooo', '=', 'INICIADO')
+            ->get();
+
+        foreach ($manifiesto as $transporteData) {
+            $userTransporte = $transporteData->id_transpo;
+        }
+        $transporte = Transportista::where('id_transp', 'LIKE', '%' . $userTransporte . '%')->get();
+
+        $comprobar = $manifiesto->count();
+
+        if ($comprobar) {
+            return view('transportistas.editardetalleRecibido', compact('manifiesto', 'transporte'));
         } else {
             return view('mensajes.manifiestonoeditable');
         }
@@ -167,6 +192,23 @@ class ManifiestodetController extends Controller
         return redirect('/listacabeceras');
     }
 
+    public function editarDetalleManifiestoRecibido(Request $request)
+    {
+        //
+        $datosDetalle = [
+            'id_corrientes' => $request->input('corrientes'),
+            'um' => $request->input('um'),
+            'estado' => $request->input('estado'),
+            'cantidad' => $request->input('cantidad'),
+            'descr_ingreso' => $request->input('descr_ingreso'),
+            'descripcion' => $request->input('descripcion'),
+            'updated_at' => $request->input('fecha'),
+        ];
+
+        manifiestodet::where('id', '=', $request->input('id'))->update($datosDetalle);
+
+        return redirect(url()->previous());
+    }
     /**
      * Update the specified resource in storage.
      */

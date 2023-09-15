@@ -65,7 +65,7 @@ class OperadoralmController extends Controller
 
             manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'ALTA']);
 
-            return redirect('/recibirmanifopdispfinal')->with('success_message', 'Empresa cargada con éxito');
+            return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
         }
 
         if ($request->input('rechazar')) {
@@ -76,7 +76,7 @@ class OperadoralmController extends Controller
 
             manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'BAJA']);
 
-            return redirect('/recibirmanifopdispfinal')->with('success_message', 'Empresa cargada con éxito');
+            return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
         }
 
         if ($request->input('buscar')) {

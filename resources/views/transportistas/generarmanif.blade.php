@@ -494,7 +494,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Generador</label>
             <select class="form-select w-75" name="generador" id="generador" required>
-                <option selected>Seleccionar generador</option>
+                <option>Seleccionar generador</option>
                 @if (!empty($generador))
                 @foreach ($generador as $datosGenerador)
                 <option value="{{$datosGenerador->nom_comp}}">{{$datosGenerador->nom_comp}}</option>
@@ -505,7 +505,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Transporte</label>
             <select class="form-select w-75" name="transporte" id="transporte" required>
-                <option selected>Seleccionar transporte</option>
+                <option>Seleccionar transporte</option>
                 @if (!empty($transportes))
                 @foreach ($transportes as $datosTransporte)
                 <option value="{{$datosTransporte->id_transp}}">{{$datosTransporte->id_transp}}</option>
@@ -544,7 +544,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Inhalacion</label>
             <select class="form-select w-75" name="inhalacion" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -552,7 +552,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Dermica</label>
             <select class="form-select w-75" name="dermica" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -560,7 +560,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-4">
             <label class="form-label">Oral</label>
             <select class="form-select w-75" name="oral" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -572,7 +572,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Inflamabilidad</label>
             <select class="form-select w-75" name="inflamabilidad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -580,7 +580,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Toxicidad</label>
             <select class="form-select w-75" name="toxicidad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -588,7 +588,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Reactividad</label>
             <select class="form-select w-75" name="reactividad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -596,7 +596,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-4">
             <label class="form-label">Instrucciones especiales</label>
             <select class="form-select w-75" name="inst_esp" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -610,7 +610,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Manipulación en planta trat. o disp. final</label>
             <select class="form-select w-75" name="manipulacion" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -618,7 +618,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Planes de contingencia</label>
             <select class="form-select w-75" name="planes" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -626,7 +626,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Rol de emergencia</label>
             <select class="form-select w-75" name="rol" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -634,7 +634,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Hoja de ruta</label>
             <select class="form-select w-75" name="hoja" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -642,7 +642,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Rutas alternativas</label>
             <select class="form-select w-75" name="rutas" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>

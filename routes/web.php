@@ -208,6 +208,10 @@ Route::get('/editarmanifiestodetalle/{id}', [ManifiestodetController::class, 'tr
 
 Route::patch('/editarmanifiestodetalle/{id}', [ManifiestodetController::class, 'editarDetalleManifiesto'])->middleware('auth');
 
+Route::get('/editarmanifiestodetallepararecibir/{id}', [ManifiestodetController::class, 'traerDetallepEditarRecibido'])->name('editardetalleRecibido')->middleware('auth');
+
+Route::patch('/editarmanifiestodetallepararecibir/{id}', [ManifiestodetController::class, 'editarDetalleManifiestoRecibido'])->middleware('auth');
+
 Route::get('/listacabeceras', [ManifiestoController::class, 'index'])->middleware('auth');
 
 Route::get('/reimprimirpdf', [ManifiestoController::class, 'paraImprimir'])->middleware('auth');
@@ -306,7 +310,7 @@ Route::delete('/corrientesopalmacenamiento/{id}', [CorrientesopalmController::cl
 
 Route::get('/recibirmanifiestoalm', [CertificadoController::class, 'recibirManifiestos'])->middleware('auth');
 
-Route::get('/autorizarmanifodf', [OperadoralmController::class, 'autorizarOrechazar'])->name('autorizarmanifodf')->middleware('auth');
+Route::get('/autorizarmanifoalm', [OperadoralmController::class, 'autorizarOrechazar'])->name('autorizarmanifoalm')->middleware('auth');
 
 Route::get('/enviarmanifiestoalm', [CertificadoController::class, 'traerDatospEnviar'])->middleware('auth');
 

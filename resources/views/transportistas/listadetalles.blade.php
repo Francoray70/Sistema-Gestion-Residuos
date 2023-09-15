@@ -15,6 +15,7 @@
     <thead>
         <tr>
             <th>N° MANIFIESTO</th>
+            <th>GENERADOR</th>
             <th>TRANSPORTE</th>
             <th>CORRIENTE</th>
             <th>UM</th>
@@ -29,10 +30,14 @@
     </thead>
 
     <tbody>
+        @foreach ($nombreGene as $generador)
+
+        @endforeach
         @foreach ($manifiesto as $datosManifiesto)
 
         <tr>
             <td>{{$datosManifiesto->id_manifies}}</td>
+            <td>{{$generador->nom_comp}}</td>
             <td>{{$datosManifiesto->id_transpo}}</td>
             <td>{{$datosManifiesto->id_corrientes}}</td>
             <td>{{$datosManifiesto->um}}</td>

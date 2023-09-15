@@ -14,6 +14,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Empresas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CertificadoController extends Controller
 {
@@ -74,7 +75,13 @@ class CertificadoController extends Controller
         $datos = manifiesto::where('gener_nom', 'LIKE', '%' . $userEmpresa . '%')
             ->where('estadoo', 'LIKE', '%' . 'INICIADO' . '%')
             ->get();
-        return view('opalmacenamiento.recibir', compact('datos'));
+
+        $verificar = $datos->count();
+        if ($verificar) {
+            return view('opalmacenamiento.recibir', compact('datos'));
+        } else {
+            return view('mensajes.notienepararecibir');
+        }
     }
 
     public function traerDatospEnviar2()
@@ -170,87 +177,114 @@ class CertificadoController extends Controller
     {
         $fecha = Carbon::now();
 
-        $datosCertificado = [
-            'useralta' => $request->input('idusuario'),
-            'provonac' => $request->input('tipo'),
-            'opdfinal' => $request->input('operador'),
-            'nro_cert_disp_final' => $request->input('certificadodf'),
-            'num_manifiesto' => $request->input('manifiesto'),
-            'fechacertificado' => $request->input('fechacertificado'),
-            'generador' => $request->input('generador'),
-            'num_hab_nac_odf' => $request->input('nro_hab_nac'),
-            'vto_hab_nac_odf' => $request->input('vto_hab_nac'),
-            'num_hab_pro_odf' => $request->input('hab_pro_nro_odf'),
-            'vto_hab_pro_odf' => $request->input('hab_pro_vto_odf'),
-            'num_hab_nacional_gen' => $request->input('nrogenerador'),
-            'vto_hab_nacional_gen' => $request->input('vtogenerador'),
-        ];
+        $numCertificado = $request->input('certificadodf');
+        $check = $numCertificado->count();
 
-        certificado::insert($datosCertificado);
+        if ($check > 0) {
+            return view('mensajes.certificadoexistente');
+        } else {
 
-        $corrientes = $request->input('corriente');
-        $descripcion = $request->input('descripcion');
-        $contenedor = $request->input('contenedor');
-        $cantidad = $request->input('cantidad');
-        $tratamiento = $request->input('tratamiento');
-        $estado = $request->input('estado');
-        $certificado = $request->input('certificadodf');
-        $fechacertif = $request->input('fechacertificado');
-        $transporte = $request->input('transporte');
-        $ubicacion = $request->input('ubi_odf');
-        $manifiesto = $request->input('manifiesto');
+            $datosCertificado = [
+                'useralta' => $request->input('idusuario'),
+                'provonac' => $request->input('tipo'),
+                'opdfinal' => $request->input('operador'),
+                'nro_cert_disp_final' => $request->input('certificadodf'),
+                'num_manifiesto' => $request->input('manifiesto'),
+                'fechacertificado' => $request->input('fechacertificado'),
+                'generador' => $request->input('generador'),
+                'num_hab_nac_odf' => $request->input('nro_hab_nac'),
+                'vto_hab_nac_odf' => $request->input('vto_hab_nac'),
+                'num_hab_pro_odf' => $request->input('hab_pro_nro_odf'),
+                'vto_hab_pro_odf' => $request->input('hab_pro_vto_odf'),
+                'num_hab_nacional_gen' => $request->input('nrogenerador'),
+                'vto_hab_nacional_gen' => $request->input('vtogenerador'),
+            ];
 
-        $rowCount = count($tratamiento);
+            certificado::insert($datosCertificado);
 
-        for ($i = 0; $i < $rowCount; $i++) {
+            $corrientes = $request->input('corriente');
+            $descripcion = $request->input('descripcion');
+            $contenedor = $request->input('contenedor');
+            $cantidad = $request->input('cantidad');
+            $tratamiento = $request->input('tratamiento');
+            $estado = $request->input('estado');
+            $certificado = $request->input('certificadodf');
+            $fechacertif = $request->input('fechacertificado');
+            $transporte = $request->input('transporte');
+            $ubicacion = $request->input('ubi_odf');
+            $manifiesto = $request->input('manifiesto');
 
-            $datoDetalle = ([
-                'corriente' => $corrientes[$i],
-                'numero_certif' => $certificado,
-                'numero_manifiesto' => $manifiesto,
-                'fechatratamiento' => $fechacertif,
-                'descripcion' => $descripcion[$i],
-                'um' => $contenedor[$i],
-                'cantidad' => $cantidad[$i],
-                'tipotratamiento' => $tratamiento[$i],
-                'estado' => $estado[$i],
-                'ubicacion' => $ubicacion,
-                'updated_at' => $fecha,
-                'created_at' => $fecha,
-                'transportista' => $transporte,
-            ]);
+            $rowCount = count($tratamiento);
 
-            certificadodetalle::insert($datoDetalle);
+            for ($i = 0; $i < $rowCount; $i++) {
+
+                $datoDetalle = ([
+                    'corriente' => $corrientes[$i],
+                    'numero_certif' => $certificado,
+                    'numero_manifiesto' => $manifiesto,
+                    'fechatratamiento' => $fechacertif,
+                    'descripcion' => $descripcion[$i],
+                    'um' => $contenedor[$i],
+                    'cantidad' => $cantidad[$i],
+                    'tipotratamiento' => $tratamiento[$i],
+                    'estado' => $estado[$i],
+                    'ubicacion' => $ubicacion,
+                    'updated_at' => $fecha,
+                    'created_at' => $fecha,
+                    'transportista' => $transporte,
+                ]);
+
+                certificadodetalle::insert($datoDetalle);
+            }
+
+            $operador = $request->input('operador');
+
+            $busqueda = operadordf::where('id_operador_df', '=', $operador)->get();
+            foreach ($busqueda as $datoBusqueda) {
+                $ncertificado = $datoBusqueda->cdf_actual;
+            }
+            $nrocertifinal = $ncertificado + 1;
+
+            operadordf::where('id_operador_df', 'LIKE', '%' . $operador . '%')->update(['cdf_actual' => $nrocertifinal]);
+
+            manifiestodet::where('id_manifies', '=', $manifiesto)->update(['nro_cert_disp_final' => $certificado, 'estado_det_manif' => 'DISPOSICIÓN FINAL']);
+            manifiestodet::where('id_man_tra_nac', '=', $manifiesto)->update(['nro_cert_disp_final' => $certificado, 'estado_det_manif' => 'DISPOSICIÓN FINAL']);
+
+            $certificado = certificado::where('nro_cert_disp_final', '=', $numCertificado)->get();
+
+            $pdf = PDF::loadView('pdf.certificadonuevo', compact('certificado'));
+            return $pdf->download('certificado_nuevo.pdf');
         }
-
-        $operador = $request->input('operador');
-
-        $busqueda = operadordf::where('id_operador_df', '=', $operador)->get();
-        foreach ($busqueda as $datoBusqueda) {
-            $ncertificado = $datoBusqueda->cdf_actual;
-        }
-        $nrocertifinal = $ncertificado + 1;
-
-        operadordf::where('id_operador_df', 'LIKE', '%' . $operador . '%')->update(['cdf_actual' => $nrocertifinal]);
-
-        manifiestodet::where('id_manifies', '=', $manifiesto)->update(['nro_cert_disp_final' => $certificado, 'estado_det_manif' => 'DISPOSICIÓN FINAL']);
-        manifiestodet::where('id_man_tra_nac', '=', $manifiesto)->update(['nro_cert_disp_final' => $certificado, 'estado_det_manif' => 'DISPOSICIÓN FINAL']);
-
-        return redirect('/generarcertdispfinal');
     }
 
 
     public function traerCertificadosCabecera(Request $request)
     {
-        $resultados = certificado::all();
-        return view('opdispfinal.listacabecerasCer', compact('resultados'));
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $resultados = certificado::where('opdfinal', 'LIKE', '%' . $userEmpresa . '%')->get();
+        $verifico = $resultados->count();
+
+        if ($verifico) {
+            return view('opdispfinal.listacabecerasCer', compact('resultados'));
+        } else {
+            return view('mensajes.notienecertificado');
+        }
     }
 
 
     public function traerDatospReimprimir(Request $request)
     {
-        $resultados = certificado::all();
-        return view('opdispfinal.reimprimircertif', compact('resultados'));
+        $user = Auth::user();
+        $userEmpresa = $user->empresa;
+        $resultados = certificado::where('opdfinal', 'LIKE', '%' . $userEmpresa . '%')->get();
+        $verifico = $resultados->count();
+
+        if ($verifico) {
+            return view('opdispfinal.reimprimircertif', compact('resultados'));
+        } else {
+            return view('mensajes.notienecertificado');
+        }
     }
 
     public function index()

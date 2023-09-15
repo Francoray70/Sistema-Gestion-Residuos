@@ -11,6 +11,6 @@
 
 <br>
 
-<img src="{{asset('sistema/storage/'.$id->cli_ima_hab_mun)}}" class="img-thumbnail" alt="">
+<img src="{{asset('storage/'.$id->cli_ima_hab_mun)}}" class="img-thumbnail" alt="">
 
 @endsection

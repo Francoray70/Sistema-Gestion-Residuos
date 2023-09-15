@@ -55,7 +55,7 @@
 
     </table>
 
-    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Actualizar/Buscar">
+    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Actualizar/Buscar detalle">
     <a href=""><button type="button" class="btn btn-primary mt-4 ml-4">Descargar excel</button></a>
 </form>
 @endsection

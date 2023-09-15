@@ -10,7 +10,7 @@
 @section('navbar')
 
 <h2 class="mt-3">LISTA DE MANIFIESTOS A RECIBIR</h2>
-<form action="{{route('autorizarmanifodf')}}" method="get">
+<form action="{{route('autorizarmanifoalm')}}" method="get">
     <table class="table table-light mt-4 w-85">
 
         <thead>
@@ -55,7 +55,7 @@
 
     </table>
 
-    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Actualizar/Buscar">
+    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Actualizar/Buscar detalle">
     <a href=""><button type="button" class="btn btn-primary mt-4 ml-4">Descargar excel</button></a>
 </form>
 @endsection
