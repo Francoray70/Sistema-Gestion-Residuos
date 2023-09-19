@@ -51,5 +51,4 @@
 
 </table>
 
-<a href=""><button type="button" class="btn btn-primary mt-4 ml-4">DESCARGAR EXCEL</button></a>
 @endsection

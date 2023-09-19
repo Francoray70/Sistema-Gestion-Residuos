@@ -14,9 +14,9 @@
 
     <div class="container mt-6">
         <div class="alert alert-danger mt-3" role="alert">
-            Ya existe un certificado con este número.
+            No existe un manifiesto realizado por estas empresas.
         </div>
-        <a href="{{ url('/generarcertdispfinal') }}" class="btn btn-primary">Regresar</a>
+        <a href="{{ url()->previous() }}" class="btn btn-primary">Regresar</a>
     </div>
 
 </body>

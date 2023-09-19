@@ -287,7 +287,7 @@ class ManifiestoController extends Controller
             $manifiesto = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
 
             $pdf = PDF::loadView('pdf.manifiestonuevo', compact('manifiesto'));
-            return $pdf->download('manifiesto_nuevo.pdf');
+            return $pdf->download($numeroManifiesto . '.pdf');
         }
     }
 

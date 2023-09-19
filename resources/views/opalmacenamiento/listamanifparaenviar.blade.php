@@ -70,6 +70,7 @@ use App\Models\manifiestodet;
 
 
     @foreach ($resultado2 as $datosOtroManif)
+    @endforeach
     <?php
 
     $detalles2 = manifiestodet::where('id_manifies', $datosOtroManif->id_manifiesto)
@@ -79,8 +80,8 @@ use App\Models\manifiestodet;
 
     ?>
 
-    <select name="manifiestoSeleccion" class="form-select w-50">
-        <option selected>Seleccione manifiesto para envio</option>
+    <select name="manifiestoSeleccion" class="form-select w-50" required>
+        <option value="">Seleccione manifiesto para envio</option>
 
         @if ($detalles2)
         @foreach ($detalles2 as $datosOtroManifDet)
@@ -88,7 +89,6 @@ use App\Models\manifiestodet;
         @endforeach
         @endif
     </select>
-    @endforeach
     <input type="submit" class="btn btn-primary mt-4 ml-4" value="Enviar">
 </form>
 

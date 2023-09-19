@@ -340,7 +340,7 @@ Route::get('/manifiestopalm', [LibromanifiestoController::class, 'resultadosOpal
 
 Route::get('/librorpgalm', [LibromanifiestoController::class, 'traerDatosRpgAlm'])->middleware('auth');
 
-Route::get('/rpgalm', [LibromanifiestoController::class, 'resultadosRpgAlm'])->name('listarpgalm')->middleware('auth');
+Route::get('/rpgalm', [LibromanifiestoController::class, 'resultadosRpgAlm'])->middleware('auth');
 
 Route::get('/actualizaropalmimg/{id}', [OperadoralmController::class, 'showImg'])->name('actualizarimgopalm')->middleware('auth');
 
@@ -536,3 +536,5 @@ Route::get('/excelcertifodf', [ExcelesController::class, 'excelCertificado'])->m
 Route::get('/reimprimirelpdf', [PDFController::class, 'generarPDF']);
 
 Route::get('/reimprimirelcertificado', [PDFController::class, 'generarCertificado']);
+
+Route::get('/reimprimirrpg', [PDFController::class, 'generarRpg']);

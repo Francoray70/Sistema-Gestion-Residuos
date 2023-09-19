@@ -58,13 +58,19 @@ class CertificadoController extends Controller
             ->where('gener_nom', 'LIKE', '%' . $operador . '%')
             ->get();
 
-        foreach ($resultados as $datoManifiesto) {
-            $numeroManifiesto = $datoManifiesto->id_man_tra_nac;
+        $verificar = $resultados->count();
+        if ($verificar == 0) {
+            return view('mensajes.nohaymanifprpg');
+        } else {
+
+            foreach ($resultados as $datoManifiesto) {
+                $numeroManifiesto = $datoManifiesto->id_man_tra_nac;
+            }
+
+            $resultado2 = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
+
+            return view('opalmacenamiento.listamanifiestosacertificar', compact('resultados', 'resultado2', 'rpg'));
         }
-
-        $resultado2 = manifiesto::where('id_manifiesto', '=', $numeroManifiesto)->get();
-
-        return view('opalmacenamiento.listamanifiestosacertificar', compact('resultados', 'resultado2', 'rpg'));
     }
 
     public function recibirManifiestos(Request $request)
@@ -178,7 +184,8 @@ class CertificadoController extends Controller
         $fecha = Carbon::now();
 
         $numCertificado = $request->input('certificadodf');
-        $check = $numCertificado->count();
+        $Verifica = certificado::where('nro_cert_disp_final', '=', $numCertificado)->get();
+        $check = $Verifica->count();
 
         if ($check > 0) {
             return view('mensajes.certificadoexistente');
@@ -251,11 +258,16 @@ class CertificadoController extends Controller
             manifiestodet::where('id_man_tra_nac', '=', $manifiesto)->update(['nro_cert_disp_final' => $certificado, 'estado_det_manif' => 'DISPOSICIÓN FINAL']);
 
             $certificado = certificado::where('nro_cert_disp_final', '=', $numCertificado)->get();
+            foreach ($certificado as $data) {
+                $numeroCertif = $data->nro_cert_disp_final;
+            }
 
             $pdf = PDF::loadView('pdf.certificadonuevo', compact('certificado'));
-            return $pdf->download('certificado_nuevo.pdf');
+            $pdf->setPaper('a2', 'landscape');
+            return $pdf->download($numeroCertif . '.pdf');
         }
     }
+
 
 
     public function traerCertificadosCabecera(Request $request)
@@ -293,11 +305,12 @@ class CertificadoController extends Controller
     }
     public function cargarRpg(Request $request)
     {
+        $fecha = Carbon::now();
         $certirpg = $request->input('certirpg');
         $operador = $request->input('operador');
         $manifreal = $request->input('manifiestoreal');
         $generador = $request->input('generador');
-        $certificado = $request->input('certificado');
+        $certificadoRecibido = $request->input('certificado');
         $id = $request->input('id');
 
         $dato2 = operadoralm::where('gener_nom', 'LIKE', '%' . $operador . '%')->get();
@@ -325,7 +338,15 @@ class CertificadoController extends Controller
         operadoralm::where('gener_nom', 'LIKE', '%' . $operador . '%')
             ->update(['rpg_actual' => $rpgFinal]);
 
-        return redirect('/generarcertifrpg');
+
+        $certificado = certificado::where('nro_cert_disp_final', '=', $certificadoRecibido)->get();
+        foreach ($certificado as $data) {
+            $numeroCertif = $data->nro_cert_disp_final;
+        }
+
+        $pdf = PDF::loadView('pdf.rpgcargado', compact('certificado'));
+        $pdf->setPaper('a2', 'landscape');
+        return $pdf->download($numeroCertif . '.pdf');
     }
 
     /**

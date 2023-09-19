@@ -14,12 +14,13 @@ use App\Models\manifiestodet;
 
 @section('navbar')
 
-<form action="{{url('/excelrpg')}}" method="get">
+<form action="{{url('/reimprimirrpg')}}" method="get">
     <h2 class="mt-3">LISTA DE RPG DE OPERADORAS DE ALMACENAMIENTO</h2>
     <table class="table table-light mt-4 w-85">
 
         <thead>
             <tr>
+                <th>🖨</th>
                 <th>RPG</th>
                 <th>N° CERTIF. RPG</th>
                 <th>GENERADOR</th>
@@ -46,6 +47,7 @@ use App\Models\manifiestodet;
             @foreach ($detalles as $datosManifiestoDetalles)
 
             <tr>
+                <td><input type="checkbox" value="{{$datosManifiestoDetalles->nro_cert_disp_final}}" name="id"></td>
                 <td>{{$datosManifiestoDetalles->rpg}}</td>
                 <td>{{$datosManifiestoDetalles->nro_cert_rpg}}</td>
                 <td>{{$datosManifiestoCabecera->nom_comp}}</td>
@@ -67,12 +69,15 @@ use App\Models\manifiestodet;
         </tbody>
 
 
-        <input type="text" value="{{$operador}}" style="display: none;" name="operador">
-        <input type="date" value="{{$fechaInicio}}" style="display: none;" name="fechainicio">
-        <input type="date" value="{{$fechaFinal}}" style="display: none;" name="fechafinal">
 
     </table>
+    <input type="submit" class="btn btn-primary mt-4 ml-4" value="Reimprimir PDF">
+</form>
+<form action="{{url('/excelrpg')}}" method="get">
+    <input type="text" value="{{$operador}}" style="display: none;" name="operador">
+    <input type="date" value="{{$fechaInicio}}" style="display: none;" name="fechainicio">
+    <input type="date" value="{{$fechaFinal}}" style="display: none;" name="fechafinal">
     <input type="submit" class="btn btn-primary mt-4 ml-4" value="Descargar excel">
-    <a href=""><button type="button" class="btn btn-primary mt-4 ml-4">REIMPRIMIR PDF</button></a>
+</form>
 
-    @endsection
+@endsection

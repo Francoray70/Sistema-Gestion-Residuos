@@ -10,7 +10,7 @@
 @section('navbar')
 
 <div class="container w-85 border p-4 mt-5">
-    <h2 class="mb-3">CARGAR IMAGENES DE MANIFIESTOS FIRMADOS</h2>
+    <h2 class="mb-3">CARGAR IMAGENES DE CERTIFICADOS FIRMADOS</h2>
     <form>
         @csrf
         <div class="mb-3">
