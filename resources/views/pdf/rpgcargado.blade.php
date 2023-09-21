@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\manifiestodet;
+use Carbon\Carbon;
 
 $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
     ->where('rpg', '<>', '')
@@ -59,6 +60,7 @@ $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
             width: 49%;
             height: 40%;
             float: left;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             border: 1px solid black;
             padding: 8px;
         }
@@ -127,6 +129,8 @@ $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
         <br>
         <p>Domicilio: {{$datosGenerador->direccion}}</p>
         <br>
+        <p>Localidad: {{$datosGenerador->ciudad}}</p>
+        <br>
         <p>Cuit: {{$datosGenerador->cuit}}</p>
         <br>
         <p>RPGyOSP N°: {{$datosGenerador->cli_nro_hab_pro}}</p>
@@ -142,6 +146,8 @@ $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
         <p>Razón Social: {{$datosOperador->gener_nom}}</p>
         <br>
         <p>Domicilio: {{$datosOperador->gener_dir}}</p>
+        <br>
+        <p>Localidad: {{$datosOperador->gener_ciu}}</p>
         <br>
         <p>Cuit: {{$datosOperador->gener_cuit}}</p>
         <br>
@@ -186,7 +192,16 @@ $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
 
                 @endforeach
                 @foreach ($dataDetalle as $datosDetalle)
+                <?php
+                $fechaDB = $datosDetalle->fecha_alta_manif;
+                $fechaDB2 = $datosDetalle->fcha_entr_cdf;
 
+                $fechaSet1 = Carbon::parse($fechaDB);
+                $fechaSet2 = Carbon::parse($fechaDB2);
+
+                $fechaAlta = $fechaSet1->format('d-m-Y');
+                $fechaModif = $fechaSet2->format('d-m-Y');
+                ?>
                 <tr>
 
                     <td class="losDatos">{{$datosDetalle->id_corrientes}}</td>
@@ -194,10 +209,10 @@ $dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
                     <td class="losDatos">{{$datosDetalle->cantidad}}</td>
                     <td class="losDatos">{{$datosDetalle->id_transpo}}</td>
                     <td class="losDatos">{{$datosDetalle->rpg}}</td>
-                    <td class="losDatos">{{$datosDetalle->fecha_alta_manif}}</td>
+                    <td class="losDatos">{{$fechaAlta}}</td>
                     <td class="losDatos">{{$datosDetalle->id_manifiesto}}</td>
                     <td class="losDatos">{{$datosDetalle->id_man_tra_nac}}</td>
-                    <td class="losDatos">{{$datosDetalle->fcha_entr_cdf}}</td>
+                    <td class="losDatos">{{$fechaModif}}</td>
                     <td class="losDatos">{{$dataCertificado->opdfinal}}</td>
                     <td class="losDatos">{{$dataCertificado->ubicacion}}</td>
                     <td class="losDatos">{{$dataCertificado->nro_cert_disp_final}}</td>

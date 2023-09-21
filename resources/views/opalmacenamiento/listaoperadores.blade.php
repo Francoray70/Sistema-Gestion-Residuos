@@ -1,4 +1,9 @@
+<?php
+
+use Carbon\Carbon;
+?>
 @extends('nav')
+
 
 <style>
     .table {
@@ -35,6 +40,21 @@
     <tbody>
         @foreach ($operadores as $datosOperador)
 
+        <?php
+
+
+        $fechaDB = $datosOperador->gener_vto_hab_pro;
+        $fechaDB2 = $datosOperador->gener_vto_hab_nac;
+        $fechaDB3 = $datosOperador->gener_vto_hab_mun;
+
+        $fechaSet1 = Carbon::parse($fechaDB);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+        $fechaSet3 = Carbon::parse($fechaDB3);
+
+        $fecha1 = $fechaSet1->format('d-m-Y');
+        $fecha2 = $fechaSet2->format('d-m-Y');
+        $fecha3 = $fechaSet3->format('d-m-Y');
+        ?>
         <tr>
             <td>{{$datosOperador->gener_nom}}</td>
             <td>{{$datosOperador->gener_cuit}}</td>
@@ -44,11 +64,11 @@
             <td>{{$datosOperador->gener_ubi}}</td>
             <td>{{$datosOperador->dispfinal}}</td>
             <td><a href="{{ route('verprovinciaopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->gener_vto_hab_pro}}</td>
+            <td>{{$fecha1}}</td>
             <td><a href="{{ route('vernacionopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->gener_vto_hab_nac}}</td>
+            <td>{{$fecha2}}</td>
             <td><a href="{{ route('vermunicipalopalm', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->gener_vto_hab_mun}}</td>
+            <td>{{$fecha3}}</td>
             <td><a href="{{ route('actualizarimgopalm', ['id' => $datosOperador->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editaropalm', ['id' => $datosOperador->id]) }}">Editar</a></td>
         </tr>

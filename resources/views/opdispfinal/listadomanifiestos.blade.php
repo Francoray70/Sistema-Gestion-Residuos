@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\manifiestodet;
+use Carbon\Carbon;
 ?>
 
 @extends('nav')
@@ -39,6 +40,11 @@ use App\Models\manifiestodet;
             @foreach ($resultados as $datosManifiestoCabecera)
             <?php
             $detalles = manifiestodet::where('id_manifies', $datosManifiestoCabecera->id_manifiesto)->get();
+            $fechaDB = $datosManifiestoCabecera->fecha_alta_manif;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
             ?>
             @if(!empty($detalles))
             @foreach ($detalles as $datosManifiestoDetalles)
@@ -46,7 +52,7 @@ use App\Models\manifiestodet;
             <tr>
                 <td>{{$datosManifiestoCabecera->id_manifiesto}}</td>
                 <td>{{$datosManifiestoCabecera->nom_comp}}</td>
-                <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
+                <td>{{$fechaAlta}}</td>
                 <td>{{$datosManifiestoCabecera->id_transp}}</td>
                 <td>{{$datosManifiestoCabecera->id_patente}}</td>
                 <td>{{$datosManifiestoCabecera->chofer}}</td>

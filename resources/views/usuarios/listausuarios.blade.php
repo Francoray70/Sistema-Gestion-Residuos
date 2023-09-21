@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\roles;
+use Carbon\Carbon;
 ?>
 
 @extends('nav')
@@ -36,6 +37,14 @@ use App\Models\roles;
 
         <?php
         $rol = roles::where('id_rol', '=', $datosUsuario->rol_id)->get();
+        $fechaDB = $datosUsuario->fecha_usu_alta;
+        $fechaDB2 = $datosUsuario->fecha_usu_modi;
+
+        $fechaSet1 = Carbon::parse($fechaDB);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+
+        $fechaAlta = $fechaSet1->format('d-m-Y');
+        $fechaModif = $fechaSet2->format('d-m-Y');
         ?>
 
         @foreach ($rol as $nombreRol)
@@ -44,8 +53,8 @@ use App\Models\roles;
             <td>{{$datosUsuario->nombre}}</td>
             <td>{{$datosUsuario->usuario}}</td>
             <td>{{$datosUsuario->empresa}}</td>
-            <td>{{$datosUsuario->fecha_usu_alta}}</td>
-            <td>{{$datosUsuario->fecha_usu_modi}}</td>
+            <td>{{$fechaAlta}}</td>
+            <td>{{$fechaModif}}</td>
             <td>{{$nombreRol->rol}}</td>
             <td>{{$datosUsuario->baneado}}</td>
             <td><a href="{{ route('editarusuario', ['id' => $datosUsuario->id]) }}">Editar</a></td>

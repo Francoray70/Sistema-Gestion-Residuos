@@ -1,3 +1,8 @@
+<?php
+
+use Carbon\Carbon;
+?>
+
 @extends('nav')
 
 <style>
@@ -30,12 +35,21 @@
     <form action="{{route('listadetalles')}}" method="get">
         <tbody>
             @foreach ($manifiesto as $datosManifiesto)
+
+            <?php
+
+            $fechaDB = $datosManifiesto->fecha_alta_manif;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
+            ?>
             <tr>
                 <td><input type="checkbox" name="id" value="{{$datosManifiesto->id_manifiesto}}"></td>
                 <td>{{$datosManifiesto->id_manifiesto}}</td>
                 <td>{{$datosManifiesto->id_transp}}</td>
                 <td>{{$datosManifiesto->nom_comp}}</td>
-                <td>{{$datosManifiesto->fecha_alta_manif}}</td>
+                <td>{{$fechaAlta}}</td>
                 <td>{{$datosManifiesto->id_patente}}</td>
                 <td>{{$datosManifiesto->gener_nom}}</td>
                 <td>{{$datosManifiesto->simple_multiple}}</td>

@@ -1,3 +1,8 @@
+<?php
+
+
+use Carbon\Carbon;
+?>
 @extends('nav')
 
 <style>
@@ -34,10 +39,18 @@
             @if(!empty($datos))
             @foreach ($datos as $datosManifiesto)
 
+            <?php
+
+            $fechaDB = $datosManifiesto->fecha_alta_manif;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
+            ?>
             <tr>
                 <td><input type="checkbox" name="buscar" value="{{$datosManifiesto->id_manifiesto}}"></td>
                 <td>{{$datosManifiesto->id_manifiesto}}</td>
-                <td>{{$datosManifiesto->fecha_alta_manif}}</td>
+                <td>{{$fechaAlta}}</td>
                 <td>{{$datosManifiesto->nom_comp}}</td>
                 <td>{{$datosManifiesto->id_transp}}</td>
                 <td>{{$datosManifiesto->id_patente}}</td>

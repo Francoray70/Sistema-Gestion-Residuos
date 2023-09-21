@@ -107,6 +107,7 @@ use App\Models\Transportista;
 use App\Models\operadoralm;
 use App\Models\vehiculos;
 use App\Models\chofer;
+use Carbon\Carbon;
 
 $detalleManifiesto = manifiestodet::where('id_manifies', '=', $numeroManifiesto)->get();
 $generador = generador::where('nom_comp', 'LIKE', '%' . $nombreGenerador . '%')->get();
@@ -269,7 +270,19 @@ $verificarDetalles = $detalleManifiesto->count();
             EMPRESA: {{$nombreTransporte}}
         </p>
     </div>
+    <?php
+    $fechaDB = $dataGenerador->cli_vto_hab_mun;
+    $fechaDB2 = $dataTransporte->trans_vto_hab_mun;
+    $fechaDB3 = $dataOperador->gener_vto_hab_pro;
 
+    $fechaSet1 = Carbon::parse($fechaDB);
+    $fechaSet2 = Carbon::parse($fechaDB2);
+    $fechaSet3 = Carbon::parse($fechaDB3);
+
+    $fecha1 = $fechaSet1->format('d-m-Y');
+    $fecha2 = $fechaSet2->format('d-m-Y');
+    $fecha3 = $fechaSet3->format('d-m-Y');
+    ?>
     <table class="table mt-10">
         <thead class="border-1">
             <tr>
@@ -290,21 +303,21 @@ $verificarDetalles = $detalleManifiesto->count();
                 <td colspan="2" class="border-1">{{$dataGenerador->nom_comp}}</td>
                 <td class="border-1 centrar cuit">{{$dataGenerador->cuit}}</td>
                 <td class="border-1 centrar">{{$dataGenerador->cli_nro_hab_mun}}</td>
-                <td class="border-1 centrar">{{$dataGenerador->cli_vto_hab_mun}}</td>
+                <td class="border-1 centrar">{{$fecha1}}</td>
             </tr>
             <tr class="border-1">
                 <td class="border-1">TRANSPORTISTAS</td>
                 <td colspan="2" class="border-1">{{$dataTransporte->id_transp}}</td>
                 <td class="border-1 centrar cuit">{{$dataTransporte->cuit_trans}}</td>
                 <td class="border-1 centrar">{{$dataTransporte->trans_num_hab_mun}}</td>
-                <td class="border-1 centrar">{{$dataTransporte->trans_vto_hab_mun}}</td>
+                <td class="border-1 centrar">{{$fecha2}}</td>
             </tr>
             <tr class="border-1">
                 <td class="border-1">OPERADOR</td>
                 <td colspan="2" class="border-1">{{$dataOperador->gener_nom}}</td>
                 <td class="border-1 centrar cuit">{{$dataOperador->gener_cuit}}</td>
                 <td class="border-1 centrar">{{$dataOperador->gener_nro_hab_pro}}</td>
-                <td class="border-1 centrar">{{$dataOperador->gener_vto_hab_pro}}</td>
+                <td class="border-1 centrar">{{$fecha3}}</td>
             </tr>
         </tbody>
 
@@ -313,7 +326,16 @@ $verificarDetalles = $detalleManifiesto->count();
                 <th scope="col" colspan="6">2.TRANSPORTISTA</th>
             </tr>
         </thead>
+        <?php
+        $fechaDB = $dataPatente->pat_cpel_vto;
+        $fechaDB2 = $dataChofer->carga_pelig_vto;
 
+        $fechaSet1 = Carbon::parse($fechaDB);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+
+        $fecha1 = $fechaSet1->format('d-m-Y');
+        $fecha2 = $fechaSet2->format('d-m-Y');
+        ?>
         <tbody class="table-group-divider border-1">
             <tr class="border-1">
                 <td colspan="2" class="border-1 titulos">VEHÍCULO</td>
@@ -327,12 +349,12 @@ $verificarDetalles = $detalleManifiesto->count();
                 <td class="border-1">{{$dataPatente->descripcion_vehiculo}}</td>
                 <td class="border-1 centrar">{{$dataPatente->id_patente}}</td>
                 <td class="border-1 centrar">{{$dataPatente->pat_cpel_nro}}</td>
-                <td class="border-1 centrar">{{$dataPatente->pat_cpel_vto}}</td>
+                <td class="border-1 centrar">{{$fecha1}}</td>
             </tr>
             <tr class="border-1">
                 <td class="border-1" colspan="3">CONDUCTOR: {{$dataChofer->chofer}}</td>
                 <td class="border-1" colspan="2">LIC. MER. PELIG. CNRT N°: {{$dataChofer->nro_carnet}}</td>
-                <td class="border-1 centrar">{{$dataChofer->carga_pelig_vto}}</td>
+                <td class="border-1 centrar">{{$fecha2}}</td>
             </tr>
         </tbody>
 
@@ -532,8 +554,15 @@ $verificarDetalles = $detalleManifiesto->count();
                     en la presente, son veraces y se ajustan a la legislación vigente de la materia.
                 </td>
             </tr>
+            <?php
+            $fechaDB = $datosManifiesto->fecha_alta_manif;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fecha1 = $fechaSet1->format('d-m-Y');
+            ?>
             <tr>
-                <td colspan="4" class="border-1">FECHA Y SITIO DE RECOLECCIÓN: {{$datosManifiesto->fecha_alta_manif}} | {{$datosManifiesto->retiro_direc}}</td>
+                <td colspan="4" class="border-1">FECHA Y SITIO DE RECOLECCIÓN: {{$fecha1}} | {{$datosManifiesto->retiro_direc}}</td>
                 <td colspan="2" class="subtitulos2">FECHA ENTREGA AL OPERADOR PERMAN/TRANSIT:</td>
             </tr>
             <tr>

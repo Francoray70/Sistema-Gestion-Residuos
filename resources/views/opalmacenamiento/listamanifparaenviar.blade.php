@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\manifiestodet;
+use Carbon\Carbon;
 ?>
 
 @extends('nav')
@@ -42,6 +43,11 @@ use App\Models\manifiestodet;
                 ->where('estadooo', 'LIKE', '%' . 'ALTA' . '%')
                 ->where('id_man_tra_nac', '=', '')
                 ->get();
+            $fechaDB = $datosManifiestoCabecera->fecha_alta_manif;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
             ?>
 
             @if(!empty($detalles))
@@ -51,7 +57,7 @@ use App\Models\manifiestodet;
                 <td><input type="checkbox" name="manifiestoId[]" value="{{$datosManifiestoDetalles->id}}"></td>
                 <td>{{$datosManifiestoCabecera->id_manifiesto}}</td>
                 <td>{{$datosManifiestoCabecera->nom_comp}}</td>
-                <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
+                <td>{{$fechaAlta}}</td>
 
                 <td>{{$datosManifiestoDetalles->id_corrientes}}</td>
                 <td><input type="text" name="um" readonly value="{{$datosManifiestoDetalles->um}}"></td>

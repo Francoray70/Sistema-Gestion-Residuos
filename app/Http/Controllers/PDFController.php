@@ -27,7 +27,8 @@ class PDFController extends Controller
             }
 
             $pdf = PDF::loadView('pdf.manifiestocargado', compact('manifiesto'));
-            return $pdf->download($numeroManif . '.pdf');
+            return $pdf->stream();
+            // return $pdf->download($numeroManif . '.pdf');
         } else {
             return view('mensajes.noseleccion');
         }
@@ -45,7 +46,8 @@ class PDFController extends Controller
 
             $pdf = PDF::loadView('pdf.certificadocargado', compact('certificado'));
             $pdf->setPaper('a2', 'landscape');
-            return $pdf->download($numeroCertif . '.pdf');
+            return $pdf->stream();
+            // return $pdf->download($numeroCertif . '.pdf');
         } else {
             return view('mensajes.noseleccion');
         }
@@ -84,7 +86,7 @@ class PDFController extends Controller
             $pdf = PDF::loadView('pdf.rpgcargado', compact('certificado', 'manifiesto', 'manifiestoTN', 'opalmacenamiento', 'generador', 'generadorNombre', 'rpg'));
             $pdf->setPaper('a2', 'landscape');
             return $pdf->stream();
-            //return $pdf->download($rpg . '.pdf');
+            //  return $pdf->download($rpg . '.pdf');
         } else {
             return view('mensajes.noseleccion');
         }

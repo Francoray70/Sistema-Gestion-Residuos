@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\certificadodetalle;
+use Carbon\Carbon;
 ?>
 
 @extends('nav')
@@ -37,6 +38,11 @@ use App\Models\certificadodetalle;
             @foreach ($resultados as $datosCertificadosCabecera)
             <?php
             $detalles = certificadodetalle::where('numero_certif', $datosCertificadosCabecera->nro_cert_disp_final)->get();
+            $fechaDB = $datosCertificadosCabecera->fechacertificado;
+
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
             ?>
             @if(!empty($detalles))
             @foreach ($detalles as $datosCertificadosDetalles)
@@ -45,7 +51,7 @@ use App\Models\certificadodetalle;
                 <td>{{$datosCertificadosCabecera->nro_cert_disp_final}}</td>
                 <td>{{$datosCertificadosCabecera->num_manifiesto}}</td>
                 <td>{{$datosCertificadosCabecera->opdfinal}}</td>
-                <td>{{$datosCertificadosCabecera->fechacertificado}}</td>
+                <td>{{$fechaAlta}}</td>
                 <td>{{$datosCertificadosCabecera->generador}}</td>
 
 

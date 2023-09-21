@@ -103,14 +103,20 @@ class CertificadoController extends Controller
         $verificar = $pago->count();
 
         if ($verificar) {
-            $empresas = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
-
-            $comprobar = $empresas->count();
-
-            if ($comprobar) {
-                return view('opdispfinal.generar', ['empresas' => $empresas]);
+            $userRol = $user->rol_id;
+            if ($userRol == '6') {
+                $empresas = operadordf::orderBy('id_operador_df')->get();
+                return view('opdispfinal.generar', compact('empresas'));
             } else {
-                return view('mensajes.nooperador');
+                $empresas = operadordf::where('id_operador_df', 'LIKE', '%' . $userEmpresa . '%')->get();
+
+                $comprobar = $empresas->count();
+
+                if ($comprobar) {
+                    return view('opdispfinal.generar', ['empresas' => $empresas]);
+                } else {
+                    return view('mensajes.nooperador');
+                }
             }
         } else {
             return view('mensajes.nopago');
@@ -368,8 +374,7 @@ class CertificadoController extends Controller
 
         $pdf = PDF::loadView('pdf.rpgcargado', compact('certificado', 'manifiesto', 'manifiestoTN', 'opalmacenamiento', 'generador', 'generadorNombre', 'rpg'));
         $pdf->setPaper('a2', 'landscape');
-        return $pdf->stream();
-        //return $pdf->download($rpg . '.pdf');
+        return $pdf->download($rpg . '.pdf');
     }
 
     /**

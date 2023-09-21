@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\manifiestodet;
-use App\Models\manifiesto;
+use Carbon\Carbon;
 ?>
 
 @extends('nav')
@@ -46,7 +46,11 @@ use App\Models\manifiesto;
                 ->where('nro_cert_disp_final', '<>', '')
                 ->where('rpg', '=', '')
                 ->get();
+            $fechaDB = $datosManifiestoCabecera->fecha_alta_manif;
 
+            $fechaSet1 = Carbon::parse($fechaDB);
+
+            $fechaAlta = $fechaSet1->format('d-m-Y');
             ?>
 
             @if(!empty($detalles))
@@ -56,7 +60,7 @@ use App\Models\manifiesto;
             <td><input type="checkbox" name="id" value="{{$datosManifiestoDetalles->id}}"></td>
             <td><input type="text" readonly name="manifiestoreal" value="{{$datosManifiestoDetalles->id_manifies}}"></td>
             <td><input type="text" readonly name="generador" value="{{$datosManifiestoCabecera->nom_comp}}"></td>
-            <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
+            <td>{{$fechaAlta}}</td>
             <td>{{$datosManifiestoCabecera->id_transp}}</td>
             <td><input type="text" readonly name="operador" value="{{$datosManifiestoCabecera->gener_nom}}"></td>
 

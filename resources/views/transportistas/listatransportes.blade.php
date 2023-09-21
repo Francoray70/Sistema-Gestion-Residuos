@@ -1,3 +1,8 @@
+<?php
+
+use Carbon\Carbon;
+?>
+
 @extends('nav')
 
 <style>
@@ -33,6 +38,19 @@
     <tbody>
         @foreach ($registros as $datosUsuario)
 
+        <?php
+        $fechaDB1 = $datosUsuario->trans_vto_hab_pro;
+        $fechaDB2 = $datosUsuario->trans_vto_hab_nac;
+        $fechaDB3 = $datosUsuario->trans_vto_hab_mun;
+
+        $fechaSet1 = Carbon::parse($fechaDB1);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+        $fechaSet3 = Carbon::parse($fechaDB3);
+
+        $fecha1 = $fechaSet1->format('d-m-Y');
+        $fecha2 = $fechaSet2->format('d-m-Y');
+        $fecha3 = $fechaSet3->format('d-m-Y');
+        ?>
         <tr>
             <td>{{$datosUsuario->id_transp}}</td>
             <td>{{$datosUsuario->cuit_trans}}</td>
@@ -40,11 +58,11 @@
             <td>{{$datosUsuario->local_transp}}</td>
             <td>{{$datosUsuario->transp_act}}</td>
             <td><a href="{{ route('verprovinciat', ['id' => $datosUsuario->id]) }}">Ver</a></td>
-            <td>{{$datosUsuario->trans_vto_hab_pro}}</td>
+            <td>{{$fecha1}}</td>
             <td><a href="{{ route('vernaciont', ['id' => $datosUsuario->id]) }}">Ver</a></td>
-            <td>{{$datosUsuario->trans_vto_hab_nac}}</td>
+            <td>{{$fecha2}}</td>
             <td><a href="{{ route('vermunicipalt', ['id' => $datosUsuario->id]) }}">Ver</a></td>
-            <td>{{$datosUsuario->trans_vto_hab_mun}}</td>
+            <td>{{$fecha3}}</td>
             <td><a href="{{ route('actualizarimgtransp', ['id' => $datosUsuario->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editartransporte', ['id' => $datosUsuario->id]) }}">Editar</a></td>
         </tr>

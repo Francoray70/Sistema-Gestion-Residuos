@@ -1,3 +1,8 @@
+<?php
+
+use Carbon\Carbon;
+?>
+
 @extends('nav')
 
 <style>
@@ -32,6 +37,17 @@
 
     <tbody>
         @foreach ($registros as $datosEmpresa)
+        <?php
+
+        $fechaDB = $datosEmpresa->cli_vto_hab_pro;
+        $fechaDB2 = $datosEmpresa->cli_vto_hab_com;
+
+        $fechaSet1 = Carbon::parse($fechaDB);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+
+        $fecha1 = $fechaSet1->format('d-m-Y');
+        $fecha2 = $fechaSet2->format('d-m-Y');
+        ?>
 
         <tr>
             <td>{{$datosEmpresa->nom_comp}}</td>
@@ -41,9 +57,9 @@
             <td>{{$datosEmpresa->ciudad}}</td>
             <td>{{$datosEmpresa->cod_postal}}</td>
             <td><a href="{{ route('verprovincia', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
-            <td>{{$datosEmpresa->cli_vto_hab_pro}}</td>
+            <td>{{$fecha1}}</td>
             <td><a href="{{ route('vercomercial', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
-            <td>{{$datosEmpresa->cli_vto_hab_com}}</td>
+            <td>{{$fecha2}}</td>
             <td><a href="{{ route('vernacion', ['id' => $datosEmpresa->id]) }}">Ver</a></td>
             <td><a href="{{ route('actualizarimggen', ['id' => $datosEmpresa->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editargenerador', ['id' => $datosEmpresa->id]) }}">Editar</a></td>

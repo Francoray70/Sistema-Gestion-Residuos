@@ -1,3 +1,9 @@
+<?php
+
+
+use Carbon\Carbon;
+?>
+
 @extends('nav')
 
 <style>
@@ -15,7 +21,7 @@
     <thead>
         <tr>
             <th>OPERADOR</th>
-            <th>CUIT EMPRESAS OPERADORAS</th>
+            <th>CUIT</th>
             <th>DIRECCIÓN</th>
             <th>LOCALIDAD</th>
             <th>PROVINCIA</th>
@@ -33,7 +39,19 @@
 
     <tbody>
         @foreach ($operadores as $datosOperador)
+        <?php
+        $fechaDB = $datosOperador->hab_pro_vto_odf;
+        $fechaDB2 = $datosOperador->vto_hab_nac;
+        $fechaDB3 = $datosOperador->hab_mun_vto_odf;
 
+        $fechaSet1 = Carbon::parse($fechaDB);
+        $fechaSet2 = Carbon::parse($fechaDB2);
+        $fechaSet3 = Carbon::parse($fechaDB3);
+
+        $fecha1 = $fechaSet1->format('d-m-Y');
+        $fecha2 = $fechaSet2->format('d-m-Y');
+        $fecha3 = $fechaSet3->format('d-m-Y');
+        ?>
         <tr>
             <td>{{$datosOperador->id_operador_df }}</td>
             <td>{{$datosOperador->cuit_odf}}</td>
@@ -42,11 +60,11 @@
             <td>{{$datosOperador->prov_odf}}</td>
             <td>{{$datosOperador->ubi_odf}}</td>
             <td><a href="{{ route('verprovinciaodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->hab_pro_vto_odf}}</td>
+            <td>{{$fecha1}}</td>
             <td><a href="{{ route('vernacionodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->vto_hab_nac}}</td>
+            <td>{{$fecha2}}</td>
             <td><a href="{{ route('vermunicipalodf', ['id' => $datosOperador->id]) }}">Ver</a></td>
-            <td>{{$datosOperador->hab_mun_vto_odf}}</td>
+            <td>{{$fecha3}}</td>
             <td><a href="{{ route('actualizarimgodf', ['id' => $datosOperador->id]) }}">Actualizar</a></td>
             <td><a href="{{ route('editarodf', ['id' => $datosOperador->id]) }}">Editar</a></td>
         </tr>

@@ -1,3 +1,8 @@
+<?php
+
+use Carbon\Carbon;
+?>
+
 @extends('nav')
 
 <style>
@@ -29,12 +34,19 @@
 
     <tbody>
         @foreach ($resultados as $datosCertificadoDetalle)
+        <?php
+        $fechaDB = $datosCertificadoDetalle->fechatratamiento;
+
+        $fechaSet1 = Carbon::parse($fechaDB);
+
+        $fechaAlta = $fechaSet1->format('d-m-Y');
+        ?>
         <tr>
             <td>{{$datosCertificadoDetalle->numero_certif}}</td>
             <td>{{$datosCertificadoDetalle->corriente}}</td>
             <td>{{$datosCertificadoDetalle->um}}</td>
             <td>{{$datosCertificadoDetalle->transportista}}</td>
-            <td>{{$datosCertificadoDetalle->fechatratamiento}}</td>
+            <td>{{$fechaAlta}}</td>
             <td>{{$datosCertificadoDetalle->estado}}</td>
             <td>{{$datosCertificadoDetalle->cantidad}}</td>
             <td>{{$datosCertificadoDetalle->tipotratamiento}}</td>

@@ -9,6 +9,7 @@
 use App\Models\certificadodetalle;
 use App\Models\generador;
 use App\Models\operadordf;
+use Carbon\Carbon;
 
 $dataDetalle = certificadodetalle::where('numero_certif', '=', $numeroCertificado)->get();
 $dataGenerador = generador::where('nom_comp', 'LIKE', '%' . $nombreGenerador . '%')->get();
@@ -64,6 +65,7 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
             width: 49%;
             height: 40%;
             float: left;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             border: 1px solid black;
             padding: 8px;
         }
@@ -131,6 +133,8 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
         <br>
         <p>Domicilio: {{$datosGenerador->direccion}}</p>
         <br>
+        <p>Localidad: {{$datosGenerador->ciudad}}</p>
+        <br>
         <p>Cuit: {{$datosGenerador->cuit}}</p>
         <br>
         <p>RPGyOSP N°: {{$datosGenerador->cli_nro_hab_pro}}</p>
@@ -146,6 +150,8 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
         <p>Razón Social: {{$datosOperador->id_operador_df}}</p>
         <br>
         <p>Domicilio: {{$datosOperador->direc_odf}}</p>
+        <br>
+        <p>Localidad: {{$datosOperador->local_odf}}</p>
         <br>
         <p>Cuit: {{$datosOperador->cuit_odf}}</p>
         <br>
@@ -180,7 +186,14 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
                     <td class="losSubtitulos">UBICACION</td>
                 </tr>
                 @foreach ($dataDetalle as $datosDetalle)
+                <?php
 
+                $fechaDB = $datosDetalle->fechatratamiento;
+
+                $fechaSet1 = Carbon::parse($fechaDB);
+
+                $fechaTratamiento = $fechaSet1->format('d-m-Y');
+                ?>
                 <tr>
 
                     <td class="losDatos">{{$datosDetalle->corriente}}</td>
@@ -189,7 +202,7 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
                     <td class="losDatos">{{$datosDetalle->um}}</td>
                     <td class="losDatos">{{$datosDetalle->transportista}}</td>
                     <td class="losDatos">{{$datosDetalle->numero_manifiesto}}</td>
-                    <td class="losDatos">{{$datosDetalle->fechatratamiento}}</td>
+                    <td class="losDatos">{{$fechaTratamiento}}</td>
                     <td class="losDatos">{{$datosDetalle->tipotratamiento}}</td>
                     <td class="losDatos">{{$datosDetalle->ubicacion}}</td>
 
