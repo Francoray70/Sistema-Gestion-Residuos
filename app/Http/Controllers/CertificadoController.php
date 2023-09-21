@@ -9,6 +9,7 @@ use App\Models\certificadodetalle;
 use App\Models\manifiesto;
 use App\Models\manifiestodet;
 use App\Models\operadoralm;
+use App\Models\generador;
 use App\Models\operadordf;
 use App\Http\Controllers\Controller;
 use App\Models\Empresas;
@@ -309,7 +310,7 @@ class CertificadoController extends Controller
         $certirpg = $request->input('certirpg');
         $operador = $request->input('operador');
         $manifreal = $request->input('manifiestoreal');
-        $generador = $request->input('generador');
+        $generador1 = $request->input('generador');
         $certificadoRecibido = $request->input('certificado');
         $id = $request->input('id');
 
@@ -329,7 +330,7 @@ class CertificadoController extends Controller
         }
 
         manifiestodet::join('manifiesto', 'manifiestodet.id_manifies', '=', 'manifiesto.id_manifiesto')
-            ->where('manifiesto.nom_comp', '=', $generador)
+            ->where('manifiesto.nom_comp', '=', $generador1)
             ->where('manifiestodet.simp_multi', '=', 'UNO')
             ->where('manifiestodet.nro_cert_disp_final', '=', $ElManifiesto2)
             ->where('manifiestodet.rpg', '=', '')
@@ -339,14 +340,36 @@ class CertificadoController extends Controller
             ->update(['rpg_actual' => $rpgFinal]);
 
 
-        $certificado = certificado::where('nro_cert_disp_final', '=', $certificadoRecibido)->get();
-        foreach ($certificado as $data) {
-            $numeroCertif = $data->nro_cert_disp_final;
+        $id2 = $id;
+
+        $detalle = manifiestodet::where('id', '=', $id2)->get();
+
+        foreach ($detalle as $datosDetalle) {
+            $certificadoDf = $datosDetalle->nro_cert_disp_final;
+            $rpg = $datosDetalle->nro_cert_rpg;
+            $manifiestoTN = $datosDetalle->id_man_tra_nac;
+            $manifiesto = $datosDetalle->id_manifies;
         }
 
-        $pdf = PDF::loadView('pdf.rpgcargado', compact('certificado'));
+        $cabecera = manifiesto::where('id_manifiesto', '=', $manifiesto)->get();
+
+        foreach ($cabecera as $datosCabecera) {
+            $generadorNombre = $datosCabecera->nom_comp;
+            $operador = $datosCabecera->gener_nom;
+        }
+
+        $certificado = certificado::where('nro_cert_disp_final', '=', $certificadoDf)
+            ->join('certifdispfinaldetalle', 'certifdispfinaldetalle.numero_certif', '=', 'certifdispfinal.nro_cert_disp_final')
+            ->select('certifdispfinaldetalle.*', 'certifdispfinal.*')
+            ->get();
+        $opalmacenamiento = operadoralm::where('gener_nom', 'LIKE', '%' . $operador . '%')->get();
+        $generador = generador::where('nom_comp', 'LIKE', '%' . $generadorNombre . '%')->get();
+
+
+        $pdf = PDF::loadView('pdf.rpgcargado', compact('certificado', 'manifiesto', 'manifiestoTN', 'opalmacenamiento', 'generador', 'generadorNombre', 'rpg'));
         $pdf->setPaper('a2', 'landscape');
-        return $pdf->download($numeroCertif . '.pdf');
+        return $pdf->stream();
+        //return $pdf->download($rpg . '.pdf');
     }
 
     /**

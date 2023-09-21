@@ -47,14 +47,12 @@ use App\Models\manifiestodet;
             @foreach ($detalles as $datosManifiestoDetalles)
 
             <tr>
-                <td><input type="checkbox" value="{{$datosManifiestoDetalles->nro_cert_disp_final}}" name="id"></td>
+                <td><input type="checkbox" value="{{$datosManifiestoDetalles->id}}" name="id"></td>
                 <td>{{$datosManifiestoDetalles->rpg}}</td>
                 <td>{{$datosManifiestoDetalles->nro_cert_rpg}}</td>
                 <td>{{$datosManifiestoCabecera->nom_comp}}</td>
                 <td>{{$datosManifiestoDetalles->nro_cert_disp_final}}</td>
                 <td>{{$datosManifiestoDetalles->id_man_tra_nac}}</td>
-
-
                 <td>{{$datosManifiestoDetalles->id_manifies}}</td>
                 <td>{{$datosManifiestoCabecera->fecha_alta_manif}}</td>
                 <td>{{$datosManifiestoDetalles->id_corrientes}}</td>

@@ -1,22 +1,13 @@
-@foreach ($certificado as $dataCertificado)
-{{$numeroCertificado = $dataCertificado->nro_cert_disp_final}}
-{{$numeroManifiesto = $dataCertificado->num_manifiesto}}
-{{$nombreGenerador = $dataCertificado->generador}}
-{{$nombreOperador = $dataCertificado->opdfinal}}
-@endforeach
 <?php
 
-use App\Models\certificadodetalle;
-use App\Models\generador;
-use App\Models\Transportista;
-use App\Models\operadordf;
+use App\Models\manifiestodet;
 
-$dataDetalle = certificadodetalle::join('certifdispfinal', 'certifdispfinal.nro_cert_disp_final', '=', 'certifdispfinaldetalle.numero_certif')
-    ->select('certifdispfinal.*', 'certifdispfinaldetalle.*')
-    ->get();;
-$dataGenerador = generador::where('nom_comp', 'LIKE', '%' . $nombreGenerador . '%')->get();
-$dataTransporte = Transportista::where('nom_comp', 'LIKE', '%' . $nombreGenerador . '%')->get();
-$dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperador . '%')->get();
+$dataDetalle = manifiestodet::where('id_man_tra_nac', '=', $manifiestoTN)
+    ->where('rpg', '<>', '')
+    ->join('manifiesto', 'manifiesto.id_manifiesto', '=', 'manifiestodet.id_manifies')
+    ->select('manifiesto.*', 'manifiestodet.*')
+    ->where('nom_comp', 'LIKE', '%' . $generadorNombre . '%')
+    ->get();
 ?>
 
 <!doctype html>
@@ -109,10 +100,10 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
 
     <!--------------------------LLAMADO A OTROS DATOS PARA EL PDF--------------------------------------->
 
-    @foreach ($dataGenerador as $datosGenerador)
+    @foreach ($generador as $datosGenerador)
 
     @endforeach
-    @foreach ($dataOperador as $datosOperador)
+    @foreach ($opalmacenamiento as $datosOperador)
 
     @endforeach
 
@@ -122,7 +113,7 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
 
         <p class="tipeado">
             CERTIFICADO DE TRATAMIENTO / DISPOSICIÓN FINAL <br>
-            RESIDUOS PELIGROSOS N°: {{$numeroCertificado}} <br>
+            RESIDUOS PELIGROSOS N°: {{$rpg}} <br>
             LEY XI N°35
         </p>
     </div>
@@ -148,13 +139,13 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
 
         <br><br>
 
-        <p>Razón Social: {{$datosOperador->id_operador_df}}</p>
+        <p>Razón Social: {{$datosOperador->gener_nom}}</p>
         <br>
-        <p>Domicilio: {{$datosOperador->direc_odf}}</p>
+        <p>Domicilio: {{$datosOperador->gener_dir}}</p>
         <br>
-        <p>Cuit: {{$datosOperador->cuit_odf}}</p>
+        <p>Cuit: {{$datosOperador->gener_cuit}}</p>
         <br>
-        <p>RPGyOSP N°: {{$datosOperador->hab_pro_nro_odf}}</p>
+        <p>RPGyOSP N°: {{$datosOperador->gener_nro_hab_pro}}</p>
         <br><br><br>
         <p>Firma (R.T.A.): </p>
     </div>
@@ -191,23 +182,26 @@ $dataOperador = operadordf::where('id_operador_df', 'LIKE', '%' . $nombreOperado
                     <td class="losSubtitulos">CERTIFICADO</td>
                     <td class="losSubtitulos">TIPO</td>
                 </tr>
+                @foreach ($certificado as $dataCertificado)
+
+                @endforeach
                 @foreach ($dataDetalle as $datosDetalle)
 
                 <tr>
 
-                    <td class="losDatos">{{$datosDetalle->corriente}}</td>
+                    <td class="losDatos">{{$datosDetalle->id_corrientes}}</td>
                     <td class="losDatos">{{$datosDetalle->estado}}</td>
                     <td class="losDatos">{{$datosDetalle->cantidad}}</td>
-                    <td class="losDatos">{{$datosDetalle->transportista}}</td>
+                    <td class="losDatos">{{$datosDetalle->id_transpo}}</td>
                     <td class="losDatos">{{$datosDetalle->rpg}}</td>
-                    <td class="losDatos">{{$datosDetalle->fechacertificado}}</td>
-                    <td class="losDatos">{{$datosDetalle->num_manifiesto}}</td>
-                    <td class="losDatos">{{$datosDetalle->num_manifiesto}}</td>
-                    <td class="losDatos">{{$datosDetalle->fechatratamiento}}</td>
-                    <td class="losDatos">{{$datosDetalle->opdfinal}}</td>
-                    <td class="losDatos">{{$datosDetalle->ubicacion}}</td>
-                    <td class="losDatos">{{$datosDetalle->numero_certif}}</td>
-                    <td class="losDatos">{{$datosDetalle->tipotratamiento}}</td>
+                    <td class="losDatos">{{$datosDetalle->fecha_alta_manif}}</td>
+                    <td class="losDatos">{{$datosDetalle->id_manifiesto}}</td>
+                    <td class="losDatos">{{$datosDetalle->id_man_tra_nac}}</td>
+                    <td class="losDatos">{{$datosDetalle->fcha_entr_cdf}}</td>
+                    <td class="losDatos">{{$dataCertificado->opdfinal}}</td>
+                    <td class="losDatos">{{$dataCertificado->ubicacion}}</td>
+                    <td class="losDatos">{{$dataCertificado->nro_cert_disp_final}}</td>
+                    <td class="losDatos">{{$dataCertificado->tipotratamiento}}</td>
                 </tr>
                 @endforeach
             </tbody>
