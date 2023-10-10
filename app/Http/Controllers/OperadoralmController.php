@@ -57,36 +57,65 @@ class OperadoralmController extends Controller
     {
         $fecha = Carbon::now();
 
-        if ($request->input('autorizar')) {
-            $id = $request->input('autorizar');
-            $updateCabecera = manifiesto::where('id_manifiesto', $id);
-
-            $updateCabecera->update(['estadoo' => 'ALTA', 'fecha_autorizacion' => $fecha]);
-
-            manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'ALTA']);
-
-            return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
-        }
-
-        if ($request->input('rechazar')) {
-            $id = $request->input('rechazar');
-            $updateCabecera = manifiesto::where('id_manifiesto', $id);
-
-            $updateCabecera->update(['estadoo' => 'BAJA', 'fecha_autorizacion' => $fecha]);
-
-            manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'BAJA']);
-
-            return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
-        }
-
         if ($request->input('buscar')) {
             $numManif = $request->input('buscar');
 
             $datos = manifiestodet::where('id_manifies', $numManif)->where('estadooo', 'INICIADO')->get();
             if ($datos) {
-                return view('opdispfinal.recbiridet', compact('datos'));
+                return view('opalmacenamiento.recibirdet', compact('datos'));
             } else {
                 return view('mensajes.sinmanifiesto');
+            }
+        } else {
+
+            if ($request->input('autorizar')) {
+                $id = $request->input('autorizar');
+            }
+
+            if ($request->input('rechazar')) {
+                $id = $request->input('rechazar');
+            }
+
+            $buscarManifiestos = manifiestodet::where('id_manifies', '=', $id)->get();
+
+            foreach ($buscarManifiestos as $dataDetalle) {
+                $cantidad = $dataDetalle->cantidad;
+                $descripcion = $dataDetalle->descr_ingreso;
+
+                if ($cantidad == '' || $descripcion == '') {
+                    $existeVacio = "Vacio";
+                } else {
+                    $existeVacio = "Proceda";
+                }
+            }
+
+            if ($existeVacio == "Vacio") {
+
+                return view('mensajes.detallesVacios');
+            } else {
+
+
+                if ($request->input('autorizar')) {
+                    $id = $request->input('autorizar');
+                    $updateCabecera = manifiesto::where('id_manifiesto', $id);
+
+                    $updateCabecera->update(['estadoo' => 'ALTA', 'fecha_autorizacion' => $fecha]);
+
+                    manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'ALTA']);
+
+                    return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
+                }
+
+                if ($request->input('rechazar')) {
+                    $id = $request->input('rechazar');
+                    $updateCabecera = manifiesto::where('id_manifiesto', $id);
+
+                    $updateCabecera->update(['estadoo' => 'BAJA', 'fecha_autorizacion' => $fecha]);
+
+                    manifiestodet::where('id_manifies', $id)->update(['estadooo' => 'BAJA']);
+
+                    return redirect('/recibirmanifiestoalm')->with('success_message', 'Empresa cargada con éxito');
+                }
             }
         }
     }

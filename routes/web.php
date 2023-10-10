@@ -53,6 +53,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
+Route::get('/terminos', function () {
+    return view('terminos');
+});
+
 Route::get('/inicio', [HomeController::class, 'index'])->middleware('auth');
 
 Route::patch('/inicio', [HomeController::class, 'update'])->middleware('auth');

@@ -38,6 +38,25 @@ $userRol = $user->rol_id;
     <!-- Scripts -->
     @vite(['resources/sass/app.css', 'resources/js/app.js'])
 
+    <style>
+        /* Estilo personalizado para el fondo blanco */
+        .custom-toggler {
+            background-color: grey;
+            font-size: 15px;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color: white;
+            /* Puedes ajustar los bordes según tus preferencias */
+            /* Otros estilos que desees aplicar */
+        }
+
+        /* Estilo personalizado para que las líneas de la hamburguesa sean negras */
+        .custom-icon {
+            background-color: white;
+            border-radius: 50%;
+            /* Cambia el color de fondo de las líneas */
+            /* Otros estilos que desees aplicar a las líneas de la hamburguesa */
+        }
+    </style>
 
 </head>
 
@@ -49,9 +68,10 @@ $userRol = $user->rol_id;
             <a class="navbar-brand" href="{{url('/inicio')}}">
                 <img src="{{asset('img/logo.png')}}" alt="Ray Group" width="70" height="40">
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                MENU <span class="navbar-toggler-icon custom-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
@@ -305,6 +325,7 @@ $userRol = $user->rol_id;
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{url('/terminos')}}">Terminos y condiciones</a>
                             <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Cerrar Sesion') }}

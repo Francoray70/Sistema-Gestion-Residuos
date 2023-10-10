@@ -14,6 +14,7 @@ $NumfinalManifiesto = ($numManifiesto->trans_nro_hab_pro) . "-" . ($numManifiest
 
 $manifiestoPActualizar = $numManifiesto->manifiesto_actual;
 $NuevoNumManifiesto = $manifiestoPActualizar + 1;
+
 ?>
 
 
@@ -116,9 +117,6 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
     });
 </script>
 
-
-
-
 <script language="javascript">
     $(document).ready(function() {
         $("#corriente").change(function() {
@@ -219,9 +217,6 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
     });
 </script>
 
-
-
-
 <script language="javascript">
     $(document).ready(function() {
         $("#generadorr").change(function() {
@@ -315,9 +310,6 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         })
     });
 </script>
-
-
-
 
 <script language="javascript">
     $(document).ready(function() {
@@ -461,21 +453,13 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
 </style>
 
 <!-------------------------
-
-----------
------
-----
------
-----------
-
------
 ----------------------------------------------FIN DE ESTILOS ARRANQUE DE PROGRAMA------------
-
-
 -------------------------------->
 
 @section('navbar')
-<div class="contenedorbola" id="contenedorbola">
+<!-------------------------------------------------------- PARTE ONLINE DEL SISTEMA PARA CUANDO LO USE UN ENTE ------------------------------------------->
+
+<!-- <div class="contenedorbola" id="contenedorbola">
     <div class="bola" id="bola">
 
     </div>
@@ -718,11 +702,10 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <a href="{{url('/listacabeceras')}}"><button type="button" class="btn btn-primary">Cabeceras</button></a>
         <a href="{{url('/reimprimirpdf')}}"><button type="button" class="btn btn-primary">Reimprimir PDF</button></a>
     </form>
-</div>
-
+</div> -->
 
 <div class="container w-85 border p-4 mt-5" id="manifiestoOffline">
-    <h2 class="mb-3">ALTA DE MANIFIESTOS OFFLINE</h2>
+    <h2 class="mb-3">ALTA DE MANIFIESTOS</h2>
     <form action="{{url('/generarmanifiestooffline')}}" method="post">
         @csrf
         <input type="text" value="{{$NuevoNumManifiesto}}" name="nuevomanifiesto" style="display: none;">
@@ -733,15 +716,15 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
 
         <div class="mb-3">
             <label class="form-label">N° manifiesto</label>
-            <input type="text" value="{{$datoDelTransporte->trans_nro_hab_pro}}-" readonly name="manifiesto" style="width: 5%;">
-            <input type="text" name="manifiesto2" class="form-control w-50">
+            <input type="text" value="{{$datoDelTransporte->trans_nro_hab_pro}}-" class="form-control" readonly name="manifiesto" style="width: 5%;">
+            <input type="text" name="manifiesto2" class="form-control" pattern="[0-9]{6,7}" style="width: 30%;">
         </div>
         @endforeach
         @endif
         <div class="mb-3">
             <label class="form-label">Generador</label>
             <select class="form-select w-75" name="generador" id="generador" required>
-                <option selected>Seleccionar generador</option>
+                <option value="">Seleccionar generador</option>
                 @if (!empty($generador))
                 @foreach ($generador as $datosGenerador)
                 <option value="{{$datosGenerador->nom_comp}}">{{$datosGenerador->nom_comp}}</option>
@@ -752,7 +735,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Transporte</label>
             <select class="form-select w-75" name="transporte" id="transporte" required>
-                <option selected>Seleccionar transporte</option>
+                <option value="">Seleccionar transporte</option>
                 @if (!empty($transportes))
                 @foreach ($transportes as $datosTransporte)
                 <option value="{{$datosTransporte->id_transp}}">{{$datosTransporte->id_transp}}</option>
@@ -795,7 +778,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Inhalacion</label>
             <select class="form-select w-75" name="inhalacion" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -803,7 +786,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Dermica</label>
             <select class="form-select w-75" name="dermica" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -811,7 +794,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-4">
             <label class="form-label">Oral</label>
             <select class="form-select w-75" name="oral" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -823,7 +806,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Inflamabilidad</label>
             <select class="form-select w-75" name="inflamabilidad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -831,7 +814,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Toxicidad</label>
             <select class="form-select w-75" name="toxicidad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -839,7 +822,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Reactividad</label>
             <select class="form-select w-75" name="reactividad" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -847,7 +830,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-4">
             <label class="form-label">Instrucciones especiales</label>
             <select class="form-select w-75" name="inst_esp" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -861,7 +844,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Manipulación en planta trat. o disp. final</label>
             <select class="form-select w-75" name="manipulacion" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -869,7 +852,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Planes de contingencia</label>
             <select class="form-select w-75" name="planes" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -877,7 +860,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Rol de emergencia</label>
             <select class="form-select w-75" name="rol" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -885,7 +868,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Hoja de ruta</label>
             <select class="form-select w-75" name="hoja" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -893,7 +876,7 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
         <div class="mb-3">
             <label class="form-label">Rutas alternativas</label>
             <select class="form-select w-75" name="rutas" required>
-                <option selected>Seleccione</option>
+                <option value="">Seleccione</option>
                 <option value="SI">Si</option>
                 <option value="NO">No</option>
             </select>
@@ -943,14 +926,14 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
             </div>
             <div class="col">
                 <label class="form-label">Cantidad</label>
-                <input type="text" class="form-control w-75 mb-2" name="cantidad" required>
+                <input type="text" class="form-control w-75 mb-2" name="cantidad">
                 <input type="text" class="form-control w-75 mb-2" name="cantidad1">
                 <input type="text" class="form-control w-75 mb-2" name="cantidad2">
                 <input type="text" class="form-control w-75 mb-2" name="cantidad3">
             </div>
             <div class="col">
                 <label class="form-label">Descripcion</label>
-                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso" required>
+                <input type="text" class="form-control w-75 mb-2" name="descr_ingreso">
                 <input type="text" class="form-control w-75 mb-2" name="descr_ingreso1">
                 <input type="text" class="form-control w-75 mb-2" name="descr_ingreso2">
                 <input type="text" class="form-control w-75 mb-2" name="descr_ingreso3">
@@ -968,9 +951,11 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
 
         <a href="{{url('/listacabeceras')}}"><button type="button" class="btn btn-primary">Cabeceras</button></a>
         <a href="{{url('/reimprimirpdf')}}"><button type="button" class="btn btn-primary">Reimprimir PDF</button></a>
+
     </form>
 </div>
 
+<!-- 
 <script>
     var manifiestoonline = document.getElementById("manifiestoOnline");
     var manifiestooffline = document.getElementById("manifiestoOffline");
@@ -999,5 +984,5 @@ $NuevoNumManifiesto = $manifiestoPActualizar + 1;
             pelota2.style.display = 'none';
         }
     }, 2000);
-</script>
+</script> -->
 @endsection
